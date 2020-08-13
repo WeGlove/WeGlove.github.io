@@ -20,6 +20,33 @@ window.onload = function () {
 		"Juniorelf",
 		"die beste Soraka",
 		"der beste Jhin"
-	]
+	];
+	var activites = [
+		"slapping",
+		"coding something",
+		"making triangles",
+		"admiring you",
+		"vomiting in some toilet",
+		"reading Papers",
+		"working",
+		"making memories",
+		"playing games",
+		"casting fireballs",
+		"petting my dog",
+		"doggoing",
+		".",
+		"on a Spongebob marathon",
+		"making \"art\"",
+		"talking about life",
+		"still mad at Jojo for that one time I was standing in front of Boudicca with my 3 missionaries when he declared war on them",
+		"plaing bad games",
+		"protecting weak men",
+		"writing a highschool wrestling fanfiction",
+		"hosting a cultural exchange",
+		"coding this website",
+		"starting projects I am never going finish",
+		"showing the police my underwear"
+	];
     document.getElementById('HEAD').innerHTML = "Hello, my name is " + names[Math.floor(Math.random()*names.length)];
+	document.getElementById('WhatIAmDoing').innerHTML = "I am " + activites[Math.floor(Math.random()*activites.length)];
 };
