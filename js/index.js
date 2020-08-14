@@ -45,7 +45,8 @@ window.onload = function () {
 		"hosting a cultural exchange",
 		"coding this website",
 		"starting projects I am never going finish",
-		"showing the police my underwear"
+		"showing the police my underwear",
+		"famous on YouTube"
 	];
     document.getElementById('WhoIAm').innerHTML = "Hello, my name is " + names[Math.floor(Math.random()*names.length)];
 	document.getElementById('WhatIAmDoing').innerHTML = "I am " + activites[Math.floor(Math.random()*activites.length)];
