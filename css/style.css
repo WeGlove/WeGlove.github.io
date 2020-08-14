@@ -1,6 +1,27 @@
-#HEAD {
+#WhoIAm {
+    padding-top: 20px;
 	text-align: center;
 }
 #WhatIAmDoing {
-	text-align: center;
+    text-align: center;
+}
+#HeadMessages {
+    background-image: linear-gradient(white, #65e2dd);
+    font-family: sans-serif;
+    box-sizing: border-box;
+    color: #7f0e85;
+}
+
+#content_table {
+   width: 100%;
+   font-size: 20px;
+}
+
+#content {
+    padding-top: 20px;
+    text-align: center;
+}
+
+body {
+    background-color: #65e2dd;
 }
