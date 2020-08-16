@@ -39,7 +39,7 @@ window.onload = function () {
 		"making \"art\"",
 		"talking about life",
 		"still mad at Jojo for that one time I was standing in front of Boudicca with my 3 missionaries when he declared war on them",
-		"plaing bad games",
+		"playing bad games",
 		"protecting weak men",
 		"writing a highschool wrestling fanfiction",
 		"hosting a cultural exchange",
