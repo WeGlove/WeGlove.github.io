@@ -46,7 +46,7 @@ class Matrix{
 		return mat;
 	}
 	
-	get_element(row,column){
+	get(row,column){
 		return this.values[row][column];
 	}
 	
