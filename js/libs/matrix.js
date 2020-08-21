@@ -47,7 +47,6 @@ class Matrix{
 	}
 	
 	multiply(matrix){
-		console.log("Multiply", this, matrix);
 		var mat = Matrix.zeros([this.shape[0], matrix.shape[1]]);
 		for(var i=0; i < this.shape[0]; i++){
 			for(var j=0; j < matrix.shape[1]; j++){
@@ -106,11 +105,20 @@ class Matrix{
 		} else{
 			return (mean_list[mean_list.length/2] + mean_list[mean_list.length/2+1])/2;
 		}
-
+	}
+	
+	length(){
+		var acc = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				acc += this.values[i,j] * this.values[i,j];
+			}
+		}
+		acc = Math.sqrt(acc);
+		return acc;
 	}
 	
 	static get_2D_Rotation_Matrix(angle){
-		console.log("Angle", angle);
 		return new Matrix([[Math.cos(angle/360* Math.PI * 2),-Math.sin(angle/360* Math.PI * 2)],[Math.sin(angle/360* Math.PI * 2),Math.cos(angle/360* Math.PI * 2)]])
 	}
 	

@@ -13,19 +13,25 @@ window.onload = function () {
 	
 	
 	var tri1 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250]]), new Matrix([[250],[0]]));
-	var tri2 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/2]]), new Matrix([[250/2],[0]]));
-	var tri3 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/3]]), new Matrix([[250/3],[0]]));
-	var tri4 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/4]]), new Matrix([[250/4],[0]]));
-	var tri5 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/5]]), new Matrix([[250/5],[0]]));
-	var tri6 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/6]]), new Matrix([[250/6],[0]]));
-	var tri7 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[250/6]]), new Matrix([[250/6],[0]]));
-	tri1 = tri1.rotate(0);
-	tri2 = tri2.rotate(45);
-	tri3 = tri3.rotate(0);
-	tri4 = tri4.rotate(0);
-	tri5 = tri5.rotate(0);
-	tri6 = tri6.rotate(0);
-	tri7 = tri7.rotate(0);
+	var side_length = tri1.point_b.element_sub(tri1.point_c).mul_scal(0.5).length();
+	var tri2 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var side_length = tri2.point_b.element_sub(tri2.point_c).mul_scal(0.5).length();
+	var tri3 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var side_length = tri3.point_b.element_sub(tri3.point_c).mul_scal(0.5).length();
+	var tri4 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var side_length = tri4.point_b.element_sub(tri4.point_c).mul_scal(0.5).length();
+	var tri5 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var side_length = tri5.point_b.element_sub(tri5.point_c).mul_scal(0.5).length();
+	var tri6 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var tri7 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
+	var middle = new Matrix([[250],[250]]);
+	tri1 = tri1.rotate(0).move_center(middle);
+	tri2 = tri2.rotate(0).move_center(middle);
+	tri3 = tri3.rotate(0).move_center(middle);
+	tri4 = tri4.rotate(0).move_center(middle);
+	tri5 = tri5.rotate(0).move_center(middle);
+	tri6 = tri6.rotate(0).move_center(middle);
+	tri7 = tri7.rotate(0).move_center(middle);
 	svg_triangle_1.setAttribute("points", tri1.to_svg());
 	svg_triangle_2.setAttribute("points", tri2.to_svg());
 	svg_triangle_3.setAttribute("points", tri3.to_svg());
