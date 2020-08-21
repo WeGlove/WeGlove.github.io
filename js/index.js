@@ -1,8 +1,8 @@
 window.onload = function () {
 	set_message();
 	var more_data = svgdata[Math.floor(Math.random()*svgdata.length)];
-	set_triangle(more_data[0],
-	[new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]])]);
+	//var more_data = svgdata[2];
+	set_triangle(more_data[0], more_data[1]);
 };
 
 function set_message(){
