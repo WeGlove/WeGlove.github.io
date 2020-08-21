@@ -74,6 +74,40 @@ class Matrix{
 		} 
 		return mat
 	}
+
+	sum(){
+		acc = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < matrix.shape[1]; j++){
+				acc += this.values[i,j];
+			}
+		}
+		return acc
+	}
+
+	size(){
+		return this.shape[0] * this.shape[1];
+	}
+
+	avg(){
+		return this.sum() / this.size();
+	}
+
+	mean(){
+		mean_list = [];
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < matrix.shape[1]; j++){
+				mean_list.push(this.values[i,j]);
+			}
+		}
+		mean_list = sort(mean_list);
+		if (mean_list.length % 2 == 1){
+			return mean_list[Math.ceil(mean_list.length/2)];
+		} else{
+			return (mean_list[mean_list.length/2] + mean_list[mean_list.length/2+1])/2;
+		}
+
+	}
 	
 	static get_2D_Rotation_Matrix(angle){
 		console.log("Angle", angle);

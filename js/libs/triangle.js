@@ -27,7 +27,7 @@ class Triangle{
 		console.log("Center",center);
 		var orig_triangle = this.offset(center);
 		console.log("Orig",orig_triangle);
-		var rot_orig_triangle = new Triangle(rot_matrix.multiply(this.point_a),rot_matrix.multiply(this.point_b),rot_matrix.multiply(this.point_c));
+		var rot_orig_triangle = new Triangle(rot_matrix.multiply(orig_triangle.point_a),rot_matrix.multiply(orig_triangle.point_b),rot_matrix.multiply(orig_triangle.point_c));
 		console.log("Rot Orig", rot_orig_triangle);
 		return rot_orig_triangle.offset(center.mul_scal(-1));
 	}
