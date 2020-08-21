@@ -1,6 +1,8 @@
 window.onload = function () {
 	set_message();
-	set_triangle();
+	svg_data = svg_data[Math.floor(Math.random()*svg_data.length)];
+	set_triangle(svg_data[0],
+	[new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]]),new Matrix([[0],[0]])]);
 };
 
 function set_message(){
@@ -10,7 +12,7 @@ function set_message(){
 	document.getElementById('WhatIAmDoing').innerHTML = "I am " + activities[Math.floor(Math.random()*activities.length)];
 }
 
-function set_triangle(){
+function set_triangle(rotations, positions){
 	var svg_triangle_1 = document.getElementById('Triangle_1');
 	var svg_triangle_2 = document.getElementById('Triangle_2');
 	var svg_triangle_3 = document.getElementById('Triangle_3');
@@ -37,13 +39,13 @@ function set_triangle(){
 	var tri6 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
 	var tri7 = new Triangle(new Matrix([[0],[0]]), new Matrix([[0],[side_length]]), new Matrix([[side_length],[0]]));
 	var middle = new Matrix([[(size+border)/2],[(size+border)/2]]);
-	tri1 = tri1.rotate(0).move_center(middle);
-	tri2 = tri2.rotate(0).move_center(middle);
-	tri3 = tri3.rotate(0).move_center(middle);
-	tri4 = tri4.rotate(0).move_center(middle);
-	tri5 = tri5.rotate(0).move_center(middle);
-	tri6 = tri6.rotate(0).move_center(middle);
-	tri7 = tri7.rotate(0).move_center(middle);
+	tri1 = tri1.rotate(rotations[0]).move_center(middle).offset(positions[0]);
+	tri2 = tri2.rotate(rotations[1]).move_center(middle).offset(positions[1]);
+	tri3 = tri3.rotate(rotations[2]).move_center(middle).offset(positions[2]);
+	tri4 = tri4.rotate(rotations[3]).move_center(middle).offset(positions[3]);
+	tri5 = tri5.rotate(rotations[4]).move_center(middle).offset(positions[4]);
+	tri6 = tri6.rotate(rotations[5]).move_center(middle).offset(positions[5]);
+	tri7 = tri7.rotate(rotations[6]).move_center(middle).offset(positions[6]);
 	svg_triangle_1.setAttribute("points", tri1.to_svg());
 	svg_triangle_2.setAttribute("points", tri2.to_svg());
 	svg_triangle_3.setAttribute("points", tri3.to_svg());
