@@ -2,22 +2,36 @@ var game;
 var canvas;
 
 window.onload = function () {
-    game = new Game(10,10);
+    game = new Game(10,10,20,10, [250,250], 2);
     canvas = document.getElementById('Polygon');
     canvas.setAttribute("points", game.to_svg());
 };
 
-function onClick(){
-    game.inc(0);
+function onClickInc(){
+    game.dec(0);
     canvas.setAttribute("points", game.to_svg());
+}
+
+function onClickDec(){
+    game.inc(game.position);
+    canvas.setAttribute("points", game.to_svg());
+}
+
+function onClickCycle(){
+    game.cycle();
 }
 
 class Game{
 
-	constructor(width, height){
-		this.height = height
-		this.width = width;
-		this.points = []
+	constructor(width, height, step_width, step_height, origin, scale){
+        this.position = 0;
+		this.height = height;
+        this.width = width;
+        this.step_width = step_width;
+        this.step_height = step_height;
+        this.origin = origin;
+        this.scale = scale;
+        this.points = []
 		for (var i=0; i< this.width; i++){
 			this.points.push(Math.floor(Math.random()*this.height));
 		}
@@ -26,13 +40,27 @@ class Game{
 	to_svg(){
         var polygon = "";
         for (var i=0; i< this.width; i++){
-            polygon = polygon + 2*10*i + "," + 10*this.points[i] + " " + 2*10*(i+1) + "," + 10*this.points[i] + " "; 
+            var x_1 = this.step_width*this.scale*i + this.origin[0] - this.step_width*this.scale*this.width/2;
+            var x_2 = (this.step_width*this.scale*(i+1) + this.origin[0] - this.step_width*this.scale*this.width/2);
+            var y= (this.step_height*this.scale*this.points[i] + this.origin[1]) - this.step_height*this.scale * this.height/2;
+            polygon = polygon + x_1 + "," + y + " " + x_2 + "," + y + " "; 
         }
         return polygon
     }
     
     inc(index){
-        this.points[index]++;
-        this.points[index] %= this.height; 
+        this.points[this.position]++;
+        this.points[this.position] %= this.height+1; 
+    }
+
+    dec(index){
+        this.points[this.position]--;
+        if (this.points[this.position] < 0)
+            this.points[this.position] = this.height; 
+    }
+
+    cycle(){
+        this.position++;
+        this.position %= this.width; 
     }
 }

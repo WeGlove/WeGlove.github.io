@@ -6,11 +6,15 @@
 <body>
     <script src="../../js/experiments/kombination.js"></script>
     <a href="../experiments.html">Back!</a>
-    <div>
-        <button type="button" onclick="onClick()">Click Me!</button>
-        <svg height="500" width="500" align="center" id="Canvas">
+    <div align="center">
+        <svg height="500" width="500" align="center" id="Canvas" style="background-color:#FFFFFF;">
             <polyline points="60,20 100,40 100,80 60,100 20,80 20,40" style="fill:none;stroke:black;stroke-width:3" id="Polygon">
         </svg>
+    </div>
+    <div align="center">
+        <button type="button" onclick="onClickInc()">Inc</button>
+        <button type="button" onclick="onClickDec()">Dec</button>
+        <button type="button" onclick="onClickCycle()">Cycle</button>
     </div>
 </body>
 
