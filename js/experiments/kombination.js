@@ -1,24 +1,28 @@
 var game;
 var canvas;
+var pointer;
 
 window.onload = function () {
     game = new Game(10,10,20,10, [250,250], 2);
     canvas = document.getElementById('Polygon');
-    canvas.setAttribute("points", game.to_svg());
+    pointer = document.getElementById('Pointer');
+    canvas.setAttribute("points", game.steps_to_svg());
+    pointer.setAttribute("points", game.pointer_to_svg());
 };
 
 function onClickInc(){
     game.dec(0);
-    canvas.setAttribute("points", game.to_svg());
+    canvas.setAttribute("points", game.steps_to_svg());
 }
 
 function onClickDec(){
     game.inc(game.position);
-    canvas.setAttribute("points", game.to_svg());
+    canvas.setAttribute("points", game.steps_to_svg());
 }
 
 function onClickCycle(){
     game.cycle();
+    pointer.setAttribute("points", game.pointer_to_svg());
 }
 
 class Game{
@@ -37,15 +41,22 @@ class Game{
 		}
 	}
 
-	to_svg(){
+	steps_to_svg(){
         var polygon = "";
         for (var i=0; i< this.width; i++){
             var x_1 = this.step_width*this.scale*i + this.origin[0] - this.step_width*this.scale*this.width/2;
             var x_2 = (this.step_width*this.scale*(i+1) + this.origin[0] - this.step_width*this.scale*this.width/2);
-            var y= (this.step_height*this.scale*this.points[i] + this.origin[1]) - this.step_height*this.scale * this.height/2;
+            var y = (this.step_height*this.scale*this.points[i] + this.origin[1]) - this.step_height*this.scale * this.height/2;
             polygon = polygon + x_1 + "," + y + " " + x_2 + "," + y + " "; 
         }
         return polygon
+    }
+
+    pointer_to_svg(){
+        var x = this.step_width*this.scale*(this.position+0.5) + this.origin[0] - this.step_width*this.scale*this.width/2 
+        var y = this.origin[1] + this.step_height* this.scale * this.height;
+        var str = x +"," + y + " " + x +"," + (y+10*this.scale);
+        return str;
     }
     
     inc(index){
