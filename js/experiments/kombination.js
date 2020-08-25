@@ -6,37 +6,34 @@ window.onload = function () {
     canvas = document.getElementById('Canvas');
     display = new SVGDisplay(canvas, 20, 10, 2, [500,500]);
     game = new Game(10, 10, display);
-    game.draw();
 };
 
 function onClickInc(){
     game.dec();
-    game.draw();
 }
 
 function onClickDec(){
-    game.inc(game.position);
-    game.draw();
+    game.inc();
 }
 
 function onClickSetObject(){
     game.setObject(ObjectType.Box, []);
-    game.draw();
 }
 
 function onClickUnSetObject(){
     game.unSetObject();
-    game.draw();
 }
 
 function onClickCycleForward(){
     game.cycleFwd();
-    game.draw();
 }
 
 function onClickCycleBackward(){
     game.cycleBwd();
-    game.draw();
+}
+
+function onSetDayCycle(){
+    game.setDayCycle(DayCycle.MidNight);
 }
 
 class Game{
@@ -46,46 +43,55 @@ class Game{
 		this.height = height;
         this.width = width;
         this.display = display;
+        this.dayCicle = 0;
         this.points = [];
         this.objects = [];
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
             this.objects.push([ObjectType.None, []]);
-		}
-    }
-    
-    draw(){
-        this.display.draw(this.width, this.height, this.objects, this.position, this.points);
+        }
+        this.display.on_init(this.objects, this.points, this.position, this.width, this.height, DayCycle.Noon);
     }
     
     inc(){
         this.points[this.position]++;
         this.points[this.position] %= this.height+1; 
+        this.display.on_inc(this.objects, this.points, this.position, this.width, this.height);
     }
 
     dec(){
         this.points[this.position]--;
         if (this.points[this.position] < 0)
             this.points[this.position] = this.height; 
+            this.display.on_dec(this.objects, this.points, this.position, this.width, this.height);
     }
 
     cycleFwd(){
         this.position++;
         this.position %= this.width; 
+        this.display.onCycleFwd(this.width, this.height, this.position);
     }
 
     cycleBwd(){
         this.position--;
         if (this.position < 0)
             this.position= this.width-1; 
+        this.display.onCycleBwd(this.width, this.height, this.position);
     }
 
     setObject(type, values){
         this.objects[this.position] = [type, values];
+        this.display.onSetObject(this.objects, this.points, this.position, this.width, this.height);
     }
 
     unSetObject(){
         this.objects[this.position] = [ObjectType.None, []];
+        this.display.onUnSetObject(this.objects, this.points, this.position, this.width, this.height);
+    }
+
+    setDayCycle(cycle){
+        this.dayCicle = cycle;
+        this.display.draw_background(cycle);
     }
 }
 
@@ -111,43 +117,75 @@ class SVGDisplay{
         this.svg.appendChild(this.pointer); 
     }
 
-    draw(width, height, objects, position, points){
-        this.draw_background();
+    on_init(objects, points, position, width, height, cycle){
+        this.draw_background(cycle);
         this.draw_line(points, width, height);
-        this.draw_objects(objects, points, width, height);
         this.draw_pointer(width, height, position);
+        this.draw_objects(objects, points, width, height);
+    }
+    on_inc(objects, points, position, width, height){
+        this.draw_object(objects, points, position, width, height);
+        this.draw_line(points, width, height);
+    }
+
+    on_dec(objects, points, position, width, height){
+        this.draw_object(objects, points, position, width, height);
+        this.draw_line(points, width, height);
+    }
+
+    onSetObject(objects, points, position, width, height){
+        this.draw_object(objects, points, position, width, height);
+        this.draw_line(points, width, height);
+    }
+
+    onUnSetObject(objects, points, position, width, height){
+        this.draw_object(objects, points, position, width, height);
+        this.draw_line(points, width, height);
+    }
+
+    onCycleFwd(width, height, position){
+        this.draw_pointer(width, height, position)
+    }
+
+    onCycleBwd(width, height, position){
+        this.draw_pointer(width, height, position)
+    }
+
+    onSetDayCycle(cycle){
+        this.draw_background(cycle);
     }
 
     draw_objects(objects, points, width, height){
-        console.log(objects);
         for (var i=0; i < width; i++){
-            switch (objects[i][0]){
-                case ObjectType.None:
-                    if (this.objects[i] !== undefined){
-                        this.svg.removeChild(this.objects[i]);
-                        this.objects[i] = undefined;
-                    }
-                    break;
-                case ObjectType.Box:
-                    if (this.objects[i] !== undefined){
-                        this.svg.removeChild(this.objects[i]);
-                    }
-
-                    var x = this.step_width*this.scale*i + this.origin[0] - this.step_width*this.scale*width/2;
-                    var y = (this.step_height*this.scale*(points[i]-1) + this.origin[1]) - this.step_height*this.scale * height/2;
-                    var boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-                    boxSvg.setAttribute("width", this.step_width*this.scale);
-                    boxSvg.setAttribute("height", this.step_height*this.scale);
-                    boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
-                    boxSvg.setAttribute("x", x);
-                    boxSvg.setAttribute("y", y);
-                    this.objects[i] = boxSvg;
-                    this.svg.appendChild(boxSvg);
-                    break;
-
-            }
+            this.draw_object(objects, points, i, width, height);
         }
-        console.log(this);
+    }
+
+    draw_object(objects, points, position, width, height){
+        switch (objects[position][0]){
+            case ObjectType.None:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                    this.objects[position] = undefined;
+                }
+                break;
+            case ObjectType.Box:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var x = this.step_width*this.scale*position + this.origin[0] - this.step_width*this.scale*width/2;
+                var y = (this.step_height*this.scale*(points[position]-1) + this.origin[1]) - this.step_height*this.scale * height/2;
+                var boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                boxSvg.setAttribute("width", this.step_width*this.scale);
+                boxSvg.setAttribute("height", this.step_height*this.scale);
+                boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                boxSvg.setAttribute("x", x);
+                boxSvg.setAttribute("y", y);
+                this.objects[position] = boxSvg;
+                this.svg.appendChild(boxSvg);
+                break;
+        }
     }
 
     draw_line(points, width, height){
@@ -161,10 +199,18 @@ class SVGDisplay{
         this.line.setAttribute("points", polygon);
     }
 
-    draw_background(){
+    draw_background(cycle){
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
-        this.background.setAttribute("style", "fill:rgb(50,50,255)");
+        switch (cycle){
+            case DayCycle.MidNight:
+                this.background.setAttribute("style", "fill:rgb(50,50,255)");
+                break;
+            case DayCycle.Noon:
+                this.background.setAttribute("style", "fill:rgb(100,100,255)");
+                break;
+        }
+        
     }
 
     draw_pointer(width, height, position){
@@ -179,4 +225,9 @@ class SVGDisplay{
 const ObjectType = {
     None : 0,
     Box : 1
+}
+
+const DayCycle = {
+    MidNight : 0,
+    Noon : 12
 }
