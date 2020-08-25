@@ -24,6 +24,11 @@ function onClickSetObject(){
     game.draw();
 }
 
+function onClickUnSetObject(){
+    game.unSetObject();
+    game.draw();
+}
+
 function onClickCycleForward(){
     game.cycleFwd();
     game.draw();
@@ -78,6 +83,10 @@ class Game{
     setObject(type, values){
         this.objects[this.position] = [type, values];
     }
+
+    unSetObject(){
+        this.objects[this.position] = [ObjectType.None, []];
+    }
 }
 
 class SVGDisplay{
@@ -114,6 +123,10 @@ class SVGDisplay{
         for (var i=0; i < width; i++){
             switch (objects[i][0]){
                 case ObjectType.None:
+                    if (this.objects[i] !== undefined){
+                        this.svg.removeChild(this.objects[i]);
+                        this.objects[i] = undefined;
+                    }
                     break;
                 case ObjectType.Box:
                     if (this.objects[i] !== undefined){
