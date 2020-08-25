@@ -4,7 +4,7 @@ var canvas;
 
 window.onload = function () {
     canvas = document.getElementById('Canvas');
-    display = new SVGDisplay(canvas, 20, 10, [250,250], 2)
+    display = new SVGDisplay(canvas, 20, 10, 2, [500,500]);
     game = new Game(10, 10, display);
     game.draw();
 };
@@ -20,7 +20,7 @@ function onClickDec(){
 }
 
 function onClickSetObject(){
-    game.setObject(game.position, ObjectType.Box, []);
+    game.setObject(ObjectType.Box, []);
     game.draw();
 }
 
@@ -82,35 +82,54 @@ class Game{
 
 class SVGDisplay{
 
-    constructor(svg, step_width, step_height, origin, scale){
+    constructor(svg, step_width, step_height, scale, dimensions){
+        this.dimensions = dimensions
         this.svg = svg;
+        this.svg.setAttribute("width", dimensions[0]);
+        this.svg.setAttribute("height", dimensions[1]);
         this.step_width = step_width;
         this.step_height = step_height;
-        this.origin = origin;
+        this.origin = [this.dimensions[0]/2, this.dimensions[1]/2];
         this.scale = scale;
         this.line = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
         this.line.setAttribute("style","fill:none;stroke:black;stroke-width:3");
         this.pointer = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
         this.pointer.setAttribute("style","fill:none;stroke:black;stroke-width:3");
+        this.background = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        this.boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+        this.boxSvg.setAttribute("width", this.step_width*this.scale);
+        this.boxSvg.setAttribute("height", this.step_height*this.scale);
+        this.boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
+        this.svg.appendChild(this.background); 
+        this.svg.appendChild(this.boxSvg);
         this.svg.appendChild(this.line); 
         this.svg.appendChild(this.pointer); 
     }
 
     draw(width, height, objects, position, points){
+        this.draw_background();
         this.draw_line(points, width, height);
-        this.draw_objects(objects);
+        this.draw_objects(objects, points, width, height);
         this.draw_pointer(width, height, position);
     }
 
-    draw_objects(objects){
-        for (var i; i < this.width; i++){
-            switch (this.objects[i]){
+    draw_objects(objects, points, width, height){
+        console.log(objects);
+        for (var i=0; i < width; i++){
+            switch (objects[i][0]){
                 case ObjectType.None:
+                    console.log([objects, i]);
                     break;
                 case ObjectType.Box:
+                    var x = this.step_width*this.scale*i + this.origin[0] - this.step_width*this.scale*width/2;
+                    var y = (this.step_height*this.scale*(points[i]-1) + this.origin[1]) - this.step_height*this.scale * height/2;
+                    this.boxSvg.setAttribute("x", x);
+                    this.boxSvg.setAttribute("y", y);
                     break;
+
             }
         }
+        console.log(this);
     }
 
     draw_line(points, width, height){
@@ -122,6 +141,12 @@ class SVGDisplay{
             polygon = polygon + x_1 + "," + y + " " + x_2 + "," + y + " "; 
         }
         this.line.setAttribute("points", polygon);
+    }
+
+    draw_background(){
+        this.background.setAttribute("width", this.dimensions[0]);
+        this.background.setAttribute("height", this.dimensions[1]);
+        this.background.setAttribute("style", "fill:rgb(50,50,255)");
     }
 
     draw_pointer(width, height, position){
