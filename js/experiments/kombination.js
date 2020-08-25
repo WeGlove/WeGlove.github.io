@@ -96,12 +96,8 @@ class SVGDisplay{
         this.pointer = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
         this.pointer.setAttribute("style","fill:none;stroke:black;stroke-width:3");
         this.background = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        this.boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-        this.boxSvg.setAttribute("width", this.step_width*this.scale);
-        this.boxSvg.setAttribute("height", this.step_height*this.scale);
-        this.boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
+        this.objects = {};
         this.svg.appendChild(this.background); 
-        this.svg.appendChild(this.boxSvg);
         this.svg.appendChild(this.line); 
         this.svg.appendChild(this.pointer); 
     }
@@ -118,13 +114,22 @@ class SVGDisplay{
         for (var i=0; i < width; i++){
             switch (objects[i][0]){
                 case ObjectType.None:
-                    console.log([objects, i]);
                     break;
                 case ObjectType.Box:
+                    if (this.objects[i] !== undefined){
+                        this.svg.removeChild(this.objects[i]);
+                    }
+
                     var x = this.step_width*this.scale*i + this.origin[0] - this.step_width*this.scale*width/2;
                     var y = (this.step_height*this.scale*(points[i]-1) + this.origin[1]) - this.step_height*this.scale * height/2;
-                    this.boxSvg.setAttribute("x", x);
-                    this.boxSvg.setAttribute("y", y);
+                    var boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                    boxSvg.setAttribute("width", this.step_width*this.scale);
+                    boxSvg.setAttribute("height", this.step_height*this.scale);
+                    boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                    boxSvg.setAttribute("x", x);
+                    boxSvg.setAttribute("y", y);
+                    this.objects[i] = boxSvg;
+                    this.svg.appendChild(boxSvg);
                     break;
 
             }
