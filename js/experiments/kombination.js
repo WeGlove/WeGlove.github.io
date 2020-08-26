@@ -46,16 +46,18 @@ class Game{
         this.dayCicle = 0;
         this.points = [];
         this.objects = [];
+        this.ticks = 0;
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
             this.objects.push([ObjectType.None, []]);
         }
-        this.display.on_init(this.objects, this.points, this.position, this.width, this.height, DayCycle.Noon);
+        this.display.on_init(this.objects, this.points, this.position, this.width, this.height, this.ticks);
     }
     
     inc(){
         this.points[this.position]++;
         this.points[this.position] %= this.height+1; 
+        this.tick();
         this.display.on_inc(this.objects, this.points, this.position, this.width, this.height);
     }
 
@@ -63,7 +65,13 @@ class Game{
         this.points[this.position]--;
         if (this.points[this.position] < 0)
             this.points[this.position] = this.height; 
-            this.display.on_dec(this.objects, this.points, this.position, this.width, this.height);
+        this.tick();
+        this.display.on_dec(this.objects, this.points, this.position, this.width, this.height);
+    }
+
+    tick(){
+        this.ticks++;
+        this.display.draw_background(this.ticks % 12);
     }
 
     cycleFwd(){
@@ -81,11 +89,13 @@ class Game{
 
     setObject(type, values){
         this.objects[this.position] = [type, values];
+        this.tick();
         this.display.onSetObject(this.objects, this.points, this.position, this.width, this.height);
     }
 
     unSetObject(){
         this.objects[this.position] = [ObjectType.None, []];
+        this.tick();
         this.display.onUnSetObject(this.objects, this.points, this.position, this.width, this.height);
     }
 
@@ -199,18 +209,14 @@ class SVGDisplay{
         this.line.setAttribute("points", polygon);
     }
 
-    draw_background(cycle){
+    draw_background(time){
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
-        switch (cycle){
-            case DayCycle.MidNight:
-                this.background.setAttribute("style", "fill:rgb(50,50,255)");
-                break;
-            case DayCycle.Noon:
-                this.background.setAttribute("style", "fill:rgb(100,100,255)");
-                break;
-        }
-        
+        if (time < 6){
+            this.background.setAttribute("style", "fill:rgb(50,50,255)");
+        } else{
+            this.background.setAttribute("style", "fill:rgb(100,100,255)");
+        }      
     }
 
     draw_pointer(width, height, position){
@@ -225,9 +231,4 @@ class SVGDisplay{
 const ObjectType = {
     None : 0,
     Box : 1
-}
-
-const DayCycle = {
-    MidNight : 0,
-    Noon : 12
 }
