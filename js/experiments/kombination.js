@@ -17,7 +17,7 @@ function onClickDec(){
 }
 
 function onClickSetObject(){
-    game.setObject(ObjectType.Box, []);
+    game.setObject(ObjectType.Box);
 }
 
 function onClickUnSetObject(){
@@ -49,7 +49,7 @@ class Game{
         this.ticks = 0;
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
-            this.objects.push([ObjectType.None, []]);
+            this.objects.push(ObjectType.None);
         }
         this.display.on_init(this.objects, this.points, this.position, this.width, this.height, this.ticks);
     }
@@ -87,14 +87,15 @@ class Game{
         this.display.onCycleBwd(this.width, this.height, this.position);
     }
 
-    setObject(type, values){
-        this.objects[this.position] = [type, values];
+    setObject(type){
+        this.objects[this.position] = type;
         this.tick();
         this.display.onSetObject(this.objects, this.points, this.position, this.width, this.height);
+        console.log(this);
     }
 
     unSetObject(){
-        this.objects[this.position] = [ObjectType.None, []];
+        this.objects[this.position] = ObjectType.None;
         this.tick();
         this.display.onUnSetObject(this.objects, this.points, this.position, this.width, this.height);
     }
@@ -172,14 +173,14 @@ class SVGDisplay{
     }
 
     draw_object(objects, points, position, width, height){
-        switch (objects[position][0]){
-            case ObjectType.None:
+        switch (objects[position].id){
+            case ObjectType.None.id:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
                     this.objects[position] = undefined;
                 }
                 break;
-            case ObjectType.Box:
+            case ObjectType.Box.id:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
                 }
@@ -229,6 +230,6 @@ class SVGDisplay{
 }
 
 const ObjectType = {
-    None : 0,
-    Box : 1
+    None : {id:0},
+    Box : {id:1}
 }
