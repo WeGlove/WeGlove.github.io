@@ -86,7 +86,7 @@ class Game{
         }
         for (var i=0; i < this.width; i++){
             if (this.objects[i].type["dynamic"]){
-                this.objects[i].values["power"] = this.objects[i].type.value_default["power"];
+                this.objects[i].values["power"] = this.objects[i].type ["valueDefault"]["power"];
             }
         }
         this.ticks++;
