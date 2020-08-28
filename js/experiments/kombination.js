@@ -17,7 +17,11 @@ function onClickDec(){
 }
 
 function onClickSetObject(){
-    game.setObject(ObjectType.Box);
+    game.setObject(new GameObject(ObjectType.Box));
+}
+
+function onClickSetWalker(){
+    game.setObject(new GameObject(ObjectType.Walker));
 }
 
 function onClickUnSetObject(){
@@ -49,7 +53,7 @@ class Game{
         this.ticks = 0;
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
-            this.objects.push(ObjectType.None);
+            this.objects.push(new GameObject(ObjectType.None));
         }
         this.display.on_init(this.objects, this.points, this.position, this.width, this.height, this.ticks);
     }
@@ -58,7 +62,6 @@ class Game{
         this.points[this.position]++;
         this.points[this.position] %= this.height+1; 
         this.tick();
-        this.display.on_inc(this.objects, this.points, this.position, this.width, this.height);
     }
 
     dec(){
@@ -66,12 +69,29 @@ class Game{
         if (this.points[this.position] < 0)
             this.points[this.position] = this.height; 
         this.tick();
-        this.display.on_dec(this.objects, this.points, this.position, this.width, this.height);
     }
 
     tick(){
+        this.new_objects = [];
+        for (var i=0; i < this.width; i++){
+            if (this.objects[i].type["dynamic"]){
+                if (this.objects[(i+1)%this.width].type["passable"] && this.objects[i].values["power"]>0){
+                    this.objects[(i+1)%this.width] = this.objects[i];
+                    this.objects[(i+1)%this.width].values["power"]--;
+                    this.objects[i] = new GameObject(ObjectType.None);
+                }
+            } else {
+                this.new_objects.push(this.objects[i]);
+            }
+        }
+        for (var i=0; i < this.width; i++){
+            if (this.objects[i].type["dynamic"]){
+                this.objects[i].values["power"] = this.objects[i].type.value_default["power"];
+            }
+        }
         this.ticks++;
         this.display.draw_background(this.ticks % 12);
+        this.display.on_init(this.objects, this.points, this.position, this.width, this.height, this.ticks);
     }
 
     cycleFwd(){
@@ -87,17 +107,14 @@ class Game{
         this.display.onCycleBwd(this.width, this.height, this.position);
     }
 
-    setObject(type){
-        this.objects[this.position] = type;
+    setObject(game_object){
+        this.objects[this.position] = game_object;
         this.tick();
-        this.display.onSetObject(this.objects, this.points, this.position, this.width, this.height);
-        console.log(this);
     }
 
     unSetObject(){
-        this.objects[this.position] = ObjectType.None;
+        this.objects[this.position] = new GameObject(ObjectType.None);
         this.tick();
-        this.display.onUnSetObject(this.objects, this.points, this.position, this.width, this.height);
     }
 
     setDayCycle(cycle){
@@ -173,14 +190,14 @@ class SVGDisplay{
     }
 
     draw_object(objects, points, position, width, height){
-        switch (objects[position].id){
-            case ObjectType.None.id:
+        switch (objects[position].type["id"]){
+            case ObjectType.None["id"]:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
                     this.objects[position] = undefined;
                 }
                 break;
-            case ObjectType.Box.id:
+            case ObjectType.Box["id"]:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
                 }
@@ -195,6 +212,22 @@ class SVGDisplay{
                 boxSvg.setAttribute("y", y);
                 this.objects[position] = boxSvg;
                 this.svg.appendChild(boxSvg);
+                break;
+            case ObjectType.Walker["id"]:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var x = this.step_width*this.scale*position + this.origin[0] - this.step_width*this.scale*width/2;
+                var y = (this.step_height*this.scale*(points[position]-1) + this.origin[1]) - this.step_height*this.scale * height/2;
+                var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                walkerSvg.setAttribute("width", this.step_width*this.scale);
+                walkerSvg.setAttribute("height", this.step_height*this.scale);
+                walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                walkerSvg.setAttribute("x", x);
+                walkerSvg.setAttribute("y", y);
+                this.objects[position] = walkerSvg;
+                this.svg.appendChild(walkerSvg);
                 break;
         }
     }
@@ -229,7 +262,3 @@ class SVGDisplay{
 
 }
 
-const ObjectType = {
-    None : {id:0},
-    Box : {id:1}
-}
