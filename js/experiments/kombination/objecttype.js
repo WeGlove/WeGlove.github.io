@@ -1,7 +1,8 @@
 const ObjectType = {
-    None : {"id":0, "dynamic": false, "passable": true, "valueDefault":{}},
-    Box : {"id":1, "dynamic": false, "passable": false, "valueDefault":{}},
-    Walker : {"id":2, "dynamic": true, "passable": false, "valueDefault":{power:1}}
+    None : {"id":0, "passable": true, "optional_flags":{}},
+    Box : {"id":1, "passable": false, "optional_flags":{}},
+    Walker : {"id":2, "passable": false, "optional_flags":{"walking":getWalkingDict(0,1)}},
+    Grass : {"id":3, "passable": true}
 }
 
 class GameObject{
@@ -9,13 +10,6 @@ class GameObject{
     constructor(type){
         this.type = type;
         this.values = {};
-        this.constructValues();
-    }
-
-    constructValues(){
-        if (this.type.dynamic){
-            this.values["power"] = this.type["valueDefault"];
-        }
     }
 
 }

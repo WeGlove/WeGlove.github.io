@@ -40,6 +40,10 @@ function onSetDayCycle(){
     game.setDayCycle(DayCycle.MidNight);
 }
 
+function onClickSetGrass(){
+    game.setObject(new GameObject(ObjectType.Grass));
+}
+
 class Game{
 
 	constructor(width, height, display){
@@ -73,21 +77,16 @@ class Game{
 
     tick(){
         console.log(this);
-        this.newObjects = [];
         for (var i=0; i < this.width; i++){
-            if (this.objects[i].type["dynamic"]){
-                if (this.objects[(i+1)%this.width].type["passable"] && this.objects[i].values["power"]>0){
-                    this.objects[(i+1)%this.width] = this.objects[i];
-                    this.objects[(i+1)%this.width].values["power"]--;
-                    this.objects[i] = new GameObject(ObjectType.None);
-                }
-            } else {
-                this.newObjects.push(this.objects[i]);
+            var element = this.objects[i];
+            for (var key in element.type["optional_flags"]){
+                element.type["optional_flags"][key]["action"](this, i);
             }
         }
         for (var i=0; i < this.width; i++){
-            if (this.objects[i].type["dynamic"]){
-                this.objects[i].values["power"] = this.objects[i].type ["valueDefault"]["power"];
+            var element = this.objects[i];
+            for (var key in element.type["optional_flags"]){
+                element.type["optional_flags"][key]["end"](this, i);
             }
         }
         this.ticks++;

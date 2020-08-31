@@ -104,22 +104,43 @@ class SVGDisplay{
                 this.objects[position] = walkerSvg;
                 this.svg.appendChild(walkerSvg);
                 break;
+            case ObjectType.Grass["id"]:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var x = this.stepWidth*this.scale*position + this.origin[0] - this.stepWidth*this.scale*width/2;
+                var y = (this.stepHeight*this.scale*(points[position]-1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
+                var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                walkerSvg.setAttribute("width", this.stepWidth*this.scale);
+                walkerSvg.setAttribute("height", this.stepHeight*this.scale);
+                walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                walkerSvg.setAttribute("x", x);
+                walkerSvg.setAttribute("y", y);
+                this.objects[position] = walkerSvg;
+                this.svg.appendChild(walkerSvg);
+                break;
         }
+    }
+
+    bounding_box(position_x, position_y, width, height){
+        var x1 = this.stepWidth*this.scale*position_x + this.origin[0] - this.stepWidth*this.scale*width/2;
+        var x2 = (this.stepWidth*this.scale*(position_x+1) + this.origin[0] - this.stepWidth*this.scale*width/2);
+        var y1 = (this.stepHeight*this.scale*position_y + this.origin[1]) - this.stepHeight*this.scale * height/2;
+        var y2 = (this.stepHeight*this.scale*(position_y+1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
+        return [[x1, y1], [x2, y2]]
     }
 
     drawLine(points, width, height){
         var polygon = "";
         for (var i=0; i < width; i++){
-            var x1 = this.stepWidth*this.scale*i + this.origin[0] - this.stepWidth*this.scale*width/2;
-            var x2 = (this.stepWidth*this.scale*(i+1) + this.origin[0] - this.stepWidth*this.scale*width/2);
-            var y = (this.stepHeight*this.scale*points[i] + this.origin[1]) - this.stepHeight*this.scale * height/2;
-            polygon = polygon + x1 + "," + y + " " + x2 + "," + y + " "; 
+            var position = this.bounding_box(i, points[i], width, height);
+            polygon = polygon + position[0][0] + "," + position[0][1] + " " + position[1][0] + "," + position[0][1] + " "; 
         }
         this.line.setAttribute("points", polygon);
     }
 
     drawBackground(time){
-        console.log(time);
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
         if (time < 6){
