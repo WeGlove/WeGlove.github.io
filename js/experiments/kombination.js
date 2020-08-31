@@ -21,7 +21,7 @@ function onClickSetObject(){
 }
 
 function onClickSetWalker(){
-    game.setObject(new GameObject(ObjectType.Walker));
+    game.setObject(new GameObject(ObjectType.Walker, {"init":0, "reset":1}));
 }
 
 function onClickUnSetObject(){

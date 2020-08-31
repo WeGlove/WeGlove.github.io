@@ -8,11 +8,11 @@ function getWalkingDict(initPower, initReset){
     }
 
     function end(game, position){
-        game.objects[position].values["power"] = initReset;
+        game.objects[position].values["power"] = game.objects[position].args["reset"];
     }
 
     function init(game, position){
-        game.objects[position].values["power"] = initPower;
+        game.objects[position].values["power"] = game.objects[position].args["init"];
     }
 
     return {"action": action, "end": end, "init": init};

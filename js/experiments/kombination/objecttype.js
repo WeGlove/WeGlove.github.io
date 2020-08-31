@@ -7,8 +7,9 @@ const ObjectType = {
 
 class GameObject{
 
-    constructor(type){
+    constructor(type, args){
         this.type = type;
+        this.args = args;
         this.values = {};
     }
 
