@@ -1,9 +1,13 @@
 function getWalkingDict(initPower, initReset){
     function action(game, position){
-        if (game.objects[(position+1)%game.width].type["passable"] && game.objects[position].values["power"]>0){
-            game.objects[(position+1)%game.width] = game.objects[position];
-            game.objects[(position+1)%game.width].values["power"]--;
-            game.objects[position] = new GameObject(ObjectType.None);
+        var toMove = game.objects[position];
+        var toMoveTo = game.objects[(position+1)%game.width];
+
+        if (toMoveTo.type["passable"] && toMove.values["power"]>0){
+            toMove.values["power"]--;
+            game.objects[position] = toMove.values["on"];
+            game.objects[(position+1)%game.width] = toMove;
+            toMove.values["on"] = toMoveTo;
         }
     }
 
@@ -13,6 +17,7 @@ function getWalkingDict(initPower, initReset){
 
     function init(game, position){
         game.objects[position].values["power"] = initPower;
+        game.objects[position].values["on"] = new GameObject(ObjectType.None);
     }
 
     return {"action": action, "end": end, "init": init};

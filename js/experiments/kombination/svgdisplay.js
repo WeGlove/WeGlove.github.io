@@ -162,9 +162,9 @@ class SVGDisplay{
     drawBackground(time){
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
-        var midnight = new Matrix([[20,20,255]]);
+        var midnight = new Matrix([[20,20,100]]);
         var noon = new Matrix([[150,150,255]]);
-        var transition = new Matrix([[150,20,255]]);
+        var transition = new Matrix([[150,100,120]]);
         var time_limit = 12;
         var color = Interpolation.lin_vec_interpolation([midnight, transition, noon, transition, midnight], time/time_limit);
         this.background.setAttribute("style", "fill:rgb("+ color.values[0][0]+","+ color.values[0][1]+","+ color.values[0][2]+")");
