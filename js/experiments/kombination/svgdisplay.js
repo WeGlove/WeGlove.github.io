@@ -110,15 +110,26 @@ class SVGDisplay{
                 }
 
                 var bounding_box = this.bounding_box(position, points[position]-1, width, height);
-                var grassSvg = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
-                grassSvg.setAttribute("style", "fill:rgb(0,0,0)");
-                var x = bounding_box[0][0] + bounding_box[1][0];
-                x /= 2;
-                var str = x + "," + bounding_box[0][1] + " " + x + "," + bounding_box[1][1];
-                grassSvg.setAttribute("points", str);
-                grassSvg.setAttribute("style","fill:none;stroke:black;stroke-width:3");
-                this.objects[position] = grassSvg;
-                this.svg.appendChild(grassSvg);
+                var grass_group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+                var grassSvg_l = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
+                var grassSvg_m = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
+                var grassSvg_r = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
+                var grass_svgs = [grassSvg_l, grassSvg_m, grassSvg_r];
+                for (var i=0; i <3; i++){
+                    var x = bounding_box[0][0];
+                    x += (bounding_box[1][0] - bounding_box[0][0])*(i+1)/4;
+                    var y1 = bounding_box[0][1]- game.objects[position].values["power"]/ 10 * (bounding_box[1][1]- bounding_box[0][1]);
+                    var y2 = bounding_box[1][1];
+                    var str = x + "," + y1 + " " + x + "," + y2;
+                    grass_svgs[i].setAttribute("points", str);
+                    grass_svgs[i].setAttribute("style","fill:none;stroke:black;stroke-width:3");
+                }
+                
+                grass_group.appendChild(grassSvg_l);
+                grass_group.appendChild(grassSvg_m);
+                grass_group.appendChild(grassSvg_r);
+                this.objects[position] = grass_group;
+                this.svg.appendChild(grass_group);
                 break;
         }
     }
@@ -151,11 +162,12 @@ class SVGDisplay{
     drawBackground(time){
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
-        if (time < 6){
-            this.background.setAttribute("style", "fill:rgb(50,50,255)");
-        } else{
-            this.background.setAttribute("style", "fill:rgb(100,100,255)");
-        }      
+        var midnight = new Matrix([[20,20,255]]);
+        var noon = new Matrix([[150,150,255]]);
+        var transition = new Matrix([[150,20,255]]);
+        var time_limit = 12;
+        var color = Interpolation.lin_vec_interpolation([midnight, transition, noon, transition, midnight], time/time_limit);
+        this.background.setAttribute("style", "fill:rgb("+ color.values[0][0]+","+ color.values[0][1]+","+ color.values[0][2]+")");
     }
 
     drawPointer(width, height, position){

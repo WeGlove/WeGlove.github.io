@@ -21,7 +21,7 @@ function onClickSetObject(){
 }
 
 function onClickSetWalker(){
-    game.setObject(new GameObject(ObjectType.Walker, {"init":0, "reset":1}));
+    game.setObject(new GameObject(ObjectType.Walker));
 }
 
 function onClickUnSetObject(){
@@ -30,6 +30,10 @@ function onClickUnSetObject(){
 
 function onClickCycleForward(){
     game.cycleFwd();
+}
+
+function onTick(){
+    game.tick();
 }
 
 function onClickCycleBackward(){
@@ -108,6 +112,9 @@ class Game{
 
     setObject(gameObject){
         this.objects[this.position] = gameObject;
+        for (var key in gameObject.type["optional_flags"]){
+            gameObject.type["optional_flags"][key]["init"](this, this.position);
+        }
         this.tick();
     }
 
