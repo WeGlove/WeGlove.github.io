@@ -82,7 +82,7 @@ class SVGDisplay{
                 var boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
                 boxSvg.setAttribute("width", this.stepWidth*this.scale);
                 boxSvg.setAttribute("height", this.stepHeight*this.scale);
-                boxSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                boxSvg.setAttribute("style", "fill:none;stroke:black;stroke-width:3");
                 boxSvg.setAttribute("x", x);
                 boxSvg.setAttribute("y", y);
                 this.objects[position] = boxSvg;
@@ -109,26 +109,34 @@ class SVGDisplay{
                     this.svg.removeChild(this.objects[position]);
                 }
 
-                var x = this.stepWidth*this.scale*position + this.origin[0] - this.stepWidth*this.scale*width/2;
-                var y = (this.stepHeight*this.scale*(points[position]-1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
-                var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-                walkerSvg.setAttribute("width", this.stepWidth*this.scale);
-                walkerSvg.setAttribute("height", this.stepHeight*this.scale);
-                walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
-                walkerSvg.setAttribute("x", x);
-                walkerSvg.setAttribute("y", y);
-                this.objects[position] = walkerSvg;
-                this.svg.appendChild(walkerSvg);
+                var bounding_box = this.bounding_box(position, points[position]-1, width, height);
+                var grassSvg = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
+                grassSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                var x = bounding_box[0][0] + bounding_box[1][0];
+                x /= 2;
+                var str = x + "," + bounding_box[0][1] + " " + x + "," + bounding_box[1][1];
+                grassSvg.setAttribute("points", str);
+                grassSvg.setAttribute("style","fill:none;stroke:black;stroke-width:3");
+                this.objects[position] = grassSvg;
+                this.svg.appendChild(grassSvg);
                 break;
         }
     }
 
     bounding_box(position_x, position_y, width, height){
+        /**
+         * position_x: Line Segment
+         * position_y: Height of the line segment
+         * width: Width from Game object
+         * height: height from Game object
+         * 
+         * return: [[left, down], [up, right]]
+         */
         var x1 = this.stepWidth*this.scale*position_x + this.origin[0] - this.stepWidth*this.scale*width/2;
         var x2 = (this.stepWidth*this.scale*(position_x+1) + this.origin[0] - this.stepWidth*this.scale*width/2);
         var y1 = (this.stepHeight*this.scale*position_y + this.origin[1]) - this.stepHeight*this.scale * height/2;
         var y2 = (this.stepHeight*this.scale*(position_y+1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
-        return [[x1, y1], [x2, y2]]
+        return [[x1, y1], [x2, y2]] 
     }
 
     drawLine(points, width, height){
