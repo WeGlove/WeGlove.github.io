@@ -20,42 +20,14 @@ class SVGDisplay{
         this.svg.appendChild(this.pointer); 
     }
 
-    onInit(objects, points, position, width, height, cycle){
-        this.drawBackground(cycle);
-        this.drawLine(points, width, height);
-        this.drawPointer(width, height, position);
-        this.drawObjects(objects, points, width, height);
-    }
-    onInc(objects, points, position, width, height){
-        this.drawObject(objects, points, position, width, height);
-        this.drawLine(points, width, height);
-    }
-
-    onDec(objects, points, position, width, height){
-        this.drawObject(objects, points, position, width, height);
-        this.drawLine(points, width, height);
-    }
-
-    onSetObject(objects, points, position, width, height){
-        this.drawObject(objects, points, position, width, height);
-        this.drawLine(points, width, height);
-    }
-
-    onUnSetObject(objects, points, position, width, height){
-        this.drawObject(objects, points, position, width, height);
-        this.drawLine(points, width, height);
-    }
-
-    onCycleFwd(width, height, position){
-        this.drawPointer(width, height, position)
-    }
-
-    onCycleBwd(width, height, position){
-        this.drawPointer(width, height, position)
-    }
-
-    onSetDayCycle(cycle){
-        this.drawBackground(cycle);
+    draw(game){
+        /**
+         * Draws the game in its current state
+         */
+        this.drawBackground(game.ticks, game.dayCycleLength);
+        this.drawLine(game.points, game.width, game.height);
+        this.drawPointer(game.width, game.height, game.position);
+        this.drawObjects(game.objects, game.points,  game.width, game.height);
     }
 
     drawObjects(objects, points, width, height){
@@ -159,14 +131,14 @@ class SVGDisplay{
         this.line.setAttribute("points", polygon);
     }
 
-    drawBackground(time){
+    drawBackground(time, length){
+        time %= length;
         this.background.setAttribute("width", this.dimensions[0]);
         this.background.setAttribute("height", this.dimensions[1]);
         var midnight = new Matrix([[20,20,100]]);
         var noon = new Matrix([[150,150,255]]);
         var transition = new Matrix([[150,100,120]]);
-        var time_limit = 12;
-        var color = Interpolation.lin_vec_interpolation([midnight, transition, noon, transition, midnight], time/time_limit);
+        var color = Interpolation.lin_vec_interpolation([midnight, transition, noon, transition, midnight], time/length);
         this.background.setAttribute("style", "fill:rgb("+ color.values[0][0]+","+ color.values[0][1]+","+ color.values[0][2]+")");
     }
 

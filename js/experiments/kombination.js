@@ -48,6 +48,10 @@ function onClickSetGrass(){
     game.setObject(new GameObject(ObjectType.Grass));
 }
 
+function onSave(){
+    game.save();
+}
+
 class Game{
 
 	constructor(width, height, display){
@@ -55,7 +59,7 @@ class Game{
 		this.height = height;
         this.width = width;
         this.display = display;
-        this.dayCicle = 0;
+        this.dayCycleLength = 24;
         this.points = [];
         this.objects = [];
         this.ticks = 0;
@@ -63,7 +67,12 @@ class Game{
             this.points.push(Math.floor(Math.random()*this.height));
             this.objects.push(new GameObject(ObjectType.None));
         }
-        this.display.onInit(this.objects, this.points, this.position, this.width, this.height, this.ticks);
+        this.display.draw(this);
+    }
+
+    save(){
+        console.log(JSON.stringify(this));
+        document.cookie = "game=" + JSON.stringify(this);
     }
     
     inc(){
@@ -94,20 +103,20 @@ class Game{
             }
         }
         this.ticks++;
-        this.display.onInit(this.objects, this.points, this.position, this.width, this.height, this.ticks % 12);
+        this.display.draw(this);
     }
 
     cycleFwd(){
         this.position++;
         this.position %= this.width; 
-        this.display.onCycleFwd(this.width, this.height, this.position);
+        this.display.draw(this);
     }
 
     cycleBwd(){
         this.position--;
         if (this.position < 0)
             this.position= this.width-1; 
-        this.display.onCycleBwd(this.width, this.height, this.position);
+        this.display.draw(this);
     }
 
     setObject(gameObject){
