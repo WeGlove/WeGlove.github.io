@@ -86,6 +86,15 @@ class Game{
         return (2*level -left -  right)/((this.height-1)*2);
     }
 
+    update_all_water(){
+        this.reset_water_levels();
+        for (var i=0; i< this.width; i++){
+            if (this.objects[i].type["water"]){
+                this.update_water(i);
+            }
+        }
+    }
+
     update_water(index){
         this.water_levels[index] = 1;
         var res = 0;
@@ -137,6 +146,7 @@ class Game{
         this.points[this.position]++;
         this.points[this.position] %= this.height; 
         this.light_levels[this.position] = this.getLightLevel(this.position);
+        this.update_all_water();
         this.tick();
     }
 
@@ -145,6 +155,7 @@ class Game{
         if (this.points[this.position] < 0)
             this.points[this.position] = this.height-1; 
         this.light_levels[this.position] = this.getLightLevel(this.position);
+        this.update_all_water();
         this.tick();
     }
 
@@ -180,9 +191,12 @@ class Game{
     }
 
     setObject(gameObject){
+        var old_water = this.objects[this.position].type["water"];
+        var new_water = gameObject.type["water"];
+
         this.objects[this.position] = gameObject;
-        if (this.objects[this.position].type["water"]){
-            this.update_water(this.position);
+        if (old_water ^ new_water){
+            this.update_all_water();
         }
         for (var key in gameObject.type["optional_flags"]){
             gameObject.type["optional_flags"][key]["init"](this, this.position);
@@ -191,7 +205,12 @@ class Game{
     }
 
     unSetObject(){
+        var old_water = this.objects[this.position].type["water"];
+
         this.objects[this.position] = new GameObject(ObjectType.None);
+        if (old_water){
+            this.update_all_water();
+        }
         this.tick();
     }
 }
