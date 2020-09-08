@@ -103,6 +103,38 @@ class SVGDisplay{
                 this.objects[position] = grass_group;
                 this.svg.appendChild(grass_group);
                 break;
+            case ObjectType.Seed["id"]:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var bounding_box = this.bounding_box(position, points[position]-1, width, height);
+                var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+                walkerSvg.setAttribute("width", this.stepWidth*this.scale);
+                walkerSvg.setAttribute("height", this.stepHeight*this.scale);
+                walkerSvg.textContent = "Seed";
+                walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                walkerSvg.setAttribute("x", bounding_box[0][0]);
+                walkerSvg.setAttribute("y", bounding_box[0][1]);
+                this.objects[position] = walkerSvg;
+                this.svg.appendChild(walkerSvg);
+                break;
+            case ObjectType.Water["id"]:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var bounding_box = this.bounding_box(position, points[position]-1, width, height);
+                var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+                walkerSvg.setAttribute("width", this.stepWidth*this.scale);
+                walkerSvg.setAttribute("height", this.stepHeight*this.scale);
+                walkerSvg.textContent = "Water";
+                walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
+                walkerSvg.setAttribute("x", bounding_box[0][0]);
+                walkerSvg.setAttribute("y", bounding_box[0][1]);
+                this.objects[position] = walkerSvg;
+                this.svg.appendChild(walkerSvg);
+                break;
         }
     }
 

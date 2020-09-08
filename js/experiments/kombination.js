@@ -16,12 +16,8 @@ function onClickDec(){
     game.inc();
 }
 
-function onClickSetObject(){
-    game.setObject(new GameObject(ObjectType.Box));
-}
-
-function onClickSetWalker(){
-    game.setObject(new GameObject(ObjectType.Walker));
+function onClickSetWater(){
+    game.setObject(new GameObject(ObjectType.Water));
 }
 
 function onClickUnSetObject(){
@@ -40,12 +36,8 @@ function onClickCycleBackward(){
     game.cycleBwd();
 }
 
-function onSetDayCycle(){
-    game.setDayCycle(DayCycle.MidNight);
-}
-
-function onClickSetGrass(){
-    game.setObject(new GameObject(ObjectType.Grass));
+function onClickSetSeed(){
+    game.setObject(new GameObject(ObjectType.Seed));
 }
 
 function onSave(){
@@ -62,12 +54,35 @@ class Game{
         this.dayCycleLength = 24;
         this.points = [];
         this.objects = [];
+        this.light_levels = [];
         this.ticks = 0;
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
             this.objects.push(new GameObject(ObjectType.None));
         }
+        for (var i=0; i< this.width; i++){
+            this.light_levels.push(this.getLightLevel(i));
+        }
         this.display.draw(this);
+    }
+    
+    getLightLevel(i){
+        var level = this.points[i];
+        var left = 0;
+        if (i ==0){
+            left = this.points[this.width-1];
+        } else{
+            left = this.points[i-1];
+        }
+        if (left > level){
+            left = level;
+        }
+        var right = this.points[(i+1)%this.width];
+        if (right > level){
+            right = level;
+        }
+        console.log(i, level,left,right,(left - level + right - level)/((this.height-1)*2));
+        return (2*level -left -  right)/((this.height-1)*2);
     }
 
     save(){
@@ -77,14 +92,16 @@ class Game{
     
     inc(){
         this.points[this.position]++;
-        this.points[this.position] %= this.height+1; 
+        this.points[this.position] %= this.height; 
+        this.light_levels[this.position] = this.getLightLevel(this.position);
         this.tick();
     }
 
     dec(){
         this.points[this.position]--;
         if (this.points[this.position] < 0)
-            this.points[this.position] = this.height; 
+            this.points[this.position] = this.height-1; 
+        this.light_levels[this.position] = this.getLightLevel(this.position);
         this.tick();
     }
 
