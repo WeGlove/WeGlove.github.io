@@ -71,7 +71,7 @@ class Game{
     getLightLevel(i){
         var level = this.points[i];
         var left = 0;
-        if (i ==0){
+        if (i == 0){
             left = this.points[this.width-1];
         } else{
             left = this.points[i-1];
@@ -83,7 +83,7 @@ class Game{
         if (right > level){
             right = level;
         }
-        return (2*level -left -  right)/((this.height-1)*2);
+        return ((2*level -left -  right)/((this.height-1)))/2;
     }
 
     update_all_water(){
@@ -109,7 +109,6 @@ class Game{
             if (this.water_levels[(index+i)%this.width] < res){
                 this.water_levels[(index+i)%this.width] = res;
             }
-            console.log(weight);
         }
         weight =1;
         for (var i=1; i< this.width; i++){
@@ -146,6 +145,12 @@ class Game{
         this.points[this.position]++;
         this.points[this.position] %= this.height; 
         this.light_levels[this.position] = this.getLightLevel(this.position);
+        this.light_levels[(this.position+1)%this.width] = this.getLightLevel((this.position+1)%this.width);
+        if (this.position-1 <0){
+            this.light_levels[this.width-1] = this.getLightLevel(this.width-1);
+        } else{
+            this.light_levels[this.position-1] = this.getLightLevel(this.position-1);
+        }
         this.update_all_water();
         this.tick();
     }
@@ -154,7 +159,13 @@ class Game{
         this.points[this.position]--;
         if (this.points[this.position] < 0)
             this.points[this.position] = this.height-1; 
-        this.light_levels[this.position] = this.getLightLevel(this.position);
+            this.light_levels[this.position] = this.getLightLevel(this.position);
+            this.light_levels[(this.position+1)%this.width] = this.getLightLevel((this.position+1)%this.width);
+            if (this.position-1 <0){
+                this.light_levels[this.width-1] = this.getLightLevel(this.width-1);
+            } else{
+                this.light_levels[this.position-1] = this.getLightLevel(this.position-1);
+            }
         this.update_all_water();
         this.tick();
     }

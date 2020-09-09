@@ -44,6 +44,7 @@ class SVGDisplay{
                     this.objects[position] = undefined;
                 }
                 break;
+            /*
             case ObjectType.Box["id"]:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
@@ -103,6 +104,7 @@ class SVGDisplay{
                 this.objects[position] = grass_group;
                 this.svg.appendChild(grass_group);
                 break;
+            */
             case ObjectType.Seed["id"]:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
@@ -135,7 +137,66 @@ class SVGDisplay{
                 this.objects[position] = walkerSvg;
                 this.svg.appendChild(walkerSvg);
                 break;
+            case ObjectType.Compost["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Compost", position);
+                break;
+            case ObjectType.Mushroom["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Mushroom", position);
+                break;
+            case ObjectType.Moss["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Moss", position);
+                break;
+            case ObjectType.Roots["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Roots", position);
+                break;
+            case ObjectType.Grass["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Grass", position);
+                break;
+            case ObjectType.Reed["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Reeds", position);
+                break;
+            case ObjectType.Cactus["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Cactus", position);
+                break;
+            case ObjectType.Bush["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Bush", position);
+                break;
+            case ObjectType.Flower["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Flower", position);
+                break;
+            default:
+                if (this.objects[position] !== undefined){
+                    this.svg.removeChild(this.objects[position]);
+                }
+
+                var x = this.stepWidth*this.scale*position + this.origin[0] - this.stepWidth*this.scale*width/2;
+                var y = (this.stepHeight*this.scale*(points[position]-1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
+                var boxSvg = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                boxSvg.setAttribute("width", this.stepWidth*this.scale);
+                boxSvg.setAttribute("height", this.stepHeight*this.scale);
+                boxSvg.setAttribute("style", "fill:none;stroke:black;stroke-width:3");
+                boxSvg.setAttribute("x", x);
+                boxSvg.setAttribute("y", y);
+                this.objects[position] = boxSvg;
+                this.svg.appendChild(boxSvg);
+                break;
         }
+    }
+
+    setTextElement(bounding_box, text, position){
+        if (this.objects[position] !== undefined){
+            this.svg.removeChild(this.objects[position]);
+        }
+        var walkerSvg = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+        walkerSvg.setAttribute("width", this.stepWidth*this.scale);
+        walkerSvg.setAttribute("height", this.stepHeight*this.scale);
+        walkerSvg.textContent = text;
+        walkerSvg.setAttribute("style", "fill:rgb(0,0,0)");
+        walkerSvg.setAttribute("x", bounding_box[0][0]);
+        walkerSvg.setAttribute("y", bounding_box[0][1]);
+        this.objects[position] = walkerSvg;
+        this.svg.appendChild(walkerSvg);
+
     }
 
     bounding_box(position_x, position_y, width, height){
