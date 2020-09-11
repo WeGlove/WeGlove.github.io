@@ -25,10 +25,10 @@ function getGrassDict(growthInit, growthMax){
                     game.objects[rand].init(game, rand);
                 } else if (suitable_l){
                     game.objects[(position-1)< 0 ? game.width-1 : (position-1)] = new GameObject(ObjectType.Grass);
-                    game.objects[(position-1)< 0 ? game.width-1 : (position-1)].init(game, position-1);
+                    game.objects[(position-1)< 0 ? game.width-1 : (position-1)].init(game, (position-1)< 0 ? game.width-1 : (position-1));
                 } else if (suitable_r){
                     game.objects[(position+1)%game.width] = new GameObject(ObjectType.Grass);
-                    game.objects[(position+1)%game.width].init(game, position+1);
+                    game.objects[(position+1)%game.width].init(game, (position+1)%game.width);
                 }
             }
             game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;

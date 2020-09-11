@@ -11,8 +11,8 @@ function getReedDict(growthInit, growthMax){
             if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var next_free = [];
                 for (var i=1; i < game.width; i++){
-                    if (!game.objects[(game.position+i)%game.width].type["water"]){
-                        next_free.push((game.position+i)%game.width);
+                    if (!game.objects[(position+i)%game.width].type["water"]){
+                        next_free.push((position+i)%game.width);
                         break;
                     }
                 }
@@ -22,6 +22,7 @@ function getReedDict(growthInit, growthMax){
                         break;
                     }
                 }
+                console.log(position, next_free);
                 if (next_free.length > 0){
                     var light_l = Math.floor(game.light_levels[next_free[0]]*2);
                     var water_l = Math.floor(game.water_levels[next_free[0]]*2);
@@ -42,10 +43,10 @@ function getReedDict(growthInit, growthMax){
                         game.objects[rand].init(game, rand);
                     } else if (suitable_l){
                         game.objects[next_free[0]] = new GameObject(ObjectType.Reed);
-                        game.objects[next_free[0]].init(game, position-1);
+                        game.objects[next_free[0]].init(game, next_free[0]);
                     } else if (suitable_r){
                         game.objects[next_free[1]] = new GameObject(ObjectType.Reed);
-                        game.objects[next_free[1]].init(game, position+1);
+                        game.objects[next_free[1]].init(game, next_free[1]);
                     }
                 }
             }
