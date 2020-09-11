@@ -173,16 +173,10 @@ class Game{
     tick(){
         console.log(this);
         for (var i=0; i < this.width; i++){
-            var element = this.objects[i];
-            for (var key in element.type["optional_flags"]){
-                element.type["optional_flags"][key]["action"](this, i);
-            }
+            this.objects[i].act(this, i);
         }
         for (var i=0; i < this.width; i++){
-            var element = this.objects[i];
-            for (var key in element.type["optional_flags"]){
-                element.type["optional_flags"][key]["end"](this, i);
-            }
+            this.objects[i].end(this, i);
         }
         this.ticks++;
         this.display.draw(this);
@@ -209,9 +203,7 @@ class Game{
         if (old_water ^ new_water){
             this.update_all_water();
         }
-        for (var key in gameObject.type["optional_flags"]){
-            gameObject.type["optional_flags"][key]["init"](this, this.position);
-        }
+        gameObject.init(this, this.position);
         this.tick();
     }
 
