@@ -10,7 +10,6 @@ function getGrassDict(growthInit, growthMax){
         } else if((light == 2 && water < 2) ||(light == 0 && water == 0)){
             game.objects[position] = new GameObject(ObjectType.Compost);
         } else{
-            console.log("Growth",game.objects[position].values["growth"]);
             game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
             if (game.objects[position].values["growth"] == growthMax-1){
                 var light_l = Math.floor(game.light_levels[(position-1)< 0 ? growthMax-1 : (position-1)]*2);
@@ -21,8 +20,6 @@ function getGrassDict(growthInit, growthMax){
                 var object_r = game.objects[(position+1)%growthMax];
                 var suitable_l = light_l == 1 && water_l == 1 && object_l.type["id"] == 0;
                 var suitable_r = light_r == 1 && water_r == 1 && object_r.type["id"] == 0;
-                console.log("L", light_l == 1 , water_l == 1 , object_l.type["id"] == 0);
-                console.log("R", light_r == 1 , water_r == 1 , object_r.type["id"] == 0);
                 if (suitable_l && suitable_r){
                     var rand = position + Math.floor(Math.random()*2)*2-1;
                     game.objects[rand] = new GameObject(ObjectType.Grass);
@@ -42,7 +39,6 @@ function getGrassDict(growthInit, growthMax){
     }
 
     function init(game, position){
-        console.log("Hey!");
         game.objects[position].values["growth"] = growthInit;
     }
 
