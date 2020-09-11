@@ -17,8 +17,8 @@ function getReedDict(growthInit, growthMax){
                     }
                 }
                 for (var i=1; i < game.width; i++){
-                    if (!game.objects[(position-i)< 0 ? growthMax-i : (position-i)].type["water"]){
-                        next_free.push((position-i)< 0 ? growthMax-i : (position-i));
+                    if (!game.objects[(position-i)< 0 ? game.width-i : (position-i)].type["water"]){
+                        next_free.push((position-i)< 0 ? game.width-i : (position-i));
                         break;
                     }
                 }

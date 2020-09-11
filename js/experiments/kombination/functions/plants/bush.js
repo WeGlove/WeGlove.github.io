@@ -3,7 +3,6 @@ function getBushDict(growthInit, growthMax){
         var light = Math.floor(game.light_levels[position]*2);
         var water = Math.floor(game.water_levels[position]*2);
 
-        console.log(light, water, game.water_levels[position]);
         if (light == 1 && water == 1){
             game.objects[position] = new GameObject(ObjectType.Grass);
         } else if(water == 0){
@@ -12,12 +11,12 @@ function getBushDict(growthInit, growthMax){
             game.objects[position] = new GameObject(ObjectType.Compost);
         }else{
             if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
-                var light_l = Math.floor(game.light_levels[(position-1)< 0 ? growthMax-1 : (position-1)]*2);
-                var water_l = Math.floor(game.water_levels[(position-1)< 0 ? growthMax-1 : (position-1)]*2);
+                var light_l = Math.floor(game.light_levels[(position-1)< 0 ? game.width-1 : (position-1)]*2);
+                var water_l = Math.floor(game.water_levels[(position-1)< 0 ? game.width-1 : (position-1)]*2);
                 var object_l = game.objects[(position-1)< 0 ? growthMax-1 : (position-1)];
-                var light_r = Math.floor(game.light_levels[(position+1)%growthMax]*2);
-                var water_r = Math.floor(game.water_levels[(position+1)%growthMax]*2);
-                var object_r = game.objects[(position+1)%growthMax];
+                var light_r = Math.floor(game.light_levels[(position+1)%game.width]*2);
+                var water_r = Math.floor(game.water_levels[(position+1)%game.width]*2);
+                var object_r = game.objects[(position+1)%game.width];
                 var suitable_l = light_l == 0 && water_l == 2 && object_l.type["id"] == 0;
                 var suitable_r = light_r == 0 && water_r == 2 && object_r.type["id"] == 0;
                 if (suitable_l && suitable_r){
@@ -25,11 +24,11 @@ function getBushDict(growthInit, growthMax){
                     game.objects[rand] = new GameObject(ObjectType.Bush);
                     game.objects[rand].init(game, rand);
                 } else if (suitable_l){
-                    game.objects[position - 1] = new GameObject(ObjectType.Bush);
-                    game.objects[position - 1].init(game, position-1);
+                    game.objects[(position-1)< 0 ? game.width-1 : (position-1)] = new GameObject(ObjectType.Bush);
+                    game.objects[(position-1)< 0 ? game.width-1 : (position-1)].init(game, (position-1)< 0 ? game.width-1 : (position-1));
                 } else if (suitable_r){
-                    game.objects[position + 1] = new GameObject(ObjectType.Bush);
-                    game.objects[position + 1].init(game, position+1);
+                    game.objects[(position+1)%game.width] = new GameObject(ObjectType.Bush);
+                    game.objects[(position+1)%game.width].init(game, (position+1)%game.width);
                 }
             }
             game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;
