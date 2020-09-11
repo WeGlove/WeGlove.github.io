@@ -8,8 +8,7 @@ function getReedDict(growthInit, growthMax){
         } else if(light == 2 && water >0){
             game.objects[position] = new GameObject(ObjectType.Compost);
         }else{
-            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
-            if (game.objects[position].values["growth"] == growthMax-1){
+            if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var next_free = [];
                 for (var i=1; i < game.width; i++){
                     if (!game.objects[(game.position+i)%game.width].type["water"]){
@@ -50,6 +49,8 @@ function getReedDict(growthInit, growthMax){
                     }
                 }
             }
+            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;
+
         }
     }
 

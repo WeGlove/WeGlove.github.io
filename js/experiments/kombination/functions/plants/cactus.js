@@ -9,8 +9,7 @@ function getCactusDict(growthInit, growthMax){
         } else if(water == 2 || (water == 1 && light > 0)){
             game.objects[position] = new GameObject(ObjectType.Compost);
         } else {
-            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
-            if (game.objects[position].values["growth"] == growthMax-1){
+            if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var light_l = Math.floor(game.light_levels[(position-1)< 0 ? growthMax-1 : (position-1)]*2);
                 var water_l = Math.floor(game.water_levels[(position-1)< 0 ? growthMax-1 : (position-1)]*2);
                 var object_l = game.objects[(position-1)< 0 ? growthMax-1 : (position-1)];
@@ -31,6 +30,7 @@ function getCactusDict(growthInit, growthMax){
                     game.objects[position + 1].init(game, position+1);
                 }
             }
+            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;
         }
     }
 

@@ -11,8 +11,7 @@ function getFlowerDict(growthInit, growthMax){
         } else if(light > 0  && water == 2){
             game.objects[position] = new GameObject(ObjectType.Reed);
         }else{
-            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
-            if (game.objects[position].values["growth"] == growthMax-1){
+            if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var flower_position = [];
                 for (var i=1; i < game.width; i++){
                     if (game.objects[(game.position+i)%game.width].type["id"] == 0){
@@ -41,8 +40,8 @@ function getFlowerDict(growthInit, growthMax){
                         game.objects[position + 1].init(game, position+1);
                     }
                 }
-                
             }
+            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;
         }
     }
 
