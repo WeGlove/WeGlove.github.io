@@ -6,8 +6,8 @@ function getSeedDict(){
     }
 
     function init(game, position){
-        var light = Math.floor(game.light_levels[position]*2);
-        var water = Math.floor(game.water_levels[position]*2);
+        var light = Utils.compute_level(game.light_levels[position]);
+        var water = Utils.compute_level(game.water_levels[position]);
 
         if (light == 0 && water == 0){
             game.objects[position] = new GameObject(ObjectType.Cactus);

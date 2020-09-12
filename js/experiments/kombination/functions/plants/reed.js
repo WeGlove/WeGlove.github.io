@@ -1,7 +1,7 @@
 function getReedDict(growthInit, growthMax){
     function action(game, position){
-        var light = Math.floor(game.light_levels[position]*2);
-        var water = Math.floor(game.water_levels[position]*2);
+        var light = Utils.compute_level(game.light_levels[position]);
+        var water = Utils.compute_level(game.water_levels[position]);
 
         if (water == 0){
             game.objects[position] = new GameObject(ObjectType.Roots);
