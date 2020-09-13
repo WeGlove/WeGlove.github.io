@@ -22,7 +22,6 @@ function getReedDict(growthInit, growthMax){
                         break;
                     }
                 }
-                console.log(position, next_free);
                 if (next_free.length > 0){
                     var light_l = Math.floor(game.light_levels[next_free[0]]*2);
                     var water_l = Math.floor(game.water_levels[next_free[0]]*2);
@@ -48,7 +47,7 @@ function getReedDict(growthInit, growthMax){
                         game.objects[next_free[1]] = new GameObject(ObjectType.Reed);
                         game.objects[next_free[1]].init(game, next_free[1]);
                     }
-                }
+                }  
             }
             game.objects[position].values["growth"] = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) % growthMax;
 

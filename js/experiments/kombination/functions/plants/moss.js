@@ -3,7 +3,6 @@ function getMossDict(growthInit, growthMax){
         var light = Utils.compute_level(game.light_levels[position]);
         var water = Utils.compute_level(game.water_levels[position]);
 
-        console.log(light, water, game.water_levels[position]);
         if (light == 0){
             game.objects[position] = new GameObject(ObjectType.Compost);
         } else if(light < 2 && water == 0){

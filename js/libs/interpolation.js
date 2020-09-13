@@ -11,4 +11,8 @@ class Interpolation{
 		return this.lin_interpolation(v1, v2, new_degree);
 	}
 
+	static lin_num_interpolation(v1, v2, degree){
+		return v1 *(1-degree) + v2 * degree;
+	}
+
 }

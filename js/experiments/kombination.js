@@ -65,7 +65,7 @@ class Game{
             this.light_levels.push(this.getLightLevel(i));
             this.water_levels.push(0);
         }
-        this.display.draw(this);
+        this.display.init(this);
     }
     
     getLightLevel(i){

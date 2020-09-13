@@ -15,9 +15,35 @@ class SVGDisplay{
         this.pointer.setAttribute("style","fill:none;stroke:black;stroke-width:3");
         this.background = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
         this.objects = {};
-        this.svg.appendChild(this.background); 
+        this.lightGroup = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        this.lightElements = [];
+        this.waterGroup = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+        this.waterElements = [];
+
+        this.svg.appendChild(this.background);
+        this.svg.appendChild(this.lightGroup); 
+        this.svg.appendChild(this.waterGroup); 
         this.svg.appendChild(this.line); 
         this.svg.appendChild(this.pointer); 
+    }
+
+    init(game){
+        for(var i=0; i < game.width; i++){
+            var LightElement = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            var WaterElement = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            this.lightGroup.appendChild(LightElement);
+            this.lightElements.push(LightElement);
+            this.waterGroup.appendChild(WaterElement);
+            this.waterElements.push(WaterElement);
+            var bbox = this.bounding_box(i, game.points[i], game.width, game.height);
+            LightElement.setAttribute("x", bbox[0][0]);
+            LightElement.setAttribute("width", this.stepWidth*2);
+            LightElement.setAttribute("y", this.boundingY(0, game.height));
+
+            WaterElement.setAttribute("x", bbox[0][0]);
+            WaterElement.setAttribute("width", this.stepWidth*2);
+        }
+        this.draw(game);
     }
 
     draw(game){
@@ -25,6 +51,8 @@ class SVGDisplay{
          * Draws the game in its current state
          */
         this.drawBackground(game.ticks, game.dayCycleLength);
+        this.drawLightLevels(game);
+        this.drawWaterLevels(game);
         this.drawLine(game.points, game.width, game.height);
         this.drawPointer(game.width, game.height, game.position);
         this.drawObjects(game.objects, game.points,  game.width, game.height);
@@ -208,11 +236,19 @@ class SVGDisplay{
          * 
          * return: [[left, down], [up, right]]
          */
-        var x1 = this.stepWidth*this.scale*position_x + this.origin[0] - this.stepWidth*this.scale*width/2;
-        var x2 = (this.stepWidth*this.scale*(position_x+1) + this.origin[0] - this.stepWidth*this.scale*width/2);
-        var y1 = (this.stepHeight*this.scale*position_y + this.origin[1]) - this.stepHeight*this.scale * height/2;
-        var y2 = (this.stepHeight*this.scale*(position_y+1) + this.origin[1]) - this.stepHeight*this.scale * height/2;
+        var x1 = this.boundingX(position_x, width);
+        var x2 = this.boundingX(position_x+1, width);
+        var y1 = this.boundingY(position_y, height);
+        var y2 = this.boundingY(position_y+1, height);
         return [[x1, y1], [x2, y2]] 
+    }
+
+    boundingX(position_x, width){
+        return this.stepWidth*this.scale*position_x + this.origin[0] - this.stepWidth*this.scale*width/2;
+    }
+
+    boundingY(position_y, height){
+        return (this.stepHeight*this.scale*position_y + this.origin[1]) - this.stepHeight*this.scale * height/2;
     }
 
     drawLine(points, width, height){
@@ -240,6 +276,25 @@ class SVGDisplay{
         var y = this.origin[1] + this.stepHeight* this.scale * height;
         var str = x +"," + y + " " + x +"," + (y+10*this.scale);
         this.pointer.setAttribute("points", str);
+    }
+
+    drawLightLevels(game){  
+        for (var i=0; i < game.width; i++){
+            this.lightElements[i].setAttribute("height", this.boundingY(game.points[i], game.height) - this.boundingY(0, game.height));  
+            var interpol = Interpolation.lin_num_interpolation(0, 0.5, game.light_levels[i]);
+            this.lightElements[i].setAttribute("style", "fill:rgb(0,0,0); fill-opacity:" + interpol +"");
+        }
+         
+    }
+
+    drawWaterLevels(game){  
+        for (var i=0; i < game.width; i++){
+            this.waterElements[i].setAttribute("y", this.boundingY(game.points[i], game.height));
+            this.waterElements[i].setAttribute("height", this.boundingY(game.height, game.height) - this.boundingY(game.points[i], game.height));  
+            var interpol = Interpolation.lin_num_interpolation(0, 0.5, game.water_levels[i]);
+            this.waterElements[i].setAttribute("style", "fill:rgb(0,0,255); fill-opacity:" + interpol +"");
+        }
+         
     }
 
 }
