@@ -1,7 +1,7 @@
 function getWalkingDict(initPower, initReset){
     function action(game, position){
         var toMove = game.objects[position];
-        var toMoveTo = game.objects[(position+1)%game.width];
+        var toMoveTo = game.objects[Utils.right(position, game.width)];
 
         if (toMoveTo.type["passable"] && toMove.values["power"]>0){
             toMove.values["power"]--;

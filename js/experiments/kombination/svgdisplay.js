@@ -192,6 +192,12 @@ class SVGDisplay{
             case ObjectType.Flower["id"]:
                 this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Flower", position);
                 break;
+            case ObjectType.Fay["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Fay", position);
+                break;
+            case ObjectType.Jericho["id"]:
+            this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Jericho", position);
+            break;
             default:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);

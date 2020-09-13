@@ -11,15 +11,19 @@ function getMushroomDict(growthInit, growthMax){
         }else{
             game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
             if (game.objects[position].values["growth"] == growthMax-1){
-                var rand = Math.floor(Math.random() * game.width);
-                var light = Math.floor(game.light_levels[rand]*2);
-                var water = Math.floor(game.water_levels[rand]*2);
-                var object = game.objects[rand];
-                var suitable = light == 2 && water == 1 && object.type["id"] == 0;
-                if (suitable){
-                    game.objects[rand] = new GameObject(ObjectType.Mushroom);
-                    game.objects[rand].init(game, rand);
+                mushroomIDs = Utils.findIDExculsive(game, position, 6);
+                if (mushroomIDs.length >= 2){
+                    game.objects[position] = new GameObject(ObjectType.Fay)
+                    game.objects[position].init(game, position);
+                } else {
+                    var rand = Math.floor(Math.random() * game.width);
+                    var suitable = Utils.suitable(game, rand);
+                    if (suitable){
+                        game.objects[rand] = new GameObject(ObjectType.Mushroom);
+                        game.objects[rand].init(game, rand);
                 }
+                }
+                
             }
         }
     }

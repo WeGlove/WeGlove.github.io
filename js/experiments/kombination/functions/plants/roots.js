@@ -1,24 +1,29 @@
 function getRootsDict(growthInit, growthMax){
     function action(game, position){
-        var light = Utils.compute_level(game.light_levels[position]);
-        var water = Utils.compute_level(game.water_levels[position]);
-        
-        console.log(light, water, game.water_levels[position]);
-        if (light == 0){
-            game.objects[position] = new GameObject(ObjectType.Compost);
-        } else{
-            game.objects[position].values["growth"] = (game.objects[position].values["growth"] + 1) % growthMax;
-            if (game.objects[position].values["growth"] == growthMax-1){
-                var rand = Math.floor(Math.random() * game.width);
-                var light = Math.floor(game.light_levels[rand]*2);
-                var water = Math.floor(game.water_levels[rand]*2);
-                var object = game.objects[rand];
-                var suitable = light == 1 && water == 0 && object.type["id"] == 0;
-                if (suitable){
-                    game.objects[rand] = new GameObject(ObjectType.Roots);
-                    game.objects[rand].init(game, rand);
+        var matrix = [[0,0,ObjectType.Compost],[1,0,ObjectType.Compost],[2,0,ObjectType.Compost]];
+        var changed = Utils.growIn(game, position, matrix);
+        if (!changed) {
+            var growth = Utils.growth(game, position, growthMax);
+            game.objects[position].values["growth"] = growth[1];
+            
+            if (growth[0]){
+                var left = Utils.left(position, game.width);
+                var right = Utils.right(position, game.width);
+                console.log(game.light_levels[position]);
+                if (game.objects[left].type["id"] == 11 || game.objects[right].type["id"] == 11){
+                    game.objects[position] = new GameObject(ObjectType.Jericho);
+                    game.objects[position].init(game, position);
+                } else {
+                    var rand = Math.floor(Math.random() * game.width);
+                    var suitable = Utils.suitable(game, rand, 1, 0);
+                    if (suitable){
+                        game.objects[rand] = new GameObject(ObjectType.Roots);
+                        game.objects[rand].init(game, rand);
+                    }
                 }
+
             }
+            
         }
     }
 

@@ -24,7 +24,7 @@ class Utils{
      */
     {
         for (var i=0; i < levelTuples.length; i++){
-            if (game.water_levels[position] == levelTuples[i][0] && game.water_levels[position] == levelTuples[i][1]){
+            if (game.water_levels[position] == levelTuples[i][0] && game.light_levels[position] == levelTuples[i][1]){
                 game.objects[position] = new GameObject(levelTuples[i][2]);
                 game.objects[position].init(game, i);
                 return true;
@@ -36,6 +36,45 @@ class Utils{
     static growth(game, position, growthMax){
         var new_growth = (game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength);
         return [new_growth >= growthMax, new_growth % growthMax];
+    }
+
+    static suitable(game, position, light_needed, water_needed){
+        var light = Utils.compute_level(game.light_levels[position]);
+        var water = Utils.compute_level(game.water_levels[position]);
+        console.log("Suitable", light, water);
+        var object = game.objects[position];
+        return light == light_needed && water == water_needed && object.type["id"] == 0;
+    }
+
+    static findIDExculsive(game, start, ID){
+        var positions = [];
+        for (var i=1; i < game.width; i++){
+            var index = Utils.right(start, game.width, i);
+            if (game.objects[index].type["id"] == ID){
+                positions.push(index);
+            }
+        }
+        return positions;
+    }
+
+    static GrowOnSuitable(suitable, left, right, type){
+        var choseLeft = false;
+        if (suitable[0] || suitable[1]){
+            if (suitable[0] && suitable[1]){
+                var rand = Math.floor(Math.random()*2);
+                choseLeft = rand == 0;
+            } else {
+                choseLeft = suitable[0] && !suitable[1];
+            } 
+            if (choseLeft){
+                game.objects[left] = new GameObject(type);
+                game.objects[left].init(game, left);
+            } else {
+                game.objects[right] = new GameObject(type);
+                game.objects[right].init(game, right);
+            }
+        }
+        
     }
 
 }

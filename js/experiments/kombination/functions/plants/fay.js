@@ -1,4 +1,4 @@
-function getWaterLilyDict(){
+function getFayLilyDict(){
     function action(game, position){
     }
 

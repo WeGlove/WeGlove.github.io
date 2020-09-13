@@ -11,7 +11,9 @@ const ObjectType = {
     Flower :    {"id":12, "passable": true, "water": false, "order":[], "optional_flags": {"flower":getFlowerDict(0,6)}},
     Bush :      {"id":13, "passable": true, "water": false, "order":[], "optional_flags": {"bush":getBushDict(0,6)}},
     Water :     {"id":14, "passable": true, "water": true, "optional_flags": {}},
-    WaterLily : {"id":15, "passable": true, "water": true, "optional_flags": {}}
+    WaterLily : {"id":15, "passable": true, "water": true, "optional_flags": {}},
+    Fay :       {"id":16, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}},
+    Jericho:    {"id":17, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}}
 } 
 
 class GameObject{
