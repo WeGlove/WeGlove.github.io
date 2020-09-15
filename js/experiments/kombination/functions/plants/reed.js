@@ -11,11 +11,11 @@ function getReedDict(growthInit, growthMax){
             if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var next_free = [];
                 var pond_right = Utils.find_pond(game, Utils.right(position, game.width));
-                console.log(pond_right);
                 if (pond_right.length > 0){
                     if (game.objects[Utils.right(pond_right[pond_right.length-1], game.width)].type["id"] == 10){
                         var rand = pond_right[Math.floor(Math.random()*pond_right.length)];
                         game.objects[rand] = new GameObject(ObjectType.WaterLily);
+                        game.objects[rand].init(game, rand);
                     }
                 } else {             
                     for (var i=1; i < game.width; i++){

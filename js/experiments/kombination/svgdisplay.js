@@ -201,6 +201,12 @@ class SVGDisplay{
             case ObjectType.WaterLily["id"]:
                 this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Lily", position);
                 break;
+            case ObjectType.Tree["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Tree", position);
+                break;
+            case ObjectType.Hive["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Hive", position);
+                break;
             default:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);
