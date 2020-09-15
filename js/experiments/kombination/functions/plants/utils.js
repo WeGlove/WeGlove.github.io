@@ -57,6 +57,18 @@ class Utils{
         return positions;
     }
 
+    static find_pond(game, index){
+        var water = [];
+        for (var i=0; i < game.width; i++){
+            if (game.objects[Utils.right(index, game.width, i)].type["water"]){
+                water.push(Utils.right(index, game.width, i));
+            } else {
+                return water;
+            }
+        }
+        
+    }
+
     static GrowOnSuitable(suitable, left, right, type){
         var choseLeft = false;
         if (suitable[0] || suitable[1]){

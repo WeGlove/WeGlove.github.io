@@ -98,19 +98,19 @@ class Game{
     update_water(index){
         this.water_levels[index] = 1;
         var res = 0;
-        var weight = 1;
+        var weight = 0;
         for (var i=1; i < this.width; i++){
             var height_diff = this.points[(index+i-1)%this.width] - this.points[(index+i)%this.width];
             if (height_diff < 0){
                 height_diff = 0;
             }
             weight += height_diff;
-            res = 1/weight;
+            res = Math.pow(2/3,weight);
             if (this.water_levels[(index+i)%this.width] < res){
                 this.water_levels[(index+i)%this.width] = res;
             }
         }
-        weight =1;
+        weight =0;
         for (var i=1; i< this.width; i++){
             var j = 0;
             if (index-i < 0){
@@ -123,7 +123,7 @@ class Game{
                 height_diff = 0;
             }
             weight += height_diff;
-            res = 1/weight;
+            res = Math.pow(2/3,weight);
             if (this.water_levels[j] < res){
                 this.water_levels[j] = res;
             }
