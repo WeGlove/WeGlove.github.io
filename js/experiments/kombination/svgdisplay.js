@@ -207,6 +207,9 @@ class SVGDisplay{
             case ObjectType.Hive["id"]:
                 this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Hive", position);
                 break;
+            case ObjectType.Ant["id"]:
+                this.setTextElement(this.bounding_box(position, points[position]-1, width, height),"Ant", position);
+                break;
             default:
                 if (this.objects[position] !== undefined){
                     this.svg.removeChild(this.objects[position]);

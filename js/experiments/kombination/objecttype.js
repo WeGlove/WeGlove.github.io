@@ -15,7 +15,8 @@ const ObjectType = {
     Fay :       {"id":16, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}},
     Jericho:    {"id":17, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}},
     Tree :      {"id":18, "passable": true, "water": false, "optional_flags": {"tree": getTreeDict(0,10)}},
-    Hive :      {"id":19, "passable": true, "water": false, "optional_flags": {}}
+    Hive :      {"id":19, "passable": true, "water": false, "optional_flags": {}},
+    Ant :       {"id":20, "passable": true, "water": false, "optional_flags": {}}
 } 
 
 class GameObject{
