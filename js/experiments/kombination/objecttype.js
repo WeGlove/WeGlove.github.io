@@ -12,11 +12,11 @@ const ObjectType = {
     Bush :      {"id":13, "passable": true, "water": false, "order":[], "optional_flags": {"bush":getBushDict(0,6)}},
     Water :     {"id":14, "passable": true, "water": true, "optional_flags": {}},
     WaterLily : {"id":15, "passable": true, "water": true, "optional_flags": {}},
-    Fay :       {"id":16, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}},
-    Jericho:    {"id":17, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1)}},
+    Fay :       {"id":16, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1, true, 2, 1000)}},
+    Jericho:    {"id":17, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1, false, 1, 5)}},
     Tree :      {"id":18, "passable": true, "water": false, "optional_flags": {"tree": getTreeDict(0,10)}},
     Hive :      {"id":19, "passable": true, "water": false, "optional_flags": {}},
-    Ant :       {"id":20, "passable": true, "water": false, "optional_flags": {}}
+    Ant :       {"id":20, "passable": true, "water": false, "optional_flags": {"walking":getWalkingDict(0,1, false, 2, 2)}}
 } 
 
 class GameObject{

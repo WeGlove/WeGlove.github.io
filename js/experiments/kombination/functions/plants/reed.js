@@ -11,13 +11,13 @@ function getReedDict(growthInit, growthMax){
             if ((game.objects[position].values["growth"] + (game.ticks % game.dayCycleLength) / game.dayCycleLength) > growthMax-1){
                 var next_free = [];
                 var pond_right = Utils.find_pond(game, Utils.right(position, game.width));
-                if (pond_right.length > 0){
+                if (pond_right.length > 0 && Math.floor(Math.random()*3)==0){
                     if (game.objects[Utils.right(pond_right[pond_right.length-1], game.width)].type["id"] == 10){
                         var rand = pond_right[Math.floor(Math.random()*pond_right.length)];
                         game.objects[rand] = new GameObject(ObjectType.WaterLily);
                         game.objects[rand].init(game, rand);
                     }
-                } else {             
+                } else {            
                     for (var i=1; i < game.width; i++){
                         if (!game.objects[(position+i)%game.width].type["water"]){
                             next_free.push((position+i)%game.width);
@@ -30,14 +30,13 @@ function getReedDict(growthInit, growthMax){
                             break;
                         }
                     }
-                    if (next_free.length > 0){
-                        
-                        var light_l = Math.floor(game.light_levels[next_free[0]]*2);
-                        var water_l = Math.floor(game.water_levels[next_free[0]]*2);
+                    if (next_free.length > 0){                        
+                        var light_l = Math.floor(Utils.compute_level(game.light_levels[next_free[0]]));
+                        var water_l = Math.floor(Utils.compute_level(game.water_levels[next_free[0]]));
                         var object_l = game.objects[next_free[0]];
                         if (next_free.length == 2){
-                            var light_r = Math.floor(game.light_levels[next_free[1]]*2);
-                            var water_r = Math.floor(game.water_levels[next_free[1]]*2);
+                            var light_r = Math.floor(Utils.compute_level(game.light_levels[next_free[1]]));
+                            var water_r = Math.floor(Utils.compute_level(game.water_levels[next_free[1]]));
                             var object_r = game.objects[next_free[1]];
                             var suitable_r = light_r == 1 && water_r == 2 && object_r.type["id"] == 0;
                         }else{

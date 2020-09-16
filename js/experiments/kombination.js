@@ -196,24 +196,15 @@ class Game{
     }
 
     setObject(gameObject){
-        var old_water = this.objects[this.position].type["water"];
-        var new_water = gameObject.type["water"];
-
         this.objects[this.position] = gameObject;
-        if (old_water ^ new_water){
-            this.update_all_water();
-        }
+        this.update_all_water();
         gameObject.init(this, this.position);
         this.tick();
     }
 
     unSetObject(){
-        var old_water = this.objects[this.position].type["water"];
-
         this.objects[this.position] = new GameObject(ObjectType.None);
-        if (old_water){
-            this.update_all_water();
-        }
+        this.update_all_water();
         this.tick();
     }
 }

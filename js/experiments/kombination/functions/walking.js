@@ -1,13 +1,31 @@
-function getWalkingDict(initPower, initReset){
+function getWalkingDict(initPower, initReset, over_water=true, direction=1, steepness=10000){
     function action(game, position){
-        var toMove = game.objects[position];
-        var toMoveTo = game.objects[Utils.right(position, game.width)];
+        var toMove = position;
+        var toMoveTo = null;
+        switch(direction){
+            case 0:
+                toMoveTo = Utils.left(position, game.width);
+                break;
+            case 1:
+                toMoveTo = Utils.right(position, game.width);
+                break;
+            case 2:
+                if (Math.floor(Math.random()*2) == 0){
+                    toMoveTo = Utils.left(position, game.width);
+                } else {
+                    toMoveTo = Utils.right(position, game.width);
+                }
+                break;
+        }
 
-        if (toMoveTo.type["passable"] && toMove.values["power"]>0){
-            toMove.values["power"]--;
-            game.objects[position] = toMove.values["on"];
-            game.objects[(position+1)%game.width] = toMove;
-            toMove.values["on"] = toMoveTo;
+        if (game.objects[toMoveTo].type["passable"] && (over_water || !game.objects[toMove].type["water"]) && game.objects[toMove].values["power"]>0 &&
+        game.points[toMove] - game.points[toMoveTo] < steepness){
+            game.objects[toMove].values["power"]--;
+            var temp = game.objects[toMove];
+            game.objects[toMove] = game.objects[toMove].values["on"];
+            temp.values["on"] = game.objects[toMoveTo];
+            game.objects[toMoveTo] = temp;
+            
         }
     }
 
