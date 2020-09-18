@@ -13,6 +13,7 @@ function set_message(){
 }
 
 function set_triangle(rotations, positions){
+	import Matrix from "js/matrix.js"
 	var svg_triangle_1 = document.getElementById('Triangle_1');
 	var svg_triangle_2 = document.getElementById('Triangle_2');
 	var svg_triangle_3 = document.getElementById('Triangle_3');
