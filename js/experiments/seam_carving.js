@@ -1,6 +1,4 @@
-
 function yee(){
-    import Matrix from "matrix.js"
     console.log("Yee");
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
@@ -31,17 +29,52 @@ function set_color(x,y,width,data,color){
 }
 
 function carve(data, width, height, horizontal=false){
-    var seam = get_seam(data, width, height, horizontal);
+    var seam = get_seams(data, width, height, horizontal);
 }
 
-function get_seam(data, width, height, horizontal=false){
-
+function get_seams(data, width, height, horizontal=false){
+    var energy_matrix = get_energy_matrix(data, width, height);
+    var seams = [];
+    for (var y = 0; y < height; y++){
+        for (var x = 0; x < width; x++){
+            for (var i = -1; i < 2; i++){
+                switch(i){
+                    case -1:
+                    case width:
+                        break;
+                    default:
+                        var energy = energy_matrix.values[x+i][y+1];
+                }
+            }
+        }
+    }
 }
 
-function get_energy_array(data, width, height){
-
+function get_energy_matrix(data, width, height){
+    matrix = [];
+    for (var x=0; x< width; x++){
+        matrix.push([]);
+        for (var y=0; y < height; y++){
+            matrix[y].push(get_energy(data, width, height, x, y));
+        }
+    }
+    return Matrix(matrix);
 }
 
-function get_energy(data, widthm, height, x, y){
-    var main_color = get_color(x,y, width, data);
+function get_energy(data, width, height, x, y){
+    var main_color = Matrix([get_color(x,y, width, data)]);
+    var acc = 0;
+    var diff = 0;
+    for (var x_i=-1; x < 2; x++){
+        for (var y_i=-1; x < 2; y++){
+            if (!((x_i+x==0 && y+y_i==0) || x_i+x<0 || y+y_i<0|| x_i+x>=width || y+y_i>=height)){
+                acc++;
+                var color = Matrix([get_color(x,y, width, data)]);
+                var diff = diff + main_color.element_sub(color).sum();
+            }
+            
+        }
+    }
+    return diff / acc;
+    
 }

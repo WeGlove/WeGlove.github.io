@@ -1,4 +1,4 @@
-export default class Matrix{
+class Matrix{
 	constructor(list){
 		this.values = list;
 		this.shape = [list.length, list[0].length]
