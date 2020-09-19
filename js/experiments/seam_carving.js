@@ -1,10 +1,18 @@
-function yee(){
-    console.log("Yee");
+function color(){
     var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
-    console.log(c.width, c.height);
-    var data = ctx.getImageData(0, 0, c.width, c.height);
-    var carved = carve(data,c.width, c.height,ctx);
+    var size = parseInt(document.getElementById("size").value);
+    for (var i=0; i<size; i++){
+        var carved = carve(c, mode="color");
+    }
+
+}
+
+function remove(){
+    var c = document.getElementById("canvas");
+    var size = parseInt(document.getElementById("size").value);
+    for (var i=0; i<size; i++){
+        var carved = carve(c, mode="remove");
+    }
 }
 
 function loadImage() {
@@ -72,14 +80,34 @@ function set_color(x,y,width,data,color){
     data.data[indices[3]] = color[3];;
 }
 
-function carve(data, width, height, ctx, horizontal=false){
+function carve(canvas, mode="color", horizontal=false){
+    var ctx = canvas.getContext("2d");
+    console.log(canvas.width, canvas.height);
+    var data = ctx.getImageData(0, 0, canvas.width, canvas.height);
     console.log("Carving", data);
-    var seam = get_seam(data, width, height, horizontal);
+    var seam = get_seam(data, canvas.width, canvas.height, horizontal);
     console.log("Seam", seam);
-    for(var y = 0; y <height; y++){
-        set_color(seam[height-1-y],y,width,data,[255,0,0,255]);
+    switch (mode){
+        case "color":
+            for(var y = 0; y <canvas.height; y++){
+                set_color(seam[canvas.height-1-y],y,canvas.width,data,[255,0,0,255]);
+            }
+            ctx.putImageData(data,0,0);
+            break;
+        case "remove":
+            for(var y = 0; y <canvas.height; y++){
+                for(var x = 0; x < canvas.width-1; x++){
+                    var color;
+                    if (x > seam[canvas.height-1-y]){
+                        set_color(x,y,canvas.width,data, get_color(x+1,y,canvas.width,data));
+                    }
+                }
+            }
+            canvas.width--;
+            ctx.putImageData(data,0,0);
+            break;
     }
-    ctx.putImageData(data,0,0);
+
     console.log("new data",data);
 }
 
