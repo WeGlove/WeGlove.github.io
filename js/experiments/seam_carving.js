@@ -1,3 +1,9 @@
+function save(){
+    var c = document.getElementById("canvas");
+    var img = canvas.toDataURL("image/png");
+    document.getElementById("download").href = img;
+}
+
 function color(){
     var c = document.getElementById("canvas");
     var size = parseInt(document.getElementById("size").value);

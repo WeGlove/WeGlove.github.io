@@ -5,17 +5,29 @@
 </head>
 <body>
     <a href="../experiments.html">Back!</a>
-    <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
-    </canvas>
+    <div>
+        <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
+        </canvas>
+    </div>
+    <div>
+        <p>Seam Carving:</p>
+        <button type="button" onclick="color()">Color</button>
+        <button type="button" onclick="remove()">Remove</button>
+    </div>
+    <div>
+        <button type="button" onclick="save()">Save</button>
+        <a id=download download="image.jpg">Download</a>
+        <form action='#' onsubmit="return false;">
+            <input type='file' id='imgfile' />
+            <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
+            <p>Number of seams:</p>
+            <input type="text" id="size" name="fname"><br><br>
+        </form>
+    </div>
+
     <script src="../../js/libs/matrix.js"></script>
     <script src="../../js/experiments/seam_carving.js"></script>
-    <button type="button" onclick="color()">Color</button>
-    <button type="button" onclick="remove()">Remove</button>
-    <form action='#' onsubmit="return false;">
-        <input type='file' id='imgfile' />
-        <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
-        <input type="text" id="size" name="fname"><br><br>
-    </form>
+
 </body>
 
 </html>
