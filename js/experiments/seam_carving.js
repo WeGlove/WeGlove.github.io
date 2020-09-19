@@ -2,13 +2,56 @@ function yee(){
     console.log("Yee");
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
+    console.log(c.width, c.height);
+    var data = ctx.getImageData(0, 0, c.width, c.height);
+    var carved = carve(data,c.width, c.height,ctx);
+}
 
-    ctx.fillRect(10, 10, 150, 80);
+function loadImage() {
+    var input, file, fr, img;
 
-    var data = ctx.getImageData(0, 0, 200, 100);
-    set_color(0,0,200,data,[100,100,100,255]);
-    var carved = carve(data, 200,100);
-    ctx.putImageData(0, 0, ctx);
+    if (typeof window.FileReader !== 'function') {
+        write("The file API isn't supported on this browser yet.");
+        return;
+    }
+
+    input = document.getElementById('imgfile');
+    if (!input) {
+        write("Um, couldn't find the imgfile element.");
+    }
+    else if (!input.files) {
+        write("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+        write("Please select a file before clicking 'Load'");
+    }
+    else {
+        file = input.files[0];
+        fr = new FileReader();
+        fr.onload = createImage;
+        fr.readAsDataURL(file);
+    }
+
+    function createImage() {
+        img = new Image();
+        img.onload = imageLoaded;
+        img.src = fr.result;
+    }
+
+    function imageLoaded() {
+        var canvas = document.getElementById("canvas")
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img,0,0);
+        console.log("Loaded Img");
+    }
+
+    function write(msg) {
+        var p = document.createElement('p');
+        p.innerHTML = msg;
+        document.body.appendChild(p);
+    }
 }
 
 function get_color_indices(x,y, width){
@@ -29,13 +72,14 @@ function set_color(x,y,width,data,color){
     data.data[indices[3]] = color[3];;
 }
 
-function carve(data, width, height, horizontal=false){
+function carve(data, width, height, ctx, horizontal=false){
     console.log("Carving", data);
     var seam = get_seam(data, width, height, horizontal);
     console.log("Seam", seam);
     for(var y = 0; y <height; y++){
-        set_color(seam[height-1-y],y,width, data, [255,0,0,255]);
+        set_color(seam[height-1-y],y,width,data,[255,0,0,255]);
     }
+    ctx.putImageData(data,0,0);
     console.log("new data",data);
 }
 
