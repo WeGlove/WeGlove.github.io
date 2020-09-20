@@ -64,4 +64,23 @@ class Triangle{
 		
 	}
 
+	subdivide(){
+		var center = this.get_center();
+		return [new Triangle(this.point_a, this.point_b, this.get_center()), 
+				new Triangle(this.point_a, this.get_center(), this.point_c), 
+				new Triangle(this.get_center(), this.point_b, this.point_c)];
+	}
+
+	subdivide_multiple(n){
+		var triangles = [this];
+		for (var i=0; i<n; i++){
+			var new_triangles = [];
+			for (var triangle of triangles){
+				new_triangles.push(...triangle.subdivide());
+			}
+			triangles = new_triangles;
+		}
+		return triangles;
+	}
+
 }
