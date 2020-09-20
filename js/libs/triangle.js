@@ -64,23 +64,46 @@ class Triangle{
 		
 	}
 
-	subdivide(){
+	subdivide_on_point(on_point){
 		var center = this.get_center();
-		return [new Triangle(this.point_a, this.point_b, this.get_center()), 
-				new Triangle(this.point_a, this.get_center(), this.point_c), 
-				new Triangle(this.get_center(), this.point_b, this.point_c)];
+		return [new Triangle(this.point_a, this.point_b, on_point), 
+				new Triangle(this.point_a, on_point, this.point_c), 
+				new Triangle(on_point, this.point_b, this.point_c)];
 	}
 
-	subdivide_multiple(n){
+	bary_to_point(bary){
+		return this.point_a.mul_scal(bary[0]).element_add(this.point_b.mul_scal(bary[1])).element_add(this.point_c.mul_scal(bary[2]));
+	}
+
+	subdivide_multiple_bary(n, bary=[1/3,1/3,1/3]){
 		var triangles = [this];
 		for (var i=0; i<n; i++){
 			var new_triangles = [];
 			for (var triangle of triangles){
-				new_triangles.push(...triangle.subdivide());
+				new_triangles.push(...triangle.subdivide_on_point(triangle.bary_to_point(bary)));
 			}
 			triangles = new_triangles;
 		}
 		return triangles;
+	}
+
+	subdivide_multiple_line(n, ratio=0.5){
+		var triangles = [this];
+		for (var i=0; i<n; i++){
+			var new_triangles = [];
+			for (var triangle of triangles){
+				new_triangles.push(...triangle.subdivide_on_line(ratio));
+			}
+			triangles = new_triangles;
+		}
+		return triangles;
+	}
+
+	subdivide_on_line(ratio){
+		var ab = this.point_a.mul_scal(ratio).element_add(this.point_b.mul_scal(1-ratio));
+		var bc = this.point_b.mul_scal(ratio).element_add(this.point_c.mul_scal(1-ratio));
+		var ca = this.point_c.mul_scal(ratio).element_add(this.point_a.mul_scal(1-ratio));
+		return [new Triangle(ca, this.point_a, ab),new Triangle(ab, this.point_b, bc),new Triangle(bc, this.point_c, ca),new Triangle(ab, bc, ca)];
 	}
 
 }

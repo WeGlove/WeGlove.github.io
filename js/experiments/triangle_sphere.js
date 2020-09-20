@@ -9,12 +9,12 @@ function myCallback() {
     var point_b = pointOnACircle(radius, radius);
     var point_c = pointOnACircle(radius, radius);
     var triangle = new Triangle(point_a, point_b, point_c);
-    var triangles = triangle.subdivide_multiple(subdivisions);
+    //var triangles = triangle.subdivide_multiple_bary(subdivisions, [2/3,1/6,1/6]);
+    var triangles = triangle.subdivide_multiple_line(subdivisions, 0.5);
     for (var svg of drawn_triangles){
         group.removeChild(svg);
     }
     drawn_triangles = [];
-    console.log(triangles);
     for (var triangle of triangles){
         var new_svg = document.createElementNS("http://www.w3.org/2000/svg", 'polygon');
         new_svg.setAttribute("points", triangle.point_a.values[0][0] + "," + (triangle.point_a.values[0][1]) + " " + 
@@ -22,7 +22,7 @@ function myCallback() {
                                        triangle.point_c.values[0][0] + "," + (triangle.point_c.values[0][1]));
         var interpol = triangle.point_a.values[0][2] + triangle.point_b.values[0][2]+ triangle.point_c.values[0][2];
         interpol = 255 - interpol / 3 / radius * 255;
-        new_svg.setAttribute("style", "fill:rgb("+interpol+","+interpol+","+interpol+"); stroke:rgb("+interpol+","+interpol+","+interpol+");stroke-width:1");
+        new_svg.setAttribute("style", "fill:rgb("+interpol+","+interpol+","+interpol+"); stroke:rgb("+interpol+","+interpol+","+interpol+")");
         group.appendChild(new_svg);
         drawn_triangles.push(new_svg);
     }
