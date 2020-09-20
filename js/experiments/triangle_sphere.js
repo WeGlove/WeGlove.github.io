@@ -1,5 +1,5 @@
 var subdivisions = 5;
-var intervalID = window.setInterval(myCallback, 500);
+var intervalID = window.setInterval(myCallback, 1000);
 var drawn_triangles =[];
 
 function myCallback() {
@@ -33,6 +33,6 @@ function pointOnACircle(radius, offset=0) {
     var phi = Math.random();
     var x_circle = Math.sin(delta * Math.PI * 2) * Math.cos(phi * Math.PI * 2) * radius + offset;
     var y_circle = Math.sin(delta * Math.PI * 2) * Math.sin(phi * Math.PI * 2) * radius + offset;
-    var z_circle = Math.cos(delta * Math.PI * 2) * radius;
+    var z_circle = Math.cos(delta * Math.PI * 2) * radius + offset;
     return new Matrix([[x_circle, y_circle, z_circle]]);
 }
