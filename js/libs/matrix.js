@@ -111,21 +111,6 @@ class Matrix{
 		return this.sum() / this.size();
 	}
 
-	mean(){
-		mean_list = [];
-		for(var i=0; i < this.shape[0]; i++){
-			for(var j=0; j < matrix.shape[1]; j++){
-				mean_list.push(this.values[i,j]);
-			}
-		}
-		mean_list = sort(mean_list);
-		if (mean_list.length % 2 == 1){
-			return mean_list[Math.ceil(mean_list.length/2)];
-		} else{
-			return (mean_list[mean_list.length/2] + mean_list[mean_list.length/2+1])/2;
-		}
-	}
-	
 	length(){
 		var acc = 0;
 		for(var i=0; i < this.shape[0]; i++){

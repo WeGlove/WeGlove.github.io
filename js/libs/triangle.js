@@ -106,4 +106,20 @@ class Triangle{
 		return [new Triangle(ca, this.point_a, ab),new Triangle(ab, this.point_b, bc),new Triangle(bc, this.point_c, ca),new Triangle(ab, bc, ca)];
 	}
 
+	static triangulate(phis, origin, n, angle=0.5){
+		var triangles = [new Triangle(phis[0].to_absolute(origin), phis[1].to_absolute(origin), phis[2].to_absolute(origin))];
+		var triangle_sides = [[phis[0], phis[1]],[phis[1], phis[2]],[phis[2], phis[0]]];
+		console.log("Sides",triangle_sides);
+		for (var i=0; i<n; i++){
+			var new_sides = [];
+			for (var triangle_side of triangle_sides){
+				var new_point = new Polar(triangle_side[0].radius, triangle_side[0].add(triangle_side[0].arc_length_clockwise(triangle_side[1]).mul(angle)).phi, []);
+				triangles.push(new Triangle(triangle_side[0].to_absolute(origin), new_point.to_absolute(origin), triangle_side[1].to_absolute(origin)));
+				new_sides.push([triangle_side[0], new_point]);
+				new_sides.push([new_point, triangle_side[1]]);
+			}
+			triangle_sides = new_sides;
+		}
+		return triangles;
+	}
 }
