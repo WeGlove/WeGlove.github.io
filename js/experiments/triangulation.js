@@ -4,8 +4,13 @@ var drawn_triangles =[];
 function myCallback() {
     var group = document.getElementById('Triangles');
     var radius = 250;
-    //var triangles = triangle.subdivide_multiple_bary(subdivisions, [2/3,1/6,1/6]);
-    var triangles = Triangle.triangulate([new Polar(250,0,[]), new Polar(250,Math.PI*2/3,[]), new Polar(250,2*Math.PI*2/3,[])], new Matrix([[250,250]]),10,0.5);
+    console.log(parseFloat(document.getElementById("phi1").value/360*Math.PI*2));
+    var triangles = Triangle.triangulate([new Polar(250,parseFloat(document.getElementById("phi1").value/360*Math.PI*2),[]), 
+                                          new Polar(250,parseFloat(document.getElementById("phi2").value/360*Math.PI*2),[]), 
+                                          new Polar(250,parseFloat(document.getElementById("phi3").value/360*Math.PI*2),[])], 
+                                          new Matrix([[250,250]]),
+                                          parseFloat(document.getElementById("iter").value),
+                                          parseFloat(document.getElementById("angle").value));
     for (var svg of drawn_triangles){
         group.removeChild(svg);
     }
