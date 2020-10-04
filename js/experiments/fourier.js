@@ -4,10 +4,18 @@ var input_points = document.getElementById("amount");
 var input_scale = document.getElementById("scale");
 var inputfreq = document.getElementById("freq");
 var children = [];
+var figure = new Figure(document.getElementById("figure"));
 var intervalID = window.setInterval(myCallback, 100);
 
 function myCallback() {
     let curve = sine(parseInt(input_points.value), parseFloat(input_scale.value), parseFloat(input_angle.value) / 360 * 2*Math.PI,0, inputfreq.value);
+    figure.clear();
+    figure.plot_axis(0.5,0.5);
+    let curve_plotting = [];
+    for (let i=0; i < curve.shape[1]; i++){
+        curve_plotting.push([i/curve.shape[1],curve.values[0][i]]);
+    }
+    figure.plot_line(new Matrix(curve_plotting));
     let transform = Fourier.discrete_fourier_transform(curve);
     for (var child of children){
         svg.removeChild(child);
@@ -18,7 +26,6 @@ function myCallback() {
         let child = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
         child.setAttribute("cx", transform[i].values[0][0]+250);
         child.setAttribute("cy", transform[i].values[0][1]+250);
-        console.log(transform[i].values[0][1]);
         child.setAttribute("r", 3);
         children.push(child);
         svg.appendChild(child);

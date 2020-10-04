@@ -12,4 +12,17 @@ class Fourier{
 		return results;
 	}
 
+	static inverse_discrete_fourier_transform(values){	
+	let results = [];		
+	for(let i=0; i < values.length; i++){
+		let acc = 0;
+		for(let j=0; j < values.length; j++){
+			let yee = new Matrix([[Math.cos(2*Math.PI/values.length*j*i),Math.sin(2*Math.PI/values.length*j*i)]]);
+			acc += yee.values[0][0] * values[j].values[0][0] - yee.values[0][1] * values[j].values[0][1];
+		}
+		results.push(acc/values.length);
+	}
+	return results;
+	}
+
 }
