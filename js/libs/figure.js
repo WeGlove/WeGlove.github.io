@@ -1,15 +1,14 @@
 class Figure{
 
-	constructor(svg){
+	constructor(svg, bbox){
 		this.svg = svg;
-		this.children = [];
-		this.values = [];
-		this.bbox = new Matrix([[0,-1],[1,1]]);
+		this.plots = [];
+		this.bbox = bbox;
+		this.axis = [];
 	}
 
 	plot_line(values){
-		this.values.push(values);
-		let bbox = this.svg.getBBox();
+		let bbox = this.svg.getBoundingClientRect();
 		let line = document.createElementNS("http://www.w3.org/2000/svg", 'polyline');
 		let points = "";
 		for (let row=0; row<values.shape[0]; row++){
@@ -18,9 +17,8 @@ class Figure{
 			y = bbox.height - y;
 			points += x + "," + y + " ";
 		}
-		console.log(values, points);
 		line.setAttribute("points", points);
-		this.children.push(line);
+		this.plots.push([values, line]);
 		this.svg.appendChild(line);
 	}
 	
@@ -29,11 +27,10 @@ class Figure{
 	}
 
 	clear(){
-		for (let child of this.children){
-			this.svg.removeChild(child);
+		for (let child of this.plots){
+			this.svg.removeChild(child[1]);
 		}
-		this.children = [];
-		this.values = [];
+		this.plots = [];
 	}
 
 	plot_axis(x_axis, y_axis){
@@ -55,14 +52,14 @@ class Figure{
 					   x_axis*500 +",500";
 		y_line.setAttribute("points", y_points);
 
-		this.children.push(x_line);
+		this.axis.push(x_line);
 		this.svg.appendChild(x_line);
-		this.children.push(x_text_left);
+		this.axis.push(x_text_left);
 		this.svg.appendChild(x_text_left);
-		this.children.push(x_text_right);
+		this.axis.push(x_text_right);
 		this.svg.appendChild(x_text_right);
 
-		this.children.push(y_line);
+		this.axis.push(y_line);
 		this.svg.appendChild(y_line);
 	}
 

@@ -4,7 +4,7 @@ var input_points = document.getElementById("amount");
 var input_scale = document.getElementById("scale");
 var inputfreq = document.getElementById("freq");
 var children = [];
-var figure = new Figure(document.getElementById("figure"));
+var figure = new Figure(document.getElementById("figure"), new Matrix([[0,-1],[1,1]]));
 var intervalID = window.setInterval(myCallback, 100);
 
 function myCallback() {
