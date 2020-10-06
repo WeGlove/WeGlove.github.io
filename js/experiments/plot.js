@@ -1,5 +1,5 @@
 var figure = new Figure(document.getElementById("figure"),  new Matrix([[0,0],[100,100]]));
-figure.plot_axis(0.5,0.5);
+figure.plot_axis(0.3,0.5);
 var inputfunction = document.getElementById("function");
 var amountfunction = document.getElementById("amount");
 var leftfunction = document.getElementById("left");
