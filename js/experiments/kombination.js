@@ -57,6 +57,11 @@ class Game{
         this.light_levels = [];
         this.water_levels = [];
         this.ticks = 0;
+        this.audio_clear = new Audio('../../Resources/experiments/kombination/Clear.mp3');
+        this.audio_down = new Audio('../../Resources/experiments/kombination/Down.mp3');
+        this.audio_seed = new Audio('../../Resources/experiments/kombination/Seed.mp3');
+        this.audio_up = new Audio('../../Resources/experiments/kombination/Up.mp3');
+        this.audio_water = new Audio('../../Resources/experiments/kombination/Wasser.mp3');
 		for (var i=0; i< this.width; i++){
             this.points.push(Math.floor(Math.random()*this.height));
             this.objects.push(new GameObject(ObjectType.None));
@@ -153,6 +158,7 @@ class Game{
         }
         this.update_all_water();
         this.tick();
+        this.audio_up.play();
     }
 
     dec(){
@@ -168,6 +174,7 @@ class Game{
             }
         this.update_all_water();
         this.tick();
+        this.audio_down.play();
     }
 
     tick(){
@@ -200,11 +207,18 @@ class Game{
         this.update_all_water();
         gameObject.init(this, this.position);
         this.tick();
+        if (gameObject.type["water"]){
+            this.audio_water.play();
+        } else {
+            this.audio_seed.play();
+        }
+
     }
 
     unSetObject(){
         this.objects[this.position] = new GameObject(ObjectType.None);
         this.update_all_water();
         this.tick();
+        this.audio_clear.play();
     }
 }
