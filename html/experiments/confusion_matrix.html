@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <a href="../experiments.html">Back!</a>
+    <button type="button" onclick="onPressed()">Recalculate</button>
+    <form action='#' onsubmit="return false;">
+        <table style="width:100%">
+            <tr>
+                <th>
+                    <p>P</p>
+                </th>
+                <th>
+                    <p>N</p>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <p>TP</p>
+                    <input type='text' id='TP' value="0"/>
+                </td>
+                <td>
+                    <p>FP</p>
+                    <input type='text' id='FP' value="0"/>
+                </td>
+                <td>     
+                    <p>PPV: <span id="PPV"></span> FDR: <span id="FDR"></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td>     
+                    <p>FN</p>
+                    <input type='text' id='FN' value="0"/>
+                </td>
+                <td>
+                    <p>TN</p>
+                    <input type='text' id='TN' value="0"/>    
+                </td>
+                <td>     
+                    <p>NPV: <span id="NPV"></span> FOR: <span id="FOR"></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td>     
+                    <p>P Condition: <span id="P"></span></p>
+                </td>
+                <td>
+                    <p>N Condition: <span id="N"></span></p>   
+                </td>
+            </tr>
+            <tr>
+                <td>     
+                    <p>TPR: <span id="TPR"></span> FNR: <span id="FNR"></span></p>
+                </td>
+                <td>
+                    <p>TNR: <span id="TNR"></span> FPR: <span id="FPR"></span></p>   
+                </td>
+            </tr>
+        </table>
+    </form>
+    <p>Prevalence: <span id="PVL"></span></p>
+    <p>Prevalence Threshold: <span id="PT"></span></p>
+
+    <br>
+
+    <p>Informedness: <span id="BM"></span></p>
+    <p>Markedness: <span id="MK"></span></p>
+
+    <br>
+
+    <p>Positive Likelihood Ratio: <span id="LRP"></span></p>
+    <p>Negative Likelihood Ratio: <span id="LRM"></span></p>
+    <p>Diagnostic Odds Ratio: <span id="DOR"></span></p>
+
+    <br>
+
+    <p>Accuracy: <span id="ACC"></span></p>
+    <p>Balanced Accuracy: <span id="BA"></span></p>
+    <p>F1 Score: <span id="F1"></span></p>
+    <p>Fowlkes-Mallows index: <span id="FM"></span></p>
+    <p>Threat Score: <span id="TS"></span></p>
+    <p>Matthews correlation coefficent: <span id="MCC"></span></p>
+
+    <script src="../../js/experiments/confusion_matrix.js"></script>
+</body>
+
+</html>

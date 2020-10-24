@@ -11,7 +11,7 @@ data = [{
 		"Dein Freund Tobi",
 		"Traubentobias",
 		"Bodenmensch",
-		"Tobi Tebi Taben Torben Torsten Hauptachsentransformation xXDoggolover96Xx Gram-Schmidt-Verfahren Penisdestroyer Singul�rwertzerlegung",
+		"Tobi Tebi Taben Torben Torsten Hauptachsentransformation xXDoggolover96Xx Gram-Schmidt-Verfahren Penisdestroyer Singulärwertzerlegung",
 		"Bia",
 		"WeGlove",
 		"WeGlöve",
@@ -22,7 +22,8 @@ data = [{
 		"die beste Soraka",
 		"der beste Jhin",
 		"not important",
-		"Doc"
+		"Doc",
+		"knecht"
 		],
 	"Doing_Msg": [
 		"slapping",
@@ -55,6 +56,7 @@ data = [{
 		"persuading people to participate in my ideas",
 		"in an erotic photoshoot",
 		"just happy to be here",
-		"starring in a music video"
+		"starring in a music video",
+		"producing an audiobook"
 		]
 }]
