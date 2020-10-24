@@ -33,11 +33,54 @@ var output_MCC = document.getElementById("MCC");
 var output_BM = document.getElementById("BM");
 var output_MK = document.getElementById("MK");
 
+var input_p_mul = document.getElementById("P_coeff");
+var input_n_mul = document.getElementById("N_coeff");
+
+function p_mul(){
+    let TP = parseFloat(input_TP.value);
+    let FN = parseFloat(input_FN.value);
+
+    let mul = parseFloat(input_p_mul.value);
+
+    input_TP.value = TP * mul;
+    input_FN.value = FN * mul;
+
+    onPressed();
+}
+
+function n_mul(){
+    let FP = parseFloat(input_FP.value);
+    let TN = parseFloat(input_TN.value);
+
+    let mul = parseFloat(input_n_mul.value);
+
+    input_FP.value = FP * mul;
+    input_TN.value = TN * mul;
+
+    onPressed();
+}
+
+function matrix_mul(){
+    let TP = parseFloat(input_TP.value);
+    let FP = parseFloat(input_FP.value);
+    let FN = parseFloat(input_FN.value);
+    let TN = parseFloat(input_TN.value);
+
+    let mul = parseFloat(input_matrix_mul.value);
+
+    input_TP.value = TP * mul;
+    input_FP.value = FP * mul;
+    input_FN.value = FN * mul;
+    input_TN.value = TN * mul;
+
+    onPressed();
+}
+
 function onPressed() {
-    let TP = parseInt(input_TP.value);
-    let FP = parseInt(input_FP.value);
-    let FN = parseInt(input_FN.value);
-    let TN = parseInt(input_TN.value);
+    let TP = parseFloat(input_TP.value);
+    let FP = parseFloat(input_FP.value);
+    let FN = parseFloat(input_FN.value);
+    let TN = parseFloat(input_TN.value);
 
     let P = TP + FN;
     let N = FP + TN;

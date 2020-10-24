@@ -5,7 +5,21 @@
 </head>
 <body>
     <a href="../experiments.html">Back!</a>
-    <button type="button" onclick="onPressed()">Recalculate</button>
+    <div>
+        <form action='#' onsubmit="return false;">
+            <button type="button" onclick="onPressed()">Recalculate</button>
+            <br>
+            <button type="button" onclick="matrix_mul()">Multiply Matrix</button>
+            <input type='text' id='mat_coeff' value="0"/>
+            <br>
+            <button type="button" onclick="p_mul()">Multiply P</button>
+            <input type='text' id='P_coeff' value="0"/>
+            <br>
+            <button type="button" onclick="n_mul()">Multiply N</button>
+            <input type='text' id='N_coeff' value="0"/>
+            <br>
+        </form>
+    </div>
     <form action='#' onsubmit="return false;">
         <table style="width:100%">
             <tr>
