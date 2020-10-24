@@ -3,7 +3,10 @@ class Polar{
 	constructor (radius, phi, thetas){
 		this.radius = radius;
 		this.phi = phi % (2*Math.PI);
-		this.thetas = thetas; //Additional angles used to describe polar coordinates in higher dimensions
+		if (thetas === undefined)
+			this.thetas = [];
+		else 
+			this.thetas = thetas; //Additional angles used to describe polar coordinates in higher dimensions
 	}
 
 	sub(point){
@@ -28,6 +31,10 @@ class Polar{
 
 
 	to_absolute(offset){
+		/**
+		 *  returns the absolute representation of the polar coordinate.
+		 *  offset is the origin of the coordinate
+		 */
 		var points = [];
 		var sines = this.__get_sines(this.thetas);
 		for (var i=this.thetas.length+1; i>=0; i--){

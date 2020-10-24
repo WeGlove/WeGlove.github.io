@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <div>
+        <a href="../experiments.html">Back!</a>
+        <button type="button" onclick="plot();">Plot</button>
+        <form action='#' onsubmit="return false;">
+                <p>power:</p>
+                <input type='text' id='power' value="2"/>
+                <p>Amount:</p>
+                <input type='text' id='amount' value="1000"/>
+            </form>
+    </div>
+    <canvas width=500 height=500 id="figure" style="fill:none;stroke:black;stroke-width:3;background-color:white">
+    </canvas>
+    <script src="../../js/libs/matrix.js"></script>
+    <script src="../../js/libs/figure.js"></script>
+    <script src="../../js/libs/polar.js"></script>
+    <script src="../../js/experiments/power_means.js"></script>
+</body>
+
+</html>
