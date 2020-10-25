@@ -36,6 +36,56 @@ var output_MK = document.getElementById("MK");
 var input_p_mul = document.getElementById("P_coeff");
 var input_n_mul = document.getElementById("N_coeff");
 
+function PVL_by_P(){
+    let TP = parseFloat(input_TP.value);
+    let FP = parseFloat(input_FP.value);
+    let FN = parseFloat(input_FN.value);
+    let TN = parseFloat(input_TN.value);
+
+    let P = TP + FN;
+    let N = FP + TN;
+
+    let TPR = TP / P;
+    let TNR = TN / N;
+    let FPR = 1 - TNR;
+    
+    let BM = TPR + TNR - 1;
+    
+    let PT = (Math.sqrt(TPR*FPR)-FPR) / BM;
+
+    let multiplier = (N*PT/(1-PT))/P;
+
+    input_TP.value= TP * multiplier;
+    input_FN.value= FN * multiplier;
+
+    onPressed();
+}
+
+function PVL_by_N(){
+    let TP = parseFloat(input_TP.value);
+    let FP = parseFloat(input_FP.value);
+    let FN = parseFloat(input_FN.value);
+    let TN = parseFloat(input_TN.value);
+
+    let P = TP + FN;
+    let N = FP + TN;
+
+    let TPR = TP / P;
+    let TNR = TN / N;
+    let FPR = 1 - TNR;
+    
+    let BM = TPR + TNR - 1;
+    
+    let PT = (Math.sqrt(TPR*FPR)-FPR) / BM;
+
+    let multiplier = (P*(1-PT)/PT)/N;
+
+    input_TN.value= TN * multiplier;
+    input_FP.value= FP * multiplier;
+
+    onPressed();
+}
+
 function p_mul(){
     let TP = parseFloat(input_TP.value);
     let FN = parseFloat(input_FN.value);
