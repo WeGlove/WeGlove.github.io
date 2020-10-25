@@ -17,7 +17,7 @@ function clear_plot(){
 function evaluate_points(amount, func, left, right){
     let results = [];
     for (let i=left; i <= right; i += ((right-left)/amount)){
-        results.push([i, func(i)]);
+        results.push(func(i));
     }
     return new Matrix(results);
 }
