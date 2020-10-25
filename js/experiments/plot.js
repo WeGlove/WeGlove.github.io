@@ -1,4 +1,4 @@
-var figure = new Figure(document.getElementById("figure"),  new Matrix([[-1,-1],[1,1]]));
+var figure = new Figure(document.getElementById("figure"),  new Matrix([[-1,-1],[1,1]]), true);
 var inputfunction = document.getElementById("function");
 var amountfunction = document.getElementById("amount");
 var leftfunction = document.getElementById("left");
