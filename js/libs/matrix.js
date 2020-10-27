@@ -24,6 +24,7 @@ class Matrix{
 		}
 		return mat;
 	}
+
 	div_scal(scalar){
 		var mat = Matrix.zeros(this.shape);
 		var i, j;
@@ -74,10 +75,10 @@ class Matrix{
 		return mat
 	}
 
+	/**
+	 * Returns the sum of all values in the matrix
+	 */
 	sum(){
-		/**
-		 * Returns the sum of all values in the matrix
-		 */
 		var acc = 0;
 		for(var i=0; i < this.shape[0]; i++){
 			for(var j=0; j < this.shape[1]; j++){
@@ -85,6 +86,30 @@ class Matrix{
 			}
 		}
 		return acc
+	}
+
+	column_sum(){
+		let row_sums = [];
+		for(let j=0; j < this.shape[1]; j++){
+			let row_sum = 0;
+			for(let i=0; i < this.shape[0]; i++){
+				row_sum += this.values[i][j];
+			}
+			row_sums.push(row_sum);
+		}
+		return new Matrix([row_sums]);
+	}
+
+	row_sum(){
+		let column_sums = [];
+		for(let i=0; i < this.shape[0]; i++){
+			let  column_sum = 0;
+			for(let j=0; j < this.shape[1]; j++){
+				column_sum += this.values[i][j];
+			}
+			column_sums.push(column_sum);
+		}
+		return new Matrix([column_sums]);
 	}
 
 	abs(){
@@ -97,17 +122,18 @@ class Matrix{
 		return mat
 	}
 
+	/**
+	 * Returns the toal number of values in the matrix
+	 */
 	size(){
-		/**
-		 * Returns the toal number of values in the matrix
-		 */
+
 		return this.shape[0] * this.shape[1];
 	}
 
+	/**
+	 * Copmutes the mean of all the values the Matrix
+	 */
 	mean(){
-		/**
-		 * Copmutes the mean of all the values the Matrix
-		 */
 		return this.sum() / this.size();
 	}
 

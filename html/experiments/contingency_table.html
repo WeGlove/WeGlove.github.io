@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <a href="../experiments.html">Back!</a>
+    <div>
+        <form action='#' onsubmit="return false;">
+            <button type="button" onclick="onPressed();">Reshape</button>
+            <button type="button" onclick="recalculate();">Recalculate</button>
+            <input type='text' id='shape_x' value="2"/>
+            <input type='text' id='shape_y' value="2"/>    
+        </form>
+    </div>
+    <form action='#' onsubmit="return false;">
+        <table style="width:100%" id="Matrix">
+        </table>
+    </form>
+    <div>
+        <p>Chi square:<span id=chi_sqr></span></p>
+        <p>Middle Chi square:<span id=mid_chi_sqr></span></p>
+        <p>Pearson Chi square:<span id=pearson_chi_sqr></span></p>
+        <p>Corrected Chi square:<span id=corrected_chi_sqr></span></p>
+    </div>
+    <script src="../../js/libs/matrix.js"></script>
+    <script src="../../js/experiments/contingency_table.js"></script>
+</body>
+
+</html>
