@@ -46,13 +46,13 @@ function recalculate(){
     for (let row=0; row < current_shape[0]; row++){
         for (let column=0; column < current_shape[1]; column++){
             let coeff = (column_sum.values[0][row] * row_sum.values[0][column]) / total;
-            chi_sqr += (matrix.values[row][column] - coeff) / coeff;
+            chi_sqr += (matrix.values[row][column] - coeff)**2 / coeff;
         }
     }
     let mid_chi_sqr = chi_sqr / total;
     let pearson_chi_sqr = Math.sqrt(chi_sqr / (chi_sqr + total));
     let corrected_chi_sqr = pearson_chi_sqr * Math.sqrt(k / (k-1));
-
+    let cramers_v = Math.sqrt(chi_sqr / (total*(k-1)));
 
     for (let row=0; row < current_shape[0]; row++){
         document.getElementById("column_" + row).innerHTML = row_sum.values[0][row];
@@ -69,4 +69,5 @@ function recalculate(){
     document.getElementById("mid_chi_sqr").innerHTML = "0 <= " + mid_chi_sqr + " <= " + (k-1);
     document.getElementById("pearson_chi_sqr").innerHTML = "0 <= " + pearson_chi_sqr + " <= " + Math.sqrt((k-1)/k) + " < 1";
     document.getElementById("corrected_chi_sqr").innerHTML = "0 <= " + corrected_chi_sqr + " < 1";
+    document.getElementById("cramers_v").innerHTML = "0 <= " + cramers_v + " <= 1";
 }
