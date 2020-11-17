@@ -91,14 +91,14 @@ class Triangle{
 	 * @param {*} point 
 	 */
 	baryccentric_2D(point){
-		let to_divide = (this.point_b.values[0][0] - this.point_a.values[0][0]) * (this.point_c.values[0][1] - this.point_b.values[0][1]) -
-						(this.point_b.values[0][1] - this.point_a.values[0][1]) * (this.point_c.values[0][0] - this.point_b.values[0][0]);
-		let m1 = (this.point_b.values[0][0] - point.values[0][0]) * (this.point_c.values[0][1] - point.values[0][1]) -
-				 (this.point_c.values[0][0] - point.values[0][0]) * (this.point_b.values[0][1] - point.values[0][1]);
+		let to_divide = (this.point_b.values[0][1] - this.point_c.values[0][1]) * (this.point_a.values[0][0] - this.point_c.values[0][0]) +
+						(this.point_c.values[0][0] - this.point_b.values[0][0]) * (this.point_a.values[0][1] - this.point_c.values[0][1]);
+		let m1 = (this.point_b.values[0][1] - this.point_c.values[0][1]) * (point.values[0][0] - this.point_c.values[0][0]) +
+				 (this.point_c.values[0][0] - this.point_b.values[0][0]) * (point.values[0][1] - this.point_c.values[0][1]);
 		m1 /= to_divide;
 			   
-		let m2 = (this.point_c.values[0][0] - point.values[0][0]) * (this.point_a.values[0][1] - point.values[0][1]) -
-				 (this.point_b.values[0][0] - point.values[0][0]) * (this.point_a.values[0][0] - point.values[0][1]);
+		let m2 = (this.point_c.values[0][1] - this.point_a.values[0][1]) * (point.values[0][0] - this.point_c.values[0][0]) +
+				 (this.point_a.values[0][0] - this.point_c.values[0][0]) * (point.values[0][1] - this.point_c.values[0][1]);
 		m2 /= to_divide;
 
 		let m3 = 1 - m1 - m2;
