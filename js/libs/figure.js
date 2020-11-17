@@ -31,6 +31,12 @@ class Figure{
 		y = this.canvas.height - y;
 		return new Matrix([[x, y]]);
 	}
+
+	canvas_to_window(point){
+		let x = point.values[0][0] / (this.canvas.width-1) * Math.abs(this.window.values[1][0]-this.window.values[0][0]) + this.window.values[0][0];
+		let y = point.values[0][1] / (this.canvas.height-1) * Math.abs(this.window.values[1][1]-this.window.values[0][1]) + this.window.values[0][1];
+		return new Matrix([[x, -y]]);
+	}
 	
 	set_bbox(bbox){
 		this.window = bbox;

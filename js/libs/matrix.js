@@ -1,9 +1,32 @@
 class Matrix{
 	constructor(list){
 		this.values = list;
-		this.shape = [list.length, list[0].length]
+		this.shape = [list.length, list[0].length] // rows x columns
 	}
 	
+	/**
+	 * Computes the cross product of a column vector in 3D
+	 * Resulting Vector is in a 90° angle to both, if vectors are linearly independent
+	 * TODO direction?
+	 * @param {*} cross 
+	 */
+	cross(cross){
+		let tensor = new Matrix ([[0, -this.values[0][2], this.values[0][1]], [this.values[0][2], 0, -this.values[0][0]],[-this.values[0][1], this.values[0][0],0]]);
+		return tensor.multiply(cross.transpose()).transpose();
+	}
+
+	/**
+	 * Computes the dot product. |a| * |b| * cos(a,b)
+	 * @param {*} dot 
+	 */
+	dot(dot){
+		let acc = 0;
+		for (let i=0; i < this.shape[1]; i++){
+			acc += this.values[0][i] * dot.values[0][i];
+		}
+		return acc;
+	}
+
 	element_add(matrix){
 		var mat = Matrix.zeros(this.shape);
 		for(var i=0; i < this.shape[0]; i++){
@@ -47,6 +70,10 @@ class Matrix{
 		return mat;
 	}
 	
+	/**
+	 * Matrix multiplication
+	 * @param {*} matrix 
+	 */
 	multiply(matrix){
 		var mat = Matrix.zeros([this.shape[0], matrix.shape[1]]);
 		for(var i=0; i < this.shape[0]; i++){
@@ -60,15 +87,19 @@ class Matrix{
 		}
 		return mat;
 	}
+
+	normalize(){
+		return this.mul_scal(1/this.length());
+	}
 	
 	get(row,column){
 		return this.values[row][column];
 	}
 	
 	transpose(){
-		var mat = Matrix.zeros([this.shape[1], this.shape[0]]);
-		for(var i=0; i < this.shape[0]; i++){
-			for(var j=0; j < this.shape[1]; j++){
+		let mat = Matrix.zeros([this.shape[1], this.shape[0]]);
+		for(let i=0; i < this.shape[0]; i++){
+			for(let j=0; j < this.shape[1]; j++){
 				 mat.values[j][i] = this.values[i][j];
 			}
 		} 
@@ -122,6 +153,16 @@ class Matrix{
 		return mat
 	}
 
+	copy(){
+		let mat = Matrix.zeros(this.shape);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = this.values[i][j];
+			}
+		} 
+		return mat;
+	}
+
 	/**
 	 * Returns the toal number of values in the matrix
 	 */
@@ -138,20 +179,55 @@ class Matrix{
 	}
 
 	length(){
-		var acc = 0;
+		let acc = 0;
 		for(var i=0; i < this.shape[0]; i++){
 			for(var j=0; j < this.shape[1]; j++){
-				acc += this.values[i,j] * this.values[i,j];
+				acc += this.values[i][j] * this.values[i][j];
 			}
 		}
 		acc = Math.sqrt(acc);
 		return acc;
 	}
-	
-	static get_2D_Rotation_Matrix(angle){
-		return new Matrix([[Math.cos(angle/360* Math.PI * 2),-Math.sin(angle/360* Math.PI * 2)],[Math.sin(angle/360* Math.PI * 2),Math.cos(angle/360* Math.PI * 2)]])
+
+	/**
+	 * Appends a matrix to the bottom
+	 */
+	append_bottom(matrix){
+		let new_shape = [this.shape[0] + matrix.shape[0], this.shape[1]]; 
+		let new_mat = Matrix.zeros(new_shape);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				new_mat.values[i][j] = this.values[i][j];
+			}
+		}
+		for(var i=0; i < matrix.shape[0]; i++){
+			for(var j=0; j < matrix.shape[1]; j++){
+				new_mat.values[i+ this.shape[0]][j] = matrix.values[i][j];
+			}
+		}
+		return new_mat;
 	}
 	
+	/**
+	 * Returns a 2D rotation matrix
+	 * @param {*} angle 
+	 */
+	static get_2D_Rotation_Matrix(angle){
+		return new Matrix([[Math.cos(angle/360* Math.PI * 2),-Math.sin(angle/360* Math.PI * 2)],[Math.sin(angle/360* Math.PI * 2),Math.cos(angle/360* Math.PI * 2)]]);
+	}
+	
+	static get_3D_x_Rotation_Matrix(angle){
+		return new Matrix([[1,0,0],
+						   [0,Math.cos(angle/360* Math.PI * 2),-Math.sin(angle/360* Math.PI * 2)],
+						   [0,Math.sin(angle/360* Math.PI * 2),Math.cos(angle/360* Math.PI * 2)]]);
+	}
+
+	static get_3D_z_Rotation_Matrix(angle){
+		return new Matrix([[Math.cos(angle/360* Math.PI * 2),-Math.sin(angle/360* Math.PI * 2),0],
+						   [Math.sin(angle/360* Math.PI * 2),Math.cos(angle/360* Math.PI * 2),0],
+						   [0,0,1]]);
+	}
+
 	static from_list(list){
 		return new Matrix([list]);
 	}
@@ -180,5 +256,17 @@ class Matrix{
 			}
 		}
 		return new Matrix(values);
+	}
+
+	/**
+	 * Creates an identity matrix of shape
+	 * @param {*} shape 
+	 */
+	static identity(shape){
+		let mat = Matrix.zeros(shape);
+		for (i=0; i< Math.min(shape[0],shape[1]); i++){
+			mat.values[i][i] = 1;
+		}
+		return mat;
 	}
 }

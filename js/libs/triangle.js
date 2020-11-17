@@ -9,6 +9,16 @@ class Triangle{
 	get_center(){
 		return this.point_a.element_add(this.point_b.element_add(this.point_c)).mul_scal(1/3);
 	}
+
+	/**
+	 * Get the normal of the triangle
+	 */
+	normal(){
+		// Get the orthogonal vector. (ab x ac)
+		let direction = this.point_b.element_sub(this.point_a).cross(this.point_c.element_sub(this.point_a));
+		// Normalize the vector 
+		return direction.div_scal(direction.length());
+	}
 	
 	center(){
 		var center = this.get_center();
@@ -31,6 +41,69 @@ class Triangle{
 		var orig_triangle = this.offset(center);
 		var rot_orig_triangle = new Triangle(rot_matrix.multiply(orig_triangle.point_a),rot_matrix.multiply(orig_triangle.point_b),rot_matrix.multiply(orig_triangle.point_c));
 		return rot_orig_triangle.offset(center.mul_scal(-1));
+	}
+
+	/**
+	 * Returns the t in origin + direction * t s.t origin + direction * t intersects the triangle
+	 * @param {*} origin 
+	 * @param {*} direction 
+	 */
+	intersect(origin, direction){
+		let norm = this.normal();
+		let norm_dir = direction.normalize();
+		if (norm.dot(norm_dir) == 0){
+			return []; // direction is parallel
+		} else {
+			// Make a plane out of the triangle with the formula => a*x + b*y + c*z + d = 0
+			// Where a,b,c are the components of the triangle normal and d is the length from origin to the plane.
+			// Subsitute x,y,z with o+r*t and solve for t
+			// Results in the formula t = - ((a,b,c)*o+d) / ((a,b,c)*r)
+			let t = (origin.dot(norm_dir) + this.point_a.length()) / direction.dot(norm_dir);
+
+			let intersection = origin.element_add(direction.mul_scal(t));
+			let bary = this.baryccentric_3D(intersection);
+			if (bary.values[0][0] < 0 || bary.values[0][1] < 0 || bary.values[0][2] < 0){
+				return [];
+			} else {
+				return [t];
+			}
+		}
+	}
+
+	baryccentric_3D(point){
+		let normal = this.normal();
+		let x = this.point_b.element_sub(this.point_a).normalize();
+		let y = this.point_c.element_sub(this.point_a).normalize();
+		let z = normal;
+		//point = point.element_sub(this.point_a);
+
+		let point_in_2D = x.mul_scal(point.values[0][0]).element_add(y.mul_scal(point.values[0][1])).element_add(z.mul_scal(point.values[0][2]));
+		point_in_2D = new Matrix([[point_in_2D.values[0][0],point_in_2D.values[0][1]]]);
+		let a = x.mul_scal(this.point_a.values[0][0]).element_add(y.mul_scal(this.point_a.values[0][1])).element_add(z.mul_scal(this.point_a.values[0][2]));
+		let b = x.mul_scal(this.point_b.values[0][0]).element_add(y.mul_scal(this.point_b.values[0][1])).element_add(z.mul_scal(this.point_b.values[0][2]));
+		let c = x.mul_scal(this.point_c.values[0][0]).element_add(y.mul_scal(this.point_c.values[0][1])).element_add(z.mul_scal(this.point_c.values[0][2]));
+		let base_tri = new Triangle(a, b, c);
+		return base_tri.baryccentric_2D(point_in_2D);
+	}
+
+	/**
+	 * Only works for a 2D Point and triangle
+	 * @param {*} point 
+	 */
+	baryccentric_2D(point){
+		let to_divide = (this.point_b.values[0][0] - this.point_a.values[0][0]) * (this.point_c.values[0][1] - this.point_b.values[0][1]) -
+						(this.point_b.values[0][1] - this.point_a.values[0][1]) * (this.point_c.values[0][0] - this.point_b.values[0][0]);
+		let m1 = (this.point_b.values[0][0] - point.values[0][0]) * (this.point_c.values[0][1] - point.values[0][1]) -
+				 (this.point_c.values[0][0] - point.values[0][0]) * (this.point_b.values[0][1] - point.values[0][1]);
+		m1 /= to_divide;
+			   
+		let m2 = (this.point_c.values[0][0] - point.values[0][0]) * (this.point_a.values[0][1] - point.values[0][1]) -
+				 (this.point_b.values[0][0] - point.values[0][0]) * (this.point_a.values[0][0] - point.values[0][1]);
+		m2 /= to_divide;
+
+		let m3 = 1 - m1 - m2;
+
+		return new Matrix([[m1,m2,m3]]);
 	}
 	
 	to_svg(){
@@ -109,7 +182,6 @@ class Triangle{
 	static triangulate(phis, origin, n, angle=0.5){
 		var triangles = [new Triangle(phis[0].to_absolute(origin), phis[1].to_absolute(origin), phis[2].to_absolute(origin))];
 		var triangle_sides = [[phis[0], phis[1]],[phis[1], phis[2]],[phis[2], phis[0]]];
-		console.log("Sides",triangle_sides);
 		for (var i=0; i<n; i++){
 			var new_sides = [];
 			for (var triangle_side of triangle_sides){
