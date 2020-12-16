@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <a href="../experiments.html">Back!</a>
+    <div>
+        <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
+        </canvas>
+    </div>
+    <div>
+        <p>Swap Lines:</p>
+        <button type="button" onclick="swapLines()">SwapLines</button>
+    </div>
+    <div>
+        <button type="button" onclick="save()">Save</button>
+        <a id=download download="image.jpg">Download</a>
+        <form action='#' onsubmit="return false;">
+            <input type='file' id='imgfile' />
+            <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
+            <p>Number of seams:</p>
+            <input type="text" id="size" name="lines" value='1'><br><br>
+        </form>
+    </div>
+
+    <script src="../../js/libs/matrix.js"></script>
+    <script src="../../js/experiments/line_swapper.js"></script>
+
+</body>
+
+</html>
