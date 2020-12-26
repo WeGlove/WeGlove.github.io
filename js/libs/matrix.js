@@ -105,6 +105,22 @@ class Matrix{
 		}
 		return true;
 	}
+
+	/**
+	 * Checks wether this matrix is equal to another matrix
+	 * @param {} scalar 
+	 */
+	equals(matrix){
+		var i, j;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 if (this.values[i][j] != matrix.values[i][j]){
+					return false;
+				 }
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * Matrix multiplication

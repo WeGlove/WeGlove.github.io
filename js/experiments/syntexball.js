@@ -1,9 +1,11 @@
 var canvas;
 var game;
+
 window.onload = function(){
     canvas = document.getElementById("Canvas");
     game = new Game(canvas);
-    game.init();
+    this.levels = [{}]
+    game.init(levels);
 }
 
 var tick_time = 100;
@@ -17,33 +19,45 @@ function gameloop(){
 class Game{
 
     constructor(canvas){
+        this.level = 0;
+        this.levels = [];
+
+        //Constants
+        this.step_size = 0.1;
+        this.resitance = new Matrix([[0.99,0.99]]);
+        this.scale_const = 1;
+
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
+
         this.ball = new Matrix([[20,20]]);
+        this.goals = [new Matrix([[100,20]])];
         this.velocity = new Matrix([[10,0]]);
         this.shape = [canvas.width, canvas.height];
         this.texture = new RGBImage(this.shape);
-        this.step_size = 0.1;
-        this.resitance = new Matrix([[0.99,0.99]]);
-        this.scale = new Matrix([[0,0]]);
-        this.to_scale = new Matrix([[0,0]]);;
-        this.pos;
+        this.scale = 0;
+        this.to_scale = 0;
         let that = this;
-        function mousedown(event){
-			that.pos = new Matrix([[event.clientX-that.canvas.width/2, event.clientY-that.canvas.height/2]]);
-		}
+        
+        function keydown(e) {
+            switch(e.keyCode){
+                case 37:
+                    that.to_scale = -that.scale_const;
+                    break;
+                case 39:
+                    that.to_scale = that.scale_const;
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		function mouseup(event){
-			let new_pos = new Matrix([[event.clientX-that.canvas.width/2, event.clientY - that.canvas.height/2]]);
-			that.to_scale = new_pos.element_sub(that.pos).mul_scal(1/500);
-		}
-
-		this.canvas.addEventListener("mousedown", mousedown);
-		this.canvas.addEventListener("mouseup", mouseup);
+        window.addEventListener("keydown", keydown);
     }
 
-    init(){
-        this.texture = SyntheticTexture.vertical_lines(this.shape,20,0);
+    init(levels){
+        this.levels = levels;
+        this.load_level();
     }
 
     tick(){
@@ -52,17 +66,27 @@ class Game{
         let slope_vector = this.get_slope_vector(this.ball.values[0][0],this.ball.values[0][1]);
         this.velocity = this.velocity.element_mul(this.resitance);
         this.velocity = this.velocity.element_add(slope_vector);
-        if (!this.to_scale.all(0)){
-            this.scale = this.scale.element_add(this.to_scale);
-            this.to_scale = new Matrix([[0,0]]);
-            console.log("New Scale", this.scale)
-            this.texture = SyntheticTexture.vertical_lines(this.shape,20,this.scale.sum());
+        if (this.to_scale != 0){
+            this.scale += this.to_scale;
+            this.to_scale = 0;
+            this.texture = this.levels[this.level]["texture"](this.shape, this.scale);
         }
+        for (let i=0; i<this.goals.length; i++){
+            if (this.ball.round().equals(this.goals[i].round())){
+                this.level = (this.level+1) % this.levels.length;
+                this.load_level();
+            }
+        }
+
     }
 
     draw(){
         let to_draw = this.texture.copy(); 
         to_draw.set_color_rgba(Math.round(this.ball.values[0][0]), Math.round(this.ball.values[0][1]), [1,0,0,1]);
+        for (let i=0; i<this.goals.length; i++){
+            to_draw.set_color_rgba(Math.round(this.goals[i].values[0][0]), Math.round(this.goals[i].values[0][1]), [0,1,0,1]);
+        }
+        
         to_draw.img_to_canvas(this.canvas);
     }
 
@@ -89,5 +113,16 @@ class Game{
             return down_left.element_sub(Interpolation.bi_lin_interpolation(up_left, up_right, down_left, down_right, this.ball.element_sub(this.ball.floor())));
         }
     }
+
+    load_level(){
+        let level = this.levels[this.level];
+        this.ball = level["ball"];
+        this.resitance = level["resistance"];
+        this.velocity = level["velocity"];
+        this.goals = level["goals"];
+        this.texture = level["texture"](this.shape, this.scale);
+        this.scale = 0;
+        this.to_scale = 0;
+     }
 
 }
