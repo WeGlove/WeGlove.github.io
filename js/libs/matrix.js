@@ -48,6 +48,26 @@ class Matrix{
 		return mat;
 	}
 
+	element_mul(matrix){
+		var mat = Matrix.zeros(this.shape);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = this.values[i][j] * matrix.values[i][j];
+			}
+		}
+		return mat;
+	}
+
+	element_div(matrix){
+		var mat = Matrix.zeros(this.shape);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = this.values[i][j] / matrix.values[i][j];
+			}
+		}
+		return mat;
+	}
+
 	div_scal(scalar){
 		var mat = Matrix.zeros(this.shape);
 		var i, j;
@@ -68,6 +88,22 @@ class Matrix{
 			}
 		}
 		return mat;
+	}
+
+	/**
+	 * Checks wether all values in the matrix are scalar
+	 * @param {} scalar 
+	 */
+	all(scalar){
+		var i, j;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 if (this.values[i][j] != scalar){
+					return false;
+				 }
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -206,6 +242,36 @@ class Matrix{
 			}
 		}
 		return new_mat;
+	}
+
+	floor(){
+		var mat = Matrix.zeros([this.shape[0], this.shape[1]]);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = Math.floor(this.values[i][j]);
+			}
+		} 
+		return mat
+	}
+
+	ceil(){
+		var mat = Matrix.zeros([this.shape[0], this.shape[1]]);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = Math.ceil(this.values[i][j]);
+			}
+		} 
+		return mat
+	}
+
+	round(){
+		var mat = Matrix.zeros([this.shape[0], this.shape[1]]);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				 mat.values[i][j] = Math.round(this.values[i][j]);
+			}
+		} 
+		return mat
 	}
 	
 	/**
