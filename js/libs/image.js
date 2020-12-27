@@ -77,6 +77,10 @@ class RGBImage{
 	}
 
 	draw_rect(pos, dimensions, color){
+		pos.values[0][0] = (pos.values[0][0] < 0) ? 0 : pos.values[0][0];
+		pos.values[0][1] = (pos.values[0][1] < 0) ? 0 : pos.values[0][1];
+		pos.values[0][0] = (pos.values[0][0] > this.shape[0]-1) ? this.shape[0]-1 : pos.values[0][0];
+		pos.values[0][1] = (pos.values[0][1] > this.shape[1]-1) ? this.shape[1]-1 : pos.values[0][1]; 
 		for (let x=pos.values[0][0]; x<pos.values[0][0]+dimensions.values[0][0]; x++){
 			for (let y=pos.values[0][1]; y<pos.values[0][1]+dimensions.values[0][1]; y++){
 				this.red_matrix.values[x][y] = color[0];

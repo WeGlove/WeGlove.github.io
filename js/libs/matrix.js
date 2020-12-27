@@ -36,6 +36,18 @@ class Matrix{
 		}
 		return mat;
 	}
+
+	clamp(bottom,top){
+		var mat = Matrix.zeros(this.shape);
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				let val = (this.values[i][j] < bottom) ? bottom : this.values[i][j];
+				val = (this.values[i][j] > top) ? top : this.values[i][j]; 
+				mat.values[i][j] = val;
+			}
+		}
+		return mat;
+	}
 	
 	element_sub(matrix){
 		var mat = Matrix.zeros(this.shape);

@@ -63,6 +63,18 @@ class Game{
     tick(){
         let move_vector = this.velocity.mul_scal(this.step_size);
         this.ball = this.ball.element_add(move_vector);
+        if (this.ball.values[0][0] < 1){
+            this.ball.values[0][0] = 1;
+        }
+        if (this.ball.values[0][1] < 1){
+            this.ball.values[0][1] = 1;
+        }
+        if (this.ball.values[0][0] > this.shape[0]-2){
+            this.ball.values[0][0] = this.shape[0]-2;
+        }
+        if (this.ball.values[0][1] > this.shape[1]-2){
+            this.ball.values[0][1] = this.shape[1]-2;
+        }
         let slope_vector = this.get_slope_vector(this.ball.values[0][0],this.ball.values[0][1]);
         this.velocity = this.velocity.element_mul(this.resitance);
         this.velocity = this.velocity.element_add(slope_vector);
@@ -77,7 +89,6 @@ class Game{
                 this.load_level();
             }
         }
-        console.log("Velocity", this.velocity.values[0]);
 
     }
 
@@ -111,11 +122,19 @@ class Game{
             let val = left-right;
             return new Matrix([[val,0]]);
         } else {
-            let up_left = new Matrix([[Math.ceil(x)-Math.floor(x), 0]]);
-            let up_right = new Matrix([[Math.ceil(x)-Math.floor(x), Math.ceil(y)-Math.floor(y)]]);
-            let down_left = new Matrix([[0, 0]]);
-            let down_right = new Matrix([[0, Math.ceil(y)-Math.floor(y)]]); 
-            return down_left.element_sub(Interpolation.bi_lin_interpolation(up_left, up_right, down_left, down_right, this.ball.element_sub(this.ball.floor())));
+            let up_left = this.texture.red_matrix.values[Math.floor(x)][Math.ceil(y)];
+            let up_right = this.texture.red_matrix.values[Math.ceil(x)][Math.ceil(y)];
+            let down_left = this.texture.red_matrix.values[Math.floor(x)][Math.floor(y)];
+            let down_right = this.texture.red_matrix.values[Math.ceil(x)][Math.floor(y)];
+            
+            let val_x_up = up_left - up_right;
+            let val_x_down = down_left - down_right;
+            let val_y_right = down_right - up_right;
+            let val_y_left = down_left - up_left;
+            
+            let val_x = Interpolation.lin_num_interpolation(val_x_up, val_x_down, x-Math.floor(x));
+            let val_y = Interpolation.lin_num_interpolation(val_y_right, val_y_left, y-Math.floor(y));
+            return new Matrix([[val_x, val_y]]);
         }
     }
 
