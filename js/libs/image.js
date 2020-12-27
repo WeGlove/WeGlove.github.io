@@ -31,6 +31,62 @@ class RGBImage{
 		this.alpha_matrix.values[x][y] = color[3];
 	}
 
+	scale(shape, interpolation){
+		let img = new RGBImage(shape);
+		for (let x_b=0; x_b<shape[0]; x_b++){
+			for (let y_b=0; y_b<shape[1]; y_b++){
+				let x_a = x_b/(shape[0]-1)*(this.shape[0]-1);
+				let y_a = y_b/(shape[1]-1)*(this.shape[1]-1);  
+				let point = new Matrix([[x_a-Math.floor(x_a), x_b-Math.floor(x_b)]]);
+
+				let up_left = new Matrix([[Math.floor(x_a), Math.ceil(y_a)]]);
+				let up_right = new Matrix([[Math.ceil(x_a), Math.ceil(y_a)]]); 
+				let down_left = new Matrix([[Math.floor(x_a), Math.floor(y_a)]]);
+				let down_right = new Matrix([[Math.ceil(x_a), Math.floor(y_a)]]);
+				let color = interpolation(
+					this.red_matrix.values[up_left.values[0][0]][up_left.values[0][1]], 
+					this.red_matrix.values[up_right.values[0][0]][up_right.values[0][1]], 
+					this.red_matrix.values[down_left.values[0][0]][down_left.values[0][1]], 
+					this.red_matrix.values[down_right.values[0][0]][down_right.values[0][1]], 
+					point);
+				img.red_matrix.values[x_b][y_b] = color;
+				color = interpolation(
+					this.green_matrix.values[up_left.values[0][0]][up_left.values[0][1]], 
+					this.green_matrix.values[up_right.values[0][0]][up_right.values[0][1]], 
+					this.green_matrix.values[down_left.values[0][0]][down_left.values[0][1]], 
+					this.green_matrix.values[down_right.values[0][0]][down_right.values[0][1]], 
+					point);
+				img.green_matrix.values[x_b][y_b] = color;
+				color = interpolation(
+					this.blue_matrix.values[up_left.values[0][0]][up_left.values[0][1]], 
+					this.blue_matrix.values[up_right.values[0][0]][up_right.values[0][1]], 
+					this.blue_matrix.values[down_left.values[0][0]][down_left.values[0][1]], 
+					this.blue_matrix.values[down_right.values[0][0]][down_right.values[0][1]], 
+					point);
+				img.blue_matrix.values[x_b][y_b] = color;
+				color = interpolation(
+					this.alpha_matrix.values[up_left.values[0][0]][up_left.values[0][1]], 
+					this.alpha_matrix.values[up_right.values[0][0]][up_right.values[0][1]], 
+					this.alpha_matrix.values[down_left.values[0][0]][down_left.values[0][1]], 
+					this.alpha_matrix.values[down_right.values[0][0]][down_right.values[0][1]], 
+					point);
+				img.alpha_matrix.values[x_b][y_b] = color;
+			}	
+		}
+		return img;
+	}
+
+	draw_rect(pos, dimensions, color){
+		for (let x=pos.values[0][0]; x<pos.values[0][0]+dimensions.values[0][0]; x++){
+			for (let y=pos.values[0][1]; y<pos.values[0][1]+dimensions.values[0][1]; y++){
+				this.red_matrix.values[x][y] = color[0];
+				this.green_matrix.values[x][y] = color[1];
+				this.blue_matrix.values[x][y] = color[2];
+				this.alpha_matrix.values[x][y] = color[3];
+			}
+		}
+	}
+
 	pixel_greyvalue(x,y){
 		return (this.red_matrix.values[x][y] + this.green_matrix.values[x][y] + this.blue_matrix.values[x][y])/3
 	}

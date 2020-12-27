@@ -11,4 +11,16 @@ class SyntheticTexture{
 		return img;
 	}
 
+	static rings(shape, slope, phase){
+		let img = new RGBImage(shape);
+		for(let x=0; x<shape[0]; x++){
+			for(let y=0; y<shape[1]; y++){
+				let val = Polar.to_polar(new Matrix([[x,y]]), new Matrix([[(shape[0]-1)/2,(shape[1]-1)/2]]));
+				val = ((val.radius/slope+phase) % 10) / 10
+				img.set_color_rgba(x, y, [val,val,val,1]);
+			}
+		}
+		return img;
+	}
+
 }

@@ -82,7 +82,7 @@ class Polar{
 	 * @param {*} origin 
 	 */
 	static to_polar(point, origin){
-		var origin_point = point.element_sun(origin);
+		var origin_point = point.element_sub(origin);
 		var radius = origin_point.length();
 		var phi = Math.atan2(origin_point.values[0][1], origin_point.values[0][0]); 
 		//TODO: Create Thetas. theta can be computed with arctan(x-1,x)

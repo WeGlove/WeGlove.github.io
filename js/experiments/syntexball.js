@@ -33,7 +33,7 @@ class Game{
         this.ball = new Matrix([[20,20]]);
         this.goals = [new Matrix([[100,20]])];
         this.velocity = new Matrix([[10,0]]);
-        this.shape = [canvas.width, canvas.height];
+        this.shape = [200, 150];
         this.texture = new RGBImage(this.shape);
         this.scale = 0;
         this.to_scale = 0;
@@ -77,17 +77,22 @@ class Game{
                 this.load_level();
             }
         }
+        console.log("Velocity", this.velocity.values[0]);
 
     }
 
     draw(){
-        let to_draw = this.texture.copy(); 
-        to_draw.set_color_rgba(Math.round(this.ball.values[0][0]), Math.round(this.ball.values[0][1]), [1,0,0,1]);
+        let resolution = [800,600];
+        let img = this.texture.scale(resolution, Interpolation.bi_lin_num_interpolation);
+        let scale_factor = resolution[0]/this.shape[0];
+        let size = 4;
         for (let i=0; i<this.goals.length; i++){
-            to_draw.set_color_rgba(Math.round(this.goals[i].values[0][0]), Math.round(this.goals[i].values[0][1]), [0,1,0,1]);
+            img.draw_rect((new Matrix([[this.goals[i].values[0][0]*scale_factor-size*scale_factor/2, this.goals[i].values[0][1]*scale_factor-size*scale_factor/2]])).round(), 
+                                  new Matrix([[scale_factor*size, scale_factor*size]]), [0,1,0,1]);
         }
-        
-        to_draw.img_to_canvas(this.canvas);
+        img.draw_rect((new Matrix([[this.ball.values[0][0]*scale_factor-size*scale_factor/2, this.ball.values[0][1]*scale_factor-size*scale_factor/2]])).round(), 
+                                  new Matrix([[scale_factor*size, scale_factor*size]]), [1,0,0,1]);
+        img.img_to_canvas(this.canvas);
     }
 
     get_slope_vector(x, y){

@@ -12,6 +12,22 @@ class Interpolation{
 	}
 
 	/**
+	 * Nearest Neighbor Matrix interpolation between v1 and v2. degree is avalue between 0 and 1, where smaller values lean twordas v1 and larger one twords v2
+	 * 
+	 * @param {*} v1 
+	 * @param {*} v2 
+	 * @param {*} degree 
+	 */
+	static nearest_neighbor(v1, v2, degree){
+		degree = Math.round(degree);
+		if (degree == 0){
+			return v1;
+		} else{
+			return v2;
+		}
+	}
+
+	/**
 	 * Linear interpolation between equally distanced range of values.
 	 * 
 	 * @param {*} v1 
@@ -39,6 +55,12 @@ class Interpolation{
 		let up = up_left.mul_scal(1-point.values[0][0]).element_add(up_right.mul_scal(point.values[0][0]));
 		let down = down_left.mul_scal(1-point.values[0][0]).element_add(down_right.mul_scal(point.values[0][0]));
 		return up.mul_scal(1-point.values[0][1]).element_add(down.mul_scal(point.values[0][1]));
+	}
+
+	static bi_lin_num_interpolation(up_left, up_right, down_left, down_right, point){
+		let up = up_left * (1-point.values[0][0]) + up_right * point.values[0][0];
+		let down = down_left * (1-point.values[0][0]) + down_right *point.values[0][0];
+		return up *(1-point.values[0][1]) + down * point.values[0][1];
 	}
 
 }
