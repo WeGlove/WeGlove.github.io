@@ -16,8 +16,8 @@ class SyntheticTexture{
 		for(let x=0; x<shape[0]; x++){
 			for(let y=0; y<shape[1]; y++){
 				let val = Polar.to_polar(new Matrix([[x,y]]), new Matrix([[(shape[0]-1)/2,(shape[1]-1)/2]]));
-				val = Math.cos(val.radius/slope+phase)+Math.sin(val.radius/slope+phase);
-				val /= 2;
+				val = Math.cos(val.radius/slope+phase)+Math.sin(val.radius/slope+phase)+2;
+				val /= 4;
 				img.set_color_rgba(x, y, [val,val,val,1]);
 			}
 		}

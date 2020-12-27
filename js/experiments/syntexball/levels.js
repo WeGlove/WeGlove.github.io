@@ -38,4 +38,14 @@ let lvl_rings = {
     }
 }
 
-let levels = [lvl_black, lvl_vertical, lvl_vertical_scale, lvl_rings];
+let lvl_rings_scale = {
+    "ball": new Matrix([[20,20]]),
+    "resistance": new Matrix([[0.99,0.99]]),
+    "velocity": new Matrix([[10,1]]),
+    "goals": [new Matrix([[100,75]])],
+    "texture": function(shape, scale){
+        return SyntheticTexture.rings(shape, scale/10+10, 10);
+    }
+}
+
+let levels = [lvl_black, lvl_vertical, lvl_vertical_scale, lvl_rings, lvl_rings_scale];
