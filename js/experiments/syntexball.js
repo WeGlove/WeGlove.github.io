@@ -35,17 +35,27 @@ class Game{
         this.velocity = new Matrix([[10,0]]);
         this.shape = [200, 150];
         this.texture = new RGBImage(this.shape);
-        this.scale = 0;
-        this.to_scale = 0;
+        this.x_scale = 0;
+        this.y_scale = 0;
+        this.x_to_scale = 0;
+        this.y_to_scale = 0;
+
+        this.to_scale = [0,0];
         let that = this;
         
         function keydown(e) {
             switch(e.keyCode){
                 case 37:
-                    that.to_scale = -that.scale_const;
+                    that.x_to_scale = -that.scale_const;
                     break;
                 case 39:
-                    that.to_scale = that.scale_const;
+                    that.x_to_scale = that.scale_const;
+                    break;
+                case 38:
+                    that.y_to_scale = that.scale_const;
+                    break;
+                case 40:
+                    that.y_to_scale = -that.scale_const;
                     break;
                 default:
                     break;
@@ -78,10 +88,12 @@ class Game{
         let slope_vector = this.get_slope_vector(this.ball.values[0][0],this.ball.values[0][1]);
         this.velocity = this.velocity.element_mul(this.resitance);
         this.velocity = this.velocity.element_add(slope_vector);
-        if (this.to_scale != 0){
-            this.scale += this.to_scale;
-            this.to_scale = 0;
-            this.texture = this.levels[this.level]["texture"](this.shape, this.scale);
+        if (this.x_to_scale != 0 || this.y_to_scale != 0){
+            this.x_scale += this.x_to_scale;
+            this.x_to_scale = 0;
+            this.y_scale += this.y_to_scale;
+            this.y_to_scale = 0;
+            this.texture = this.levels[this.level]["texture"](this.shape, this.x_scale, this.y_scale);
         }
         for (let i=0; i<this.goals.length; i++){
             if (this.ball.round().equals(this.goals[i].round())){
@@ -144,9 +156,11 @@ class Game{
         this.resitance = level["resistance"];
         this.velocity = level["velocity"];
         this.goals = level["goals"];
-        this.texture = level["texture"](this.shape, this.scale);
-        this.scale = 0;
-        this.to_scale = 0;
+        this.x_scale = 0;
+        this.y_scale = 0;
+        this.texture = level["texture"](this.shape, 0, 0);
+        this.x_to_scale = 0;
+        this.y_to_scale = 0;
      }
 
 }
