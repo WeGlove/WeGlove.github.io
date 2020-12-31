@@ -23,7 +23,8 @@ data = [{
 		"der beste Jhin",
 		"not important",
 		"Doc",
-		"knecht"
+		"knecht",
+		"Golden Boy"
 		],
 	"Doing_Msg": [
 		"slapping",
@@ -35,6 +36,7 @@ data = [{
 		"working",
 		"making memories",
 		"playing games",
+		"making games",
 		"casting fireballs",
 		"petting my dog",
 		"doggoing",

@@ -68,4 +68,4 @@ let lvl_broken_rings = {
     }
 }
 
-let levels = [lvl_black, lvl_vertical, lvl_vertical_scale, lvl_rings, lvl_rings_scale, lvl_broken_rings];
+let levels = [ lvl_broken_rings, lvl_black, lvl_vertical, lvl_vertical_scale, lvl_rings, lvl_rings_scale];
