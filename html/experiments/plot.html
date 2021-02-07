@@ -6,21 +6,27 @@
 <body>
     <a href="../experiments.html">Back!</a>
 
+    <div>
     <canvas height="500" width="500" id="figure" style="fill:none;font-family: sans-serif;stroke:black;background-color:white">
     </canvas>
+    </div>
 
-    <form action='#' onsubmit="return false;">
-        <p>Function:</p>
-        <input type='text' id='function' value=" x => x"/>
-        <p>Amount:</p>
-        <input type='text' id='amount' value="100"/>
-        <p>Left:</p>
-        <input type='text' id='left' value="-1"/>
-        <p>Right:</p>
-        <input type='text' id='right' value="1"/>
-    </form>
-    <button type="button" onclick="plot(2,2);">Plot</button>
-    <button type="button" onclick="clear_plot();">Clear</button>
+    <br>
+
+    <div>
+        <form action='#' onsubmit="return false;">
+            <p>Function:</p>
+            <input type='text' id='function' value=" x => x"/>
+            <p>Amount:</p>
+            <input type='text' id='amount' value="100"/>
+            <p>Left:</p>
+            <input type='text' id='left' value="-1"/>
+            <p>Right:</p>
+            <input type='text' id='right' value="1"/>
+        </form>
+        <button type="button" onclick="plot(2,2);">Plot</button>
+        <button type="button" onclick="clear_plot();">Clear</button>
+    </div>
 
     <script src="../../js/libs/matrix.js"></script>
     <script src="../../js/libs/figure.js"></script>

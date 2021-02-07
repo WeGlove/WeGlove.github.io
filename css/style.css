@@ -1,5 +1,25 @@
 body {
     background-color: #65e2dd;
-	font-family: sans-serif;
+	font-family: "Lucida Console", "Courier New", monospace;
 	color: #7f0e85;
 }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: sans-serif;
+}
+
+div{
+	background-color: #8ee0de;
+	padding: 20px;
+}
+
+button{
+	padding: 4px;
+}
+
+input[type=text]{
+	border-radius: 10px;
+	border: 0px solid red;
+	padding: 4px;
+}
+

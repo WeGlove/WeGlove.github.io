@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/experiments/confusion_matrix.css">
 </head>
 <body>
     <a href="../experiments.html">Back!</a>
@@ -24,6 +25,8 @@
             <br>
         </form>
     </div>
+    <br>
+    <div>
     <form action='#' onsubmit="return false;">
         <table style="width:100%">
             <tr>
@@ -78,6 +81,9 @@
             </tr>
         </table>
     </form>
+    </div>
+    <br>
+    <div>
     <p>Prevalence: <span id="PVL"></span></p>
     <p>Prevalence Threshold: <span id="PT"></span></p>
 
@@ -100,6 +106,7 @@
     <p>Fowlkes-Mallows index: <span id="FM"></span></p>
     <p>Threat Score: <span id="TS"></span></p>
     <p>Matthews correlation coefficent: <span id="MCC"></span></p>
+    </div>
 
     <script src="../../js/experiments/confusion_matrix.js"></script>
 </body>
