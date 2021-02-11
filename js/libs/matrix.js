@@ -302,7 +302,7 @@ class Matrix{
 		return mat
 	}
 
-	to_json(){
+	toJSON(){
 		return {"shape": this.shape, "values": this.values};
 	}
 	

@@ -52,7 +52,7 @@ class Table{
     }
 
     to_json(){
-        return {"matrix": this.matrix.to_json(), "table_id":this.table.id};
+        return {"matrix": this.matrix.toJSON(), "table_id":this.table.id};
     }
 
     load_from_cookie(){
