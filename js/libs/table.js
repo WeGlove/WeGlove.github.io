@@ -48,11 +48,11 @@ class Table{
     }
 
     save_to_cookie(){
-        this.setCookie("Data", this.to_json() ,1);
+        this.setCookie("Data", JSON.stringify(this.to_json()) ,1);
     }
 
     to_json(){
-        return {"matrix": JSON.stringify(this.matrix.toJSON()), "table_id":this.table.id};
+        return {"matrix": this.matrix.toJSON(), "table_id":this.table.id};
     }
 
     load_from_cookie(){
