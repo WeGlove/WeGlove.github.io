@@ -301,6 +301,10 @@ class Matrix{
 		} 
 		return mat
 	}
+
+	to_json(){
+		return {"shape": this.shape, "values": this.values};
+	}
 	
 	/**
 	 * Returns a 2D rotation matrix
