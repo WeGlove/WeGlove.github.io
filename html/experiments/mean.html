@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <a href="../experiments.html">Back!</a>
+    <input type='text' id='shape_x' value="2"/>
+    <button type="button" onclick="reshape();">Reshape</button>   
+    <button type="button" onclick="compute();">Compute</button>   
+
+    <table style="width:100%" id="table">
+    </table>
+    <h3>Central Tendencies</h3>
+    <p id="mean"> </p>
+    <p id="median"> </p>
+    <p id="percentile_third"> </p>
+    <p id="percentile_two_third"> </p>
+    <p id="min"> </p>
+    <p id="max"> </p>
+    <h3>Statistical Dispersion</h3> 
+    <p id="range"> </p>
+    <p id="iqr"> </p>
+    <p id="variance"> </p>
+    <p id="stdv"> </p>
+    <h3>Shape</h3>
+    <p id="skewness"> </p>
+    <p id="kurtosis"> </p>
+    <script src="../../js/libs/matrix.js"></script>
+    <script src="../../js/libs/table.js"></script>
+    <script src="../../js/experiments/mean.js"></script>
+</body>
+
+</html>

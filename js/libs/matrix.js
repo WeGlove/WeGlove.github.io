@@ -305,6 +305,111 @@ class Matrix{
 	toJSON(){
 		return {"shape": this.shape, "values": this.values};
 	}
+
+	to_list(){
+		let result = [];
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				result.push(this.values[i][j]);
+			}
+		} 
+		return result;
+	}
+
+	median(){
+		let result = this.to_list();
+		result = result.sort();
+		if (result.length % 2== 0){
+			return (result[Math.floor((result.length - 1)/2)] + result[Math.ceil((result.length - 1)/2)]) / 2;
+		} else {
+			return result[(result.length - 1)/2];
+		}
+	}
+
+	percentile(p){
+		let result = this.to_list();
+		result = result.sort();
+		let val = (result.length-1) * p;
+		if (val % 1 == 0){
+			return (result[val] + result[val+1]) / 2;
+		} else {
+			return result[Math.floor(val)];
+		}
+	}
+
+	max(){
+		let val = this.values[0][0];
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				if (val <= this.values[i][j]){
+					val = this.values[i][j];
+				}
+			}
+		}
+		return val; 
+	}
+
+	iqr(){
+		return this.percentile(2/3) - this.percentile(1/3);
+	}
+
+	min(){
+		let val = this.values[0][0];
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				if (val > this.values[i][j]){
+					val = this.values[i][j];
+				}
+			}
+		}
+		return val; 
+	}
+
+	variance(){
+		let mean = this.mean();
+		let val = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				let inner = (this.values[i][j] - mean);
+				val += inner * inner;
+			}
+		}
+		return val / this.size(); 
+	}
+
+	skewness(){
+		let mean = this.mean();
+		let val = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				let inner = (this.values[i][j] - mean);
+				val += inner * inner * inner;
+			}
+		}
+		let stdv_val = this.stdv();
+		return val / this.size() / (stdv_val * stdv_val * stdv_val); 
+	}
+
+	kurtosis(){
+		let mean = this.mean();
+		let val = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				let inner = (this.values[i][j] - mean);
+				val += inner * inner * inner * inner;
+			}
+		}
+		let stdv_val = this.stdv();
+		return val / this.size() / (stdv_val * stdv_val * stdv_val * stdv_val); 
+	}
+
+	stdv(){
+		return Math.sqrt(this.variance()); 
+	}
+
+	range(){
+		return this.max() - this.min();
+	}
 	
 	/**
 	 * Returns a 2D rotation matrix

@@ -21,6 +21,14 @@ class Table{
         this.matrix = Matrix.zeros(shape);
     }
 
+    load(){
+        for (let x=0; x<this.shape[0]; x++){
+            for (let y=0; y<this.shape[1]; y++){
+                this.matrix.values[x][y] = parseFloat(document.getElementById("input_" + x + "_" + y).value);
+            }
+        }
+    }
+
     enable_header(){
 
     }
@@ -34,7 +42,7 @@ class Table{
         for (let x=0; x<this.shape[0]; x++){
             text += "<tr>";
             for (let y=0; y<this.shape[1]; y++){
-                 text += "<td id=\"table_" + x +"_" + y + "\"><input type='text' value='" + this.matrix.values[x][y] +"'/></td>"
+                 text += "<td id=\"table_" + x +"_" + y + "\"><input type='text' id=\"input_" + x +"_" + y + "\" value='" + this.matrix.values[x][y] +"'/></td>"
             }
             text += "</tr>"
         }
@@ -48,7 +56,7 @@ class Table{
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
-    getCookie(cname) {
+    static getCookie(cname) {
         var name = cname + "=";
         var decodedCookie = decodeURIComponent(document.cookie);
         var ca = decodedCookie.split(';');
@@ -72,11 +80,15 @@ class Table{
         return {"matrix": this.matrix.toJSON(), "table_id":this.table.id};
     }
 
-    static load_from_cookie(){
-        let data = JSON.parse(getCookie("Data"));
-        let table = new Table(data["id"]);
-        table.matrix = data["matrix"];
-        table.shape = table.matrix.shape;
+    static load_from_cookie(table_id){
+        let table = new Table(table_id);
+        try{
+            let data = JSON.parse(Table.getCookie("Data"));
+            table.matrix = new Matrix(data["matrix"]);
+            table.shape = table.matrix.shape;
+        } catch {
+        } 
+        return table
     }
 
 
