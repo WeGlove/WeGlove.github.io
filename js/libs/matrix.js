@@ -410,7 +410,17 @@ class Matrix{
 	range(){
 		return this.max() - this.min();
 	}
-	
+
+	absolute_deviation(tendency){
+		var acc = 0;
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				acc += Math.abs(this.values[i][j] - tendency);
+			}
+		}
+		return acc / this.size()
+	}
+
 	/**
 	 * Returns a 2D rotation matrix
 	 * @param {*} angle 
