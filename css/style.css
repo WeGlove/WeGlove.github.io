@@ -23,3 +23,8 @@ input[type=text]{
 	padding: 4px;
 }
 
+a{
+	border-radius: 10px;
+	background-color: #9beceb;
+	padding: 20px;
+}
