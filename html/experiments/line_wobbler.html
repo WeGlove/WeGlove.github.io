@@ -10,8 +10,8 @@
         </canvas>
     </div>
     <div>
-        <p>Swap Lines:</p>
-        <button type="button" onclick="swapLines()">SwapLines</button>
+        <p>Wobble Lines:</p>
+        <button type="button" onclick="wobbleLines()">SwapLines</button>
     </div>
     <div>
         <button type="button" onclick="save()">Save</button>
@@ -19,13 +19,18 @@
         <form action='#' onsubmit="return false;">
             <input type='file' id='imgfile' />
             <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
-            <p>Number of swaps:</p>
-            <input type="text" id="size" name="lines" value='1'><br><br>
+            <p>Type:</p>
+            <input type="radio" id="linear" name="gender" value="linear">
+            <label for="linear">Linear</label><br>
+            <input type="radio" id="sine" name="gender" value="sine">
+            <input type="text" id="sine_freq" name="gender" value="1">
+            <input type="text" id="sine_mag" name="gender" value="1">
+            <label for="sine">Sine</label><br>
         </form>
     </div>
 
     <script src="../../js/libs/matrix.js"></script>
-    <script src="../../js/experiments/line_swapper.js"></script>
+    <script src="../../js/experiments/line_wobbler.js"></script>
 
 </body>
 
