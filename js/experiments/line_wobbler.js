@@ -8,7 +8,7 @@ function wobbleLines(){
     let buffer = ctx.getImageData(0, 0, c.width, c.height);
     for (let i=0; i<c.height; i++){
         if (document.getElementById('linear').checked){
-            wobbleLinear(data, buffer, i, width);
+            wobbleLinear(data, buffer, i, width, height, parseFloat(document.getElementById('linear_mag').value), parseFloat(document.getElementById('linear_phase').value), parseFloat(document.getElementById('sine_mag').value));
         } else if((document.getElementById('sine').checked)){
             wobbleSine(data, buffer, i, width, parseFloat(document.getElementById('sine_freq').value), parseFloat(document.getElementById('sine_mag').value));
         }
@@ -22,9 +22,12 @@ function save(){
     document.getElementById("download").href = img;
 }
 
-function wobbleLinear(data, buffer, line, width){
+function wobbleLinear(data, buffer, line, width, height, mag, phase){
+    line = Math.abs(Math.round((line+phase)%height))
+    while (line <0)
+        line += height;
     for (let i=0; i <width; i++){
-        let color = get_color((i+line)%width, line, width, data);
+        let color = get_color((i+line*mag)%width, line, width, data);
         set_color(i, line, width, buffer, color);
     }
 }
