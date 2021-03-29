@@ -33,7 +33,7 @@ function wobbleLinear(data, buffer, line, width, height, mag, phase){
 }
 function wobbleSine(data, buffer, line, width, freq, mag){
     for (let i=0; i <width; i++){
-        let color = get_color(Math.round((i+(Math.sin(line*freq)+1)/2)*mag)%width, line, width, data);
+        let color = get_color(Math.round(i+((Math.sin(line*freq)+1)/2)*mag)%width, line, width, data);
         set_color(i, line, width, buffer, color);
     }
 }
