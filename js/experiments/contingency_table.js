@@ -42,6 +42,10 @@ function recalculate(){
     let total = row_sum.sum();
     let k = Math.min(current_shape[0], current_shape[1]);
     
+    let prevalences = column_sum.div_scal(column_sum.max()).to_list();
+    console.log(prevalences);
+
+    
     let chi_sqr = 0;
     for (let row=0; row < current_shape[0]; row++){
         for (let column=0; column < current_shape[1]; column++){
@@ -64,6 +68,7 @@ function recalculate(){
 
     console.log(k);
 
+    document.getElementById("prevalence").innerHTML = prevalences;
     document.getElementById("total").innerHTML = total;
     document.getElementById("chi_sqr").innerHTML = "0 <= " + chi_sqr + " <= " + (total * (k-1));
     document.getElementById("mid_chi_sqr").innerHTML = "0 <= " + mid_chi_sqr + " <= " + (k-1);
