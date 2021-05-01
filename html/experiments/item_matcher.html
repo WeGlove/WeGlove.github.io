@@ -4,14 +4,28 @@
 	<link rel="stylesheet" type="text/css" href="../../css/style.css">
 </head>
 <body>
-    <a href="../experiments.html">Back!</a>
-    <br>
-    <input type="text" id="names" name="fname">
-    <input type="text" id="items" name="fname">
-    <button type="button" onclick="match()">Match</button>
-    <script src="../../js/experiments/item_matcher.js"></script>
-    <p id="out">
-    </p>
+    <div>
+        <a href="../experiments.html">Back!</a>
+        <br>
+        <p>
+            This is a tool that randomly matches names to items. 
+            For example, the names [Andy, Mike, Luke] to the items [Ice Cream, Cake, Muffin, Cookie] like so:
+            [(Andy, Cookie), (Luke, Cake), (Mike, Ice Cream)].
+            Items that have already been assigned to a name will not be assigned again.
+            Enter the names and items as a list separated with commas like this: Andy, Mike, Luke
+        </p>
+        <br>
+        <p>Names</p>
+        <input type="text" id="names" name="fname">
+        <br>
+        <p>Items</p>
+        <input type="text" id="items" name="fname">
+        <br>
+        <button type="button" onclick="match()">Match</button>
+        <script src="../../js/experiments/item_matcher.js"></script>
+        <p id="out">
+        </p>
+    </div>
 </body>
 
 </html>
