@@ -4,14 +4,17 @@
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
 </head>
 <body>
+    <div>
     <a href="../experiments.html">Back!</a>
+    </div>
     <div>
         <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
         </canvas>
     </div>
     <div>
+        <p>This is a simple tool to give images a wobbly effect.</p>
         <p>Wobble Lines:</p>
-        <button type="button" onclick="wobbleLines()">SwapLines</button>
+        <button type="button" onclick="wobbleLines()">Wobble Lines</button>
     </div>
     <div>
         <button type="button" onclick="save()">Save</button>
@@ -20,14 +23,23 @@
             <input type='file' id='imgfile' />
             <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
             <p>Type:</p>
+
+            <label for="linear"><b>Linear</b></label>
             <input type="radio" id="linear" name="gender" value="linear">
+            <label for="linear_mag">Magnitude</label>
             <input type="text" id="linear_mag" name="gender" value="1">
+            <label for="linear_phase">Phase</label>
             <input type="text" id="linear_phase" name="gender" value="0">
-            <label for="linear">Linear</label><br>
+            
+            <br>
+
+            <label for="sine"><b>Sine</b></label>
             <input type="radio" id="sine" name="gender" value="sine">
+            <label for="linear_mag">Frequency</label>
             <input type="text" id="sine_freq" name="gender" value="1">
+            <label for="linear_phase">Magnitude</label>
             <input type="text" id="sine_mag" name="gender" value="1">
-            <label for="sine">Sine</label><br>
+            
         </form>
     </div>
 
