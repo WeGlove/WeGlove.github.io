@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+<body>
+    <div>
+    <a href="../experiments.html">Back!</a>
+    </div>
+    <div>
+        <form action='#' onsubmit="return false;">
+            <label for="sine"><b>RGB</b></label>
+                <input type="text" id="R" name="R" value="0">
+                <input type="text" id="G" name="G" value="0">
+                <input type="text" id="B" name="B" value="0">
+            <p>Calculate the luminance of an RGB value. (Scale is irrelevant can be in [0,1] or [0,255] or anything you want to)</p>
+                <button type="button" onclick="lum_click()">Calculate Luminance</button>
+            <p>Calculate the complementary color of the given color. Needs to be in [0,255] scale.</p>
+                <button type="button" onclick="comp_click()">Calculate Complementary</button>
+        </form>
+
+        <div id="lum_out"></div>
+    </div>
+
+    <script src="../../js/experiments/luminance.js"></script>
+    <script src="../../js/libs/color.js"></script>
+
+</body>
+
+</html>
