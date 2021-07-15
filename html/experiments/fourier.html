@@ -4,27 +4,30 @@
 	<link rel="stylesheet" type="text/css" href="../../css/style.css">
 </head>
 <body>
-    <a href="../experiments.html">Back!</a>
-
-    <svg height="500" width="500" align="center">
-        <circle cx="250" cy="250" r="250" fill="red" />
-        <polyline points="0,250,500,250"style="fill:none;stroke:green;stroke-width:3" />
-        <polyline points="250,0,250,500"style="fill:none;stroke:green;stroke-width:3" />
-        <g id="points">
-        </g>
-    </svg>
-    <form action='#' onsubmit="return false;">
-        <p>Angle:</p>
-        <input type='text' id='angle' value="0"/>
-        <p>Amount:</p>
-        <input type='text' id='amount' value="10"/>
-        <p>Scale:</p>
-        <input type='text' id='scale' value="1"/>
-        <p>Frequency:</p>
-        <input type='text' id='freq' value="1"/>
-    </form>
-    <canvas height="500" width="500" align="center" id="figure" style="fill:none;stroke:black;stroke-width:3;background-color:white">
-    </canvas>
+    <div>
+        <a href="../experiments.html">Back!</a>
+    </div>
+    <div>
+        <svg height="500" width="500" align="center">
+            <circle cx="250" cy="250" r="250" fill="red" />
+            <polyline points="0,250,500,250"style="fill:none;stroke:green;stroke-width:3" />
+            <polyline points="250,0,250,500"style="fill:none;stroke:green;stroke-width:3" />
+            <g id="points">
+            </g>
+        </svg>
+        <form action='#' onsubmit="return false;">
+            <p>Angle:</p>
+            <input type='text' id='angle' value="0"/>
+            <p>Amount:</p>
+            <input type='text' id='amount' value="10"/>
+            <p>Scale:</p>
+            <input type='text' id='scale' value="1"/>
+            <p>Frequency:</p>
+            <input type='text' id='freq' value="1"/>
+        </form>
+        <canvas height="500" width="500" align="center" id="figure" style="fill:none;stroke:black;stroke-width:3;background-color:white">
+        </canvas>
+    </div>
 
     <script src="../../js/libs/matrix.js"></script>
     <script src="../../js/libs/figure.js"></script>
