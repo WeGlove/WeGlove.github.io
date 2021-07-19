@@ -1,10 +1,13 @@
+/**
+ * A class to draw a figure to a canvas object.
+ */
 class Figure{
 
 	constructor(canvas, window, interactive=false){
-		this.canvas = canvas;
-		this.plots = [];
-		this.axis = [];
-		this.window = window;
+		this.canvas = canvas; // The canvas object the plot should be drawn too.
+		this.plots = []; // A list of lists of the points being plotted
+		this.axis = []; // The axis lines.
+		this.window = window; // The window that the plot is looking at.
 		this.set_interactive(interactive);
 	}
 
