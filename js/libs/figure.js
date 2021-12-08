@@ -35,6 +35,10 @@ class Figure{
 		return new Matrix([[x, y]]);
 	}
 
+	/**
+	 * Converts a position by pixel to a position within the shown window.
+	 * @param {*} point 
+	 */
 	canvas_to_window(point){
 		let x = point.values[0][0] / (this.canvas.width-1) * Math.abs(this.window.values[1][0]-this.window.values[0][0]) + this.window.values[0][0];
 		let y = point.values[0][1] / (this.canvas.height-1) * Math.abs(this.window.values[1][1]-this.window.values[0][1]) + this.window.values[0][1];
@@ -114,6 +118,31 @@ class Figure{
 		for (let plot of this.plots){
 			this.draw_plot(plot);
 		}
+	}
+
+	/**
+	 * Fits the window to the plots that are given.
+	 */
+	fit_window_to_plots(){
+		var left = Infinity;
+		var right = -Infinity;
+		var up = -Infinity;
+		var down = Infinity;
+		for (let plot of this.plots){
+			for (var i=0; i<plot.values.length; i++){
+				let point = plot.values[i];
+				if (point[0] < left)
+					left = point[0];
+				if (point[0] > right)
+					right = point[0];
+				if (point[1] < down)
+					down = point[1];
+				if (point[1] > up)
+					up = point[1];
+			}
+		}
+
+		this.window = new Matrix([[left, down],[right, up]]);
 	}
 
 	plot_axis(x_axis, y_axis){

@@ -16,6 +16,7 @@ function myCallback() {
         curve_plotting.push([i/curve.shape[1],curve.values[0][i]]);
     }
     figure.plot_line(new Matrix(curve_plotting));
+    figure.fit_window_to_plots();
     let transform = Fourier.discrete_fourier_transform(curve);
     for (var child of children){
         svg.removeChild(child);

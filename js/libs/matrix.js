@@ -422,6 +422,19 @@ class Matrix{
 	}
 
 	/**
+	 * Returns a string representation of the matrix.
+	 */
+	to_str(){
+		var representation = "";
+		for(var i=0; i < this.shape[0]; i++){
+			for(var j=0; j < this.shape[1]; j++){
+				representation += this.values[i][j] + ", "
+			}
+		}
+		return representation
+	}
+
+	/**
 	 * Returns a 2D rotation matrix
 	 * @param {*} angle 
 	 */

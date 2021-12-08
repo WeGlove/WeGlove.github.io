@@ -16,14 +16,17 @@
     <br>
 
     <div>
+        <p>
+            Plots the given function onto the canvas
+        </p>
         <form action='#' onsubmit="return false;">
             <p>Function:</p>
             <input type='text' id='function' value=" x => x"/>
-            <p>Amount:</p>
+            <p>The amount of points to draw:</p>
             <input type='text' id='amount' value="100"/>
-            <p>Left:</p>
+            <p>The left border of the function:</p>
             <input type='text' id='left' value="-1"/>
-            <p>Right:</p>
+            <p>The right border of the function:</p>
             <input type='text' id='right' value="1"/>
         </form>
         <button type="button" onclick="plot(2,2);">Plot</button>
