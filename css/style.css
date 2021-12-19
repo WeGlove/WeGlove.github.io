@@ -28,3 +28,24 @@ a{
 	background-color: #9beceb;
 	padding: 20px;
 }
+
+.tooltip {
+	position: relative;
+  }
+  
+  .tooltip span[role=tooltip] {
+	display: none;
+  }
+  
+  .tooltip:hover span[role=tooltip] {
+	display: block;  
+	position: absolute; 
+	bottom: 2em;
+	width: 15em;
+	padding: 0.5em;
+	z-index: 100;
+	color: #000; 
+	background-color: #ffebe6;
+	border: solid 1px #c32e04;
+	border-radius: 0.2em;
+  }

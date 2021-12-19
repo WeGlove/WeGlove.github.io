@@ -51,7 +51,7 @@
                     <input type='text' id='FP' value="0"/>
                 </td>
                 <td>     
-                    <p>PPV: <span id="PPV"></span> FDR: <span id="FDR"></span></p>
+                    <p><span class="tooltip">PPV:<span role="tooltip">TP/(TP+FP)</span></span> <span id="PPV"></span> <span class="tooltip">FDR:<span role="tooltip">FP/(FP+TP)</span></span><span id="FDR"></span></p>
                 </td>
             </tr>
             <tr>
@@ -64,7 +64,7 @@
                     <input type='text' id='TN' value="0"/>    
                 </td>
                 <td>     
-                    <p>NPV: <span id="NPV"></span> FOR: <span id="FOR"></span></p>
+                    <p><span class="tooltip">NPV:<span role="tooltip">TN/(TN+FN)</span></span> <span id="PPV"></span> <span id="NPV"></span> <span class="tooltip">FOR:<span role="tooltip">FN/(FN+TN)</span></span> <span id="FOR"></span></p>
                 </td>
             </tr>
             <tr>
@@ -77,10 +77,10 @@
             </tr>
             <tr>
                 <td>     
-                    <p>TPR: <span id="TPR"></span> FNR: <span id="FNR"></span></p>
+                    <p><span class="tooltip">TPR:<span role="tooltip">TP/P</span></span> <span id="TPR"></span> <span class="tooltip">FNR:<span role="tooltip">FN/P</span></span> <span id="FNR"></span></p>
                 </td>
                 <td>
-                    <p>TNR: <span id="TNR"></span> FPR: <span id="FPR"></span></p>   
+                    <p><span class="tooltip">TNR:<span role="tooltip">TN/N</span></span> <span id="TNR"></span> <span class="tooltip">FPR:<span role="tooltip">FP/N</span></span> <span id="FPR"></span></p>   
                 </td>
             </tr>
         </table>
@@ -88,28 +88,28 @@
     </div>
     <br>
     <div>
-    <p>Prevalence: <span id="PVL"></span></p>
-    <p>Prevalence Threshold: <span id="PT"></span></p>
+    <p><span class="tooltip">Prevalence<span role="tooltip">P/(P+N)</span></span> <span id="PVL"></span></p>
+    <p><span class="tooltip">Prevalence Threshold:<span role="tooltip">sqrt(FPR) / (sqrt(TPR)+sqrt(FPR))</span></span> <span id="PT"></span></p>
 
     <br>
 
-    <p>Informedness: <span id="BM"></span></p>
-    <p>Markedness: <span id="MK"></span></p>
+    <p><span class="tooltip">Informedness:<span role="tooltip">TPR+TNR-1</span></span> <span id="BM"></span></p>
+    <p><span class="tooltip">Markedness:<span role="tooltip">PPV+NPV-1</span></span> <span id="MK"></span></p>
 
     <br>
 
-    <p>Positive Likelihood Ratio: <span id="LRP"></span></p>
-    <p>Negative Likelihood Ratio: <span id="LRM"></span></p>
-    <p>Diagnostic Odds Ratio: <span id="DOR"></span></p>
+    <p><span class="tooltip">Positive Likelihood Ratio:<span role="tooltip">(TPR)/(FPR)</span></span> <span id="LRP"></span></p>
+    <p><span class="tooltip">Negative Likelihood Ratio:<span role="tooltip">(FMR)/(TNR)</span></span> <span id="LRM"></span></p>
+    <p><span class="tooltip">Diagnostic Odds Ratio:<span role="tooltip">LR+/LR-</span></span> <span id="DOR"></span></p>
 
     <br>
 
-    <p>Accuracy: <span id="ACC"></span></p>
-    <p>Balanced Accuracy: <span id="BA"></span></p>
-    <p>F1 Score: <span id="F1"></span></p>
-    <p>Fowlkes-Mallows index: <span id="FM"></span></p>
-    <p>Threat Score: <span id="TS"></span></p>
-    <p>Matthews correlation coefficent: <span id="MCC"></span></p>
+    <p><span class="tooltip">Accuracy:<span role="tooltip">(TP+TN)/(P+N)</span></span> <span id="ACC"></span></p>
+    <p><span class="tooltip">Balanced Accuracy:<span role="tooltip">(TPR+TNR)/2</span></span> <span id="BA"></span></p>
+    <p><span class="tooltip">F1 Score:<span role="tooltip">2*(PPV x TPR)/(PPV + TPR)</span></span> <span id="F1"></span></p>
+    <p><span class="tooltip">Fowlkes–Mallows index:<span role="tooltip">sqrt(PPV x TPR)</span></span> <span id="FM"></span></p>
+    <p><span class="tooltip">Threat Score:<span role="tooltip">(TP)/(TP+FP+FN)</span></span> <span id="TS"></span></p>
+    <p><span class="tooltip">Matthews correlation coefficent:<span role="tooltip">(TPR x TN - FP x FN)/sqrt((TP+FP)(TP+FN)(TN+FP)(TN+FN))</span></span> <span id="MCC"></span></p>
     </div>
 
     <script src="../../js/experiments/confusion_matrix.js"></script>
