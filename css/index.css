@@ -6,7 +6,7 @@
     text-align: center;
 }
 #HeadMessages {
-    background-image: linear-gradient(white, #65e2dd);
+    background-image: linear-gradient(#65e2dd, #fafafa);
     box-sizing: border-box;
 }
 
@@ -23,10 +23,6 @@
 body{
     color: #7f0e85;
 	margin: 0px;
-}
-
-div {
-    background-color: #65e2dd;
 }
 
 a{

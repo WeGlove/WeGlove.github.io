@@ -1,5 +1,5 @@
 body {
-    background-color: #65e2dd;
+  background-color: #fafafa;
 	font-family: "Lucida Console", "Courier New", monospace;
 	color: #7f0e85;
 }
@@ -9,7 +9,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 div{
-	background-color: #8ee0de;
 	padding: 20px;
 }
 
@@ -23,29 +22,37 @@ input[type=text]{
 	padding: 4px;
 }
 
-a{
+.block_link{
 	border-radius: 10px;
-	background-color: #9beceb;
 	padding: 20px;
+	background-image: radial-gradient(closest-side, #65e2dd, #fafafa);
 }
 
 .tooltip {
 	position: relative;
   }
   
-  .tooltip span[role=tooltip] {
-	display: none;
-  }
-  
-  .tooltip:hover span[role=tooltip] {
-	display: block;  
-	position: absolute; 
-	bottom: 2em;
-	width: 15em;
-	padding: 0.5em;
-	z-index: 100;
-	color: #000; 
-	background-color: #ffebe6;
-	border: solid 1px #c32e04;
-	border-radius: 0.2em;
-  }
+.tooltip span[role=tooltip] {
+display: none;
+}
+
+.tooltip:hover span[role=tooltip] {
+display: block;  
+position: absolute; 
+bottom: 2em;
+width: 15em;
+padding: 0.5em;
+z-index: 100;
+color: #000; 
+background-color: #ffebe6;
+border: solid 1px #c32e04;
+border-radius: 0.2em;
+}
+
+.nav_head{
+	background-image: linear-gradient(#65e2dd, #fafafa);
+	box-sizing: border-box;
+}
+body {
+	margin: 0%
+}
