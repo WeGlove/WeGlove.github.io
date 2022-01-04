@@ -26,6 +26,11 @@ input[type=text]{
 	border-radius: 10px;
 	padding: 20px;
 	background-image: radial-gradient(closest-side, #65e2dd, #fafafa);
+	transition: font-size 5s;
+	font-size: 100%
+}
+.block_link:hover{
+	font-size: 150%;
 }
 
 .tooltip {
