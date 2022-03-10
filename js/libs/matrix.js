@@ -434,6 +434,14 @@ class Matrix{
 		return representation
 	}
 
+	
+	/**
+	 * Creates the singular value decomposition.
+	 */
+	svd(){
+		var C = this.transpose().multiply(this) 
+	}
+
 	/**
 	 * Returns a 2D rotation matrix
 	 * @param {*} angle 
