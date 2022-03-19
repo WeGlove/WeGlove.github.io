@@ -21,6 +21,9 @@
             <button type="button" onclick="call_eigendecomp();">Eigenvalue Decomposition</button>
             <button type="button" onclick="call_svd();">Singular Value Decomposition</button>
             <button type="button" onclick="call_whitening();">Whitening</button>
+            <button type="button" onclick="call_is_symmetric();">Is Symmetric</button>
+            <button type="button" onclick="call_self_multiply();">XX<sup>T</sup></button>
+            <button type="button" onclick="call_cov();">Covariance Matrix</button>
         </form>
         <br>
         <form action='#' onsubmit="return false;">
@@ -33,6 +36,7 @@
 
     <script src="../../js/libs/math.js"></script>
     <script src="../../js/experiments/matrix_calc.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 </body>
 
 </html>

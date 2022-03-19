@@ -116,19 +116,27 @@ function call_gram_schmidt(){
 }
 
 function call_svd(){
+    // Q is proportional to Xtx = V delta Vt
+    // VtQV is proportional to VtV delta VtV = delta
     X = tab_in.table_to_matrix();
     let [U, S, V] = svd(X);
 
-    let description = "<p>Singular Value Decomposition (SVD) is a way to decompose a matrix into a multiplication of three other matricies.</p>" +
-                      "<p>U is a matrix of eigenvectors.</p>" +
-                      "<p>S is a diagonal matrix of eigenvalues.</p>" +
-                      "<p>V is a matrix of something.</p>";
+    let description = "<p>Singular Value Decomposition (SVD) is a way to decompose a matrix into a multiplication of three other matricies USV<sup>T</sup>.</p>" +
+                      "<p>The First step is to compute C = X*X<sup>T</sup></p>" +
+                      "<p>S is a diagonal matrix of eigenvalues of C.</p>" +
+                      "<p>V is a matrix of columnwise eigenvectors of C.</p>" +
+                      "<p>U is more complicated. the first r columns are given by sqrt(1/lambda)Xv. The remaining columns are given as orthonormal vectors to the existing vectors. We can compute them with gram schmidt.</p>" +
+                      "<p>In general we can see the SVD as a change of base since both S and V are comprised of orthogonal vectors.</p>";
+
+    let properties = "<p>Properties</p><p>XX<sup>T</sup> = VS<sup>T</sup>SV<sup>T</sup></p>" + 
+                     "<p>The covariance Matrix of X is propoertional to XX<sup>T</sup>. That is equal to VSV<sup>T</sup></p>" +
+                     "<p>Now we can multiply by VT on the left and V on the right: V Q VT proportional to VTV S VTV = S</p>";
 
     form_out.innerHTML = description +
                          "<p>U</p>" + table_for_id("Matrix_u") + switch_for_id("Matrix_u") + 
                          "<p>S</p>" + table_for_id("Matrix_s") + switch_for_id("Matrix_s") + 
-                         "<p>V</p>" + table_for_id("Matrix_v_t") + switch_for_id("Matrix_v") +
-                         "<button type=\"button\" onclick=\"call_pca();\">PCA</button>";
+                         "<p>V</p>" + table_for_id("Matrix_v") + switch_for_id("Matrix_v") +
+                         "<button type=\"button\" onclick=\"call_pca();\">Recomp</button>" + properties;
     let table_u = document.getElementById("Matrix_u");
     let table_s = document.getElementById("Matrix_s");
     let table_v = document.getElementById("Matrix_v");
@@ -147,7 +155,7 @@ function call_pca(){
     let V = tabs["Matrix_v"].table_to_matrix();
     
     let X = math.multiply(U,S,V);
-    form_out.innerHTML = form_out.innerHTML + "<p>PCA</p>" + table_for_id("Matrix_pca") + switch_for_id("Matrix_pca");
+    form_out.innerHTML = form_out.innerHTML + "<p>Composed</p>" + table_for_id("Matrix_pca") + switch_for_id("Matrix_pca");
     let table_pca = document.getElementById("Matrix_pca");
     let tab_pca = new TableMat(table_pca, "Matrix_pca");
     tab_pca.matrix_to_table(X);
@@ -172,10 +180,12 @@ function call_eigendecomp(){
         form_out.innerHTML = "<p>Algebraic and geometric multiplicity of eigenvalues is not given.</p>"
         return
     }
-
+    let description = "<p>The eigendecomposition decomposes a square matrix M into a multiplication Q delta Q<sub>T</sub>.</p>" +
+                      "<p>Imagine it as a change of base. First we enter the base of the eigenvectors. Then we apply the stretching of the eigenvalues. Last we leave the base of the eigenvectors.</p>" +
+                      "<p>Try recompiling the matrix by changing the values of the eigenvalues. You will notice that you can erase dominant components i.e. components with larger eigenvalues. $\\sqrt{A}$</p>"
     form_out.innerHTML = "<p>Eigenvectors</p>" + table_for_id("Matrix_q") + switch_for_id("Matrix_q") + 
                          "<p>Eigenvalues</p>" + table_for_id("Matrix_delta") + switch_for_id("Matrix_delta") + 
-                         "<button type=\"button\" onclick=\"call_eigenrecomp();\">Recomp</button>";
+                         "<button type=\"button\" onclick=\"call_eigenrecomp();\">Recomp</button>" + description;
     let table_q = document.getElementById("Matrix_q");
     let table_delta = document.getElementById("Matrix_delta");
     let tab_q = new TableMat(table_q, "Matrix_q");
@@ -188,10 +198,8 @@ function call_eigendecomp(){
 function call_eigenrecomp(){
     let Q = tabs["Matrix_q"].table_to_matrix();
     let delta = tabs["Matrix_delta"].table_to_matrix();
-    console.log(Q);
-    console.log(delta);
     
-    let X = math.multiply(Q, delta, math.inv(Q));
+    let X = math.multiply(math.multiply(Q, delta), math.inv(Q));
     form_out.innerHTML = form_out.innerHTML + "<p>Recomposition</p>" + table_for_id("Matrix_recomp") + switch_for_id("Matrix_recomp");
     let table_recomp = document.getElementById("Matrix_recomp");
     let tab_recomp = new TableMat(table_recomp, "Matrix_recomp");
@@ -204,7 +212,8 @@ function call_eigenrecomp(){
 function call_whitening(){
     let X = tab_in.table_to_matrix();
     let [U, S, V] = svd(X);
-    let W_PCA = math.multiply(math.inv(math.sqrtm(S)), math.transpose(U));
+    let W_PCA = math.multiply(math.inv(math.sqrtm(S)), math.transpose(U)); //TODO This is not correct yet
+    let description = "Whitening is a "
 
     form_out.innerHTML = "<p>W<sub>PCA</sub></p>" + table_for_id("Matrix_w") + switch_for_id("Matrix_w");
     let table_w = document.getElementById("Matrix_w");
@@ -216,7 +225,68 @@ function call_whitening(){
     tabs = {"Matrix_w": tab_w};
 }
 
+function call_is_symmetric(){
+    let X = tab_in.table_to_matrix();
+    let val = is_symmetric(X);
+    let description = "<p>A matrix is symmetric if for every pair i,j: x<sub>i,j</sub> = x<sub>j,i</sub></p>"
+
+    form_out.innerHTML = description;
+    if (val)
+        form_out.innerHTML += "<p>Matrix is symmetric</p>";
+    else
+        form_out.innerHTML += "<p>Matrix is not symmetric</p>";
+}
+
+function call_self_multiply(){
+    let X = tab_in.table_to_matrix();
+    let out = XX_T(X);
+    let description = "Computes XX<sup>T</sup>"
+    
+    let properties = "<p>Properties:</p><p>XX<sup>T</sup> is symmetric</p>" + 
+                     "<p>XX<sup>T</sup> is square</p>" + 
+                     "<p>XX<sup>T</sup> is positive semi-definite (Importantly, this means that all eigenvalues are positive or zero)</p>"
+    form_out.innerHTML = "<p>XX<sup>T</sup></p>" + table_for_id("Matrix_out") + switch_for_id("Matrix_out") + properties;
+    let table_w = document.getElementById("Matrix_out");
+
+    let tab_w = new TableMat(table_w, "Matrix_out");
+
+    tab_w.matrix_to_table(out);
+
+    tabs = {"Matrix_out": tab_w};
+}
+
+function call_cov(){
+    let X = tab_in.table_to_matrix();
+
+    let out = cov(X);
+
+    let description = "<p>The matrix of pairwise covariance between features. THe matri needs to be of the form (rows: features, columns:samples)</p>";
+    form_out.innerHTML = description + "<p>Covariance Matrix</p>" + table_for_id("Matrix_out") + switch_for_id("Matrix_out");
+    let table_w = document.getElementById("Matrix_out");
+
+    let tab_w = new TableMat(table_w, "Matrix_out");
+
+    tab_w.matrix_to_table(out);
+
+    tabs = {"Matrix_out": tab_w};
+}
+
+
 // Functions
+
+function cov(X){
+    let left = XX_T(X);
+    let n = math.size(X).get([1]);
+    let unit_matrix = math.ones(n,n);
+    let right = math.multiply(1/n, math.multiply(X,unit_matrix, math.transpose(X)));
+    let out = math.multiply(1/n,math.subtract(left, right));
+
+    return out;
+}
+
+function XX_T(X){
+    return math.multiply(X, math.transpose(X));
+}
 
 function is_square(X){
     let size = math.size(X);
@@ -241,7 +311,12 @@ function multiplicities(vectors){
 function svd(X){
     let C = math.multiply(math.transpose(X), X);
     let ans = math.eigs(C);
-    let S = math.diag(ans["values"]);
+    let S = math.diag(ans["values"]); 
+    // The eigenvalue function is not 100% precise. Sometimes it gives negative values, though that is impossible.
+    // All such values are subsequently 0.
+    for (let i=0; i < math.size(S).get([0]); i++) 
+        if (S.get([i,i]) < 0)
+            S = math.subset(S, math.index(i, i), 0);  
     S = math.sqrt(S);
     let V = ans["vectors"];
     let U = svd_u(X, V, ans["values"]);
@@ -281,4 +356,39 @@ function gram_schmidt(X){
     }
 
     return ortho_vectors
+}
+
+function given_gram_schmidt(X, vectors){
+    let no_columns = math.size(X).get([1]);
+    let no_given = math.size(vectors).get([1]);
+
+    let ortho_vectors = vectors;
+    for (i=no_given; i < no_columns; i++){
+        let vec = math.column(X, i);
+        let ortho_vector = vec;
+        for (j=0; j<i; j++){
+            let vec_el = math.column(X, j);
+            let val = math.dot(vec_el, vec) / math.dot(vec_el, vec_el);
+            ortho_vector = math.subtract(vec, math.dotMultiply(val, vec_el));
+        }
+        if (ortho_vectors === null)
+            ortho_vectors = ortho_vector;
+        else
+            ortho_vectors = math.concat(ortho_vectors, ortho_vector);
+    }
+
+    return ortho_vectors
+}
+
+function is_symmetric(X){
+    if (!is_square(X)){
+        return false
+    }
+    let size = math.size(X);
+    for (let i=0; i<size.get([0]); i++)
+        for (let j=0; j<size.get([1]); j++)
+            if (X.get([i,j]) != X.get([j,i]))
+                return false
+    
+    return true
 }

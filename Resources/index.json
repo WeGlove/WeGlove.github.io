@@ -39,7 +39,7 @@ data = [{
 		"making triangles",
 		"admiring you",
 		"vomiting in some toilet",
-		"reading Papers",
+		"reading papers",
 		"working",
 		"making memories",
 		"playing games",
@@ -72,6 +72,9 @@ data = [{
 		"waiting for silver woman",
 		"competing for a bench",
 		"creating fashion",
-		"recording a podcast"
+		"recording a podcast",
+		"winning a bench",
+		"doing journalism",
+		"researching"
 		]
 }]
