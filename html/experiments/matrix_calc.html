@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <title>Matrix Calculator</title>
 </head>
+
 <body>
     <div class="nav_head">
         <a href="../experiments.html">Back!</a>
@@ -11,12 +13,13 @@
     <div>
         <form action='#' onsubmit="return false;">
             <button type="button" onclick="call_reshape();">Reshape</button>
-            <input type='text' id='shape_x' value="2"/>
-            <input type='text' id='shape_y' value="2"/>
+            <input type='text' id='shape_x' value="2" />
+            <input type='text' id='shape_y' value="2" />
         </form>
         <br>
         <form action='#' onsubmit="return false;">
             <button type="button" onclick="call_transpose();">Transpose</button>
+            <button type="button" onclick="call_det();">Determinant</button>
             <button type="button" onclick="call_gram_schmidt();">Gram Schmidt</button>
             <button type="button" onclick="call_eigendecomp();">Eigenvalue Decomposition</button>
             <button type="button" onclick="call_svd();">Singular Value Decomposition</button>
@@ -24,6 +27,7 @@
             <button type="button" onclick="call_is_symmetric();">Is Symmetric</button>
             <button type="button" onclick="call_self_multiply();">XX<sup>T</sup></button>
             <button type="button" onclick="call_cov();">Covariance Matrix</button>
+            <button type="button" onclick="call_norm();">Normalize (columns)</button>
         </form>
         <br>
         <form action='#' onsubmit="return false;">

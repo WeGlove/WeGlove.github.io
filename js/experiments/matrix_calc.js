@@ -176,10 +176,6 @@ function call_eigendecomp(){
     let delta = math.diag(ans["values"]);
     let Q = ans["vectors"];
 
-    if (!algebraic_geometric_multiplilcity_equal(ans["values"], ans["vectors"])) {
-        form_out.innerHTML = "<p>Algebraic and geometric multiplicity of eigenvalues is not given.</p>"
-        return
-    }
     let description = "<p>The eigendecomposition decomposes a square matrix M into a multiplication Q delta Q<sub>T</sub>.</p>" +
                       "<p>Imagine it as a change of base. First we enter the base of the eigenvectors. Then we apply the stretching of the eigenvalues. Last we leave the base of the eigenvectors.</p>" +
                       "<p>Try recompiling the matrix by changing the values of the eigenvalues. You will notice that you can erase dominant components i.e. components with larger eigenvalues. $\\sqrt{A}$</p>"
@@ -211,18 +207,39 @@ function call_eigenrecomp(){
 
 function call_whitening(){
     let X = tab_in.table_to_matrix();
-    let [U, S, V] = svd(X);
-    let W_PCA = math.multiply(math.inv(math.sqrtm(S)), math.transpose(U)); //TODO This is not correct yet
-    let description = "Whitening is a "
+    let X_cov = cov(X);
 
-    form_out.innerHTML = "<p>W<sub>PCA</sub></p>" + table_for_id("Matrix_w") + switch_for_id("Matrix_w");
+    let ans = math.eigs(X_cov);
+    let delta = math.diag(ans["values"]);
+    let Q = ans["vectors"];
+       
+    let delta_sqrt = math.sqrtm(delta);
+    let out = math.multiply(math.inv(delta_sqrt), math.inv(Q), X);
+
+    let description = "";
+
+    form_out.innerHTML = description +
+                         "<p>Covariance Matrix</p>" +  table_for_id("Matrix_cov") + switch_for_id("Matrix_cov") +
+                         "<p>Whitened Matrix</p>" + table_for_id("Matrix_w") + switch_for_id("Matrix_w");
     let table_w = document.getElementById("Matrix_w");
+    let table_cov = document.getElementById("Matrix_cov");
 
     let tab_w = new TableMat(table_w, "Matrix_w");
+    let tab_cov = new TableMat(table_cov, "Matrix_cov");
 
-    tab_w.matrix_to_table(W_PCA);
+    tab_w.matrix_to_table(out);
+    tab_cov.matrix_to_table(X_cov);
 
-    tabs = {"Matrix_w": tab_w};
+    tabs = {"Matrix_w": tab_w, "Matrix_cov": tab_cov};
+}
+
+function call_det(){
+    let X = tab_in.table_to_matrix();
+    let det = math.det(X);
+    let description = "<p></p>";
+    let properties = "<p></p>";
+
+    form_out.innerHTML = description + "<p>Determinant: </p>" + det + properties;
 }
 
 function call_is_symmetric(){
@@ -271,8 +288,37 @@ function call_cov(){
     tabs = {"Matrix_out": tab_w};
 }
 
+function call_norm(){
+    let X = tab_in.table_to_matrix();
+
+    let out = mat_normalize(X);
+
+    let description = "<p></p>";
+    form_out.innerHTML = description + "<p>Normalized Matrix</p>" + table_for_id("Matrix_out") + switch_for_id("Matrix_out");
+    let table_w = document.getElementById("Matrix_out");
+
+    let tab_w = new TableMat(table_w, "Matrix_out");
+
+    tab_w.matrix_to_table(out);
+
+    tabs = {"Matrix_out": tab_w};
+}
 
 // Functions
+
+function mat_normalize(X){
+    let columns = null;
+    for (let i=0; i < math.size(X).get([0]); i++){
+        let column = math.column(X, i);
+        let norm = math.norm(column, 1);
+        column = math.divide(column, norm);
+        if (columns === null)
+            columns = column;
+        else
+            columns = math.concat(columns, column);
+    }
+    return columns;
+}
 
 function cov(X){
     let left = XX_T(X);
@@ -293,47 +339,48 @@ function is_square(X){
     return size.get([0]) == size.get([1])
 }
 
-function algebraic_geometric_multiplilcity_equal(values){
-    for (let x=0; x < math.size(values).get([0]); x++){
-        let comp = values.get([x]);
-        for (let y=x+1; y < math.size(values).get([0]); y++){
-            if (comp == values.get([y]))
-                return false;
-        }
-    }
-    return true
-}
-
-function multiplicities(vectors){
-    
-}
-
 function svd(X){
     let C = math.multiply(math.transpose(X), X);
     let ans = math.eigs(C);
-    let S = math.diag(ans["values"]); 
+    let eigenvalues = ans["values"];
     // The eigenvalue function is not 100% precise. Sometimes it gives negative values, though that is impossible.
     // All such values are subsequently 0.
+    for (let i=0; i < math.size(eigenvalues).get([0]); i++){
+        if (eigenvalues.get([i]) < 0)
+            eigenvalues = math.subset(eigenvalues, math.index(i), 0);  
+    }
+    let S = math.diag(eigenvalues); 
+
     for (let i=0; i < math.size(S).get([0]); i++) 
         if (S.get([i,i]) < 0)
             S = math.subset(S, math.index(i, i), 0);  
     S = math.sqrt(S);
     let V = ans["vectors"];
-    let U = svd_u(X, V, ans["values"]);
+    let U = svd_u(X, V, eigenvalues);
 
     return [U, S, V]
 }
 
 function svd_u(X, vec, vals){
+    let skip_to = 0;
+    for (let i=0; i < math.size(vals).get([0]); i++)
+        if (vals.get([i]) == 0)
+            skip_to++;
+
     let sqrt_vals = math.sqrt(vals);
     let u = null;
-    for (let i=0; i < math.size(sqrt_vals).get([0]); i++){
+
+
+    for (let i=skip_to; i < math.size(sqrt_vals).get([0]); i++){
         let u_i = math.multiply(math.dotMultiply(1 / sqrt_vals.get([i]), X), math.column(vec, i));
         if (u === null)
             u = u_i;
         else
             u = math.concat(u, u_i);
     }
+
+    u = given_gram_schmidt(X, u);
+
     return u;
 }
 

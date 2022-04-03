@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+    <title>2D Heat Plot</title>
+</head>
+<body>
+    <div class="nav_head">
+    <a href="../experiments.html">Back!</a>
+    </div>
+    
+    <div id="plot">
+    </div>
+    
+    <br>
+
+    <div>
+    <form action='#' onsubmit="return false;">
+        <p>Function:</p>
+        <input type='text' id='function' value=" (x,y) => x+y"/>
+        <p>Resolution:</p>
+        <input type='text' id='amount' value="1"/>
+        <p>Lower Limit:</p>
+        <input type='text' id='left' value="-1"/>
+        <p>Upper Limit:</p>
+        <input type='text' id='right' value="1"/>
+    </form>
+    <button type="button" onclick="plot(2,2);">Plot</button>
+    <button type="button" onclick="clear_plot();">Clear</button>
+    </div>
+    
+    <script src="../../js/libs/math.js"></script>
+    <script src="../../js/experiments/zd_heat_plot.js"></script>
+</body>
+
+</html>
