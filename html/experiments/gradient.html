@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+    <title>Gradient Decent</title>
+</head>
+<body>
+    <div class="nav_head">
+    <a href="../experiments.html">Back!</a>
+    </div>
+    
+    <div id="plot">
+    </div>
+    
+    <br>
+
+    <div>
+    <form action='#' onsubmit="return false;">
+        <p>Function:</p>
+        <input type='text' id='function' value=" (x,y) => -Math.cos(x/5)-Math.sin(y/5)"/>
+        <p>X</p>
+        <input type='text' id='X' value="1"/>
+        <p>Y</p>
+        <input type='text' id='Y' value="1"/>
+    </form>
+    <button type="button" onclick="call_start();">Initialize</button>
+    <button type="button" onclick="call_iterate();">Iterate</button>
+    </div>
+    <div id="out">
+    </div>
+    
+    <script src="../../js/libs/math.js"></script>
+    <script src="../../js/experiments/gradient.js"></script>
+</body>
+
+</html>
