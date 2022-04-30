@@ -11,14 +11,20 @@
     <div>
         <button type="button" onclick="plot();">Plot</button>
         <form action='#' onsubmit="return false;">
+            <div>
+                <p>Power Means:</p>
+                <input type="radio" id="RadioPower" name="group" value="HTML">
+                <p>exp Mean (Quasi arithmetic Mean with f(x)=exp(x)):</p>
+                <input type="radio" id="RadioExp" name="group" value="HTML">
+                <p>Lehmer Means:</p>
+                <input type="radio" id="RadioLehmer" name="group" value="HTML">
+            </div>
             <p>power:</p>
             <input type='text' id='power' value="2"/>
             <p>Amount:</p>
             <input type='text' id='amount' value="1000"/>
-            <label for="sine"><b>Absolute Values</b></label>
-            <input type="checkbox" id="abs" name="abs" value="abs">
-            <label for="sine"><b>Use exp</b></label>
-            <input type="checkbox" id="exp" name="exp" value="exp">
+            <p>Use absolute Power:</p>
+            <input type="checkbox" id="abs" name="exp" value="exp">
         </form>
     </div>
     <canvas width=500 height=500 id="figure" style="fill:none;stroke:black;stroke-width:3;background-color:white">

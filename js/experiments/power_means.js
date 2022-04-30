@@ -2,6 +2,11 @@ var figure = new Figure(document.getElementById("figure"),  new Matrix([[-1,-1],
 var power_input = document.getElementById("power");
 var amount_input = document.getElementById("amount");
 
+//Radio buttons
+var radio_power = document.getElementById("RadioPower");
+var radio_exp = document.getElementById("RadioExp");
+var radio_lehmer = document.getElementById("RadioLehmer");
+
 function plot(){
     let amount = parseFloat(amount_input.value);
     let power = parseFloat(power_input.value);
@@ -13,14 +18,15 @@ function plot(){
         let old_abs = polar.to_absolute(new Matrix([[0,0]]));
 
         let radius; 
-        if (document.getElementById('exp').checked)
+        if (radio_exp.checked)
             radius = exp_mean([old_abs.values[0][0], old_abs.values[0][1]], document.getElementById('abs').checked);
-        else
+        else if (radio_power.checked)
             radius = power_mean([old_abs.values[0][0], old_abs.values[0][1]], power, document.getElementById('abs').checked);
+        else if (radio_lehmer.checked)
+            radius = lehmer([old_abs.values[0][0], old_abs.values[0][1]], power, document.getElementById('abs').checked);
         let new_polar = new Polar(radius, i/amount*2*Math.PI);
         let abs = new_polar.to_absolute(new Matrix([[0,0]]));
         values.push([abs.values[0][0], abs.values[0][1]]);
-        //values.push(polar.to_absolute(new Matrix([[0,0]])).values[0]);
     }
     figure.plot_line(new Matrix(values));
 }
@@ -53,5 +59,22 @@ function exp_mean(values, abs){
             acc += Math.pow(Math.E, val);
     }
     acc = Math.log(acc)/values.length;
+    return acc;
+}
+
+function lehmer(values, power, abs){
+    let acc_up = 0;
+    let acc_down = 0;
+    for (let val of values){
+        if (abs){
+            acc_up += Math.pow(Math.abs(val), power);
+            acc_down += Math.pow(Math.abs(val), power-1);
+        }
+        else{
+            acc_up += Math.pow(Math.abs(val), power);
+            acc_down += Math.pow(Math.abs(val), power-1);
+        }
+    }
+    let acc = acc_up / acc_down
     return acc;
 }
