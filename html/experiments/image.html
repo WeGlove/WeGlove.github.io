@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <title>Image</title>
+</head>
+<body>
+    <div class="nav_head">
+        <a href="../experiments.html">Back!</a>
+    </div>
+    <div>
+        <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
+        </canvas>
+    </div>
+    <div>
+        <p>A simple tool to use seam carving on images. Seam carving will remove a vertical line of pixels that create the least amount of noise.</p>
+        <p>Seam Carving:</p>
+        <button type="button" onclick="color()">Color</button>
+        <button type="button" onclick="remove()">Remove</button>
+    </div>
+    <div>
+        <button type="button" onclick="save()">Save</button>
+        <a id=download download="image.jpg">Download</a>
+        <form action='#' onsubmit="return false;">
+            <input type='file' id='imgfile' />
+            <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
+            <p>Number of seams:</p>
+            <input type="text" id="size" name="fname"><br><br>
+        </form>
+    </div>
+
+    <div>
+        <p>Swaps lines in an image randomly with each other.</p>
+        <p>Swap Lines:</p>
+        <button type="button" onclick="swapLines()">SwapLines</button>
+    </div>
+    <div>
+        <form action='#' onsubmit="return false;">
+            <p>Number of swaps:</p>
+            <input type="text" id="size" name="lines" value='1'><br><br>
+        </form>
+    </div>
+
+    <div>
+        <p>This is a simple tool to give images a wobbly effect.</p>
+        <p>Wobble Lines:</p>
+        <button type="button" onclick="wobbleLines()">Wobble Lines</button>
+    </div>
+    <div>
+        <form action='#' onsubmit="return false;">
+            <p>Type:</p>
+
+            <label for="linear"><b>Linear</b></label>
+            <input type="radio" id="linear" name="gender" value="linear">
+            <label for="linear_mag">Magnitude</label>
+            <input type="text" id="linear_mag" name="gender" value="1">
+            <label for="linear_phase">Phase</label>
+            <input type="text" id="linear_phase" name="gender" value="0">
+            
+            <br>
+
+            <label for="sine"><b>Sine</b></label>
+            <input type="radio" id="sine" name="gender" value="sine">
+            <label for="linear_mag">Frequency</label>
+            <input type="text" id="sine_freq" name="gender" value="1">
+            <label for="linear_phase">Magnitude</label>
+            <input type="text" id="sine_mag" name="gender" value="1">
+            
+        </form>
+    </div>
+
+    <script src="../../js/libs/matrix.js"></script>
+    <script src="../../js/experiments/image.js"></script>
+
+</body>
+
