@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/experiments/image.css">
     <title>Image</title>
 </head>
 <body>
@@ -12,23 +13,27 @@
         <canvas id="canvas" width="200" height="100" style="border:1px solid #000000;">
         </canvas>
     </div>
+
+ <!-- Tab links -->
+ <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'SeamCarving')">Seam Carving</button>
+    <button class="tablinks" onclick="openTab(event, 'LineSwapper')">Line Swapper</button>
+    <button class="tablinks" onclick="openTab(event, 'LineWobbler')">Line Wobbler</button>
+    <button class="tablinks" onclick="openTab(event, 'IO')">Load and Save</button>
+  </div>
+  
+  <!-- Tab content -->
+  <div id="SeamCarving" class="tabcontent">
     <div>
         <p>A simple tool to use seam carving on images. Seam carving will remove a vertical line of pixels that create the least amount of noise.</p>
         <p>Seam Carving:</p>
         <button type="button" onclick="color()">Color</button>
         <button type="button" onclick="remove()">Remove</button>
+        <input type="text" id="size" name="fname">
     </div>
-    <div>
-        <button type="button" onclick="save()">Save</button>
-        <a id=download download="image.jpg">Download</a>
-        <form action='#' onsubmit="return false;">
-            <input type='file' id='imgfile' />
-            <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
-            <p>Number of seams:</p>
-            <input type="text" id="size" name="fname"><br><br>
-        </form>
-    </div>
-
+  </div>
+  
+  <div id="LineSwapper" class="tabcontent">
     <div>
         <p>Swaps lines in an image randomly with each other.</p>
         <p>Swap Lines:</p>
@@ -40,7 +45,9 @@
             <input type="text" id="size" name="lines" value='1'><br><br>
         </form>
     </div>
-
+  </div>
+  
+  <div id="LineWobbler" class="tabcontent">
     <div>
         <p>This is a simple tool to give images a wobbly effect.</p>
         <p>Wobble Lines:</p>
@@ -68,6 +75,21 @@
             
         </form>
     </div>
+  </div> 
+
+  <div id="IO" class="tabcontent">
+    <div>
+        <button type="button" onclick="save()">Save</button>
+        <a id=download download="image.jpg">Download</a>
+        <form action='#' onsubmit="return false;">
+            <input type='file' id='imgfile' />
+            <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
+            <p>Number of seams:</p>
+            <input type="text" id="size" name="fname"><br><br>
+        </form>
+    </div>
+</div>
+   
 
     <script src="../../js/libs/matrix.js"></script>
     <script src="../../js/experiments/image.js"></script>
