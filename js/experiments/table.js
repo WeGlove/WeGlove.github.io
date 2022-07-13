@@ -1,5 +1,5 @@
 let table_html = document.getElementById("table");
-let table = Table.load_from_cookie();
+let table = Table.load_from_cookie(table_html);
 
 function reshape(){
     edit_x = document.getElementById("shape_x");
