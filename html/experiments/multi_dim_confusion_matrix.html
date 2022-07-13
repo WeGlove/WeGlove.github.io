@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <title>Confusion Matrix</title>
+</head>
+<body>
+    <div class="nav_head">
+        <a href="../experiments.html">Back!</a>
+    </div>
+    
+    <div>
+        <form action='#' onsubmit="return false;">
+            <button type="button" onclick="call_reshape();">Reshape</button>
+            <input type='text' id='shape' value="2" />
+        </form>
+        <br>
+        <form action='#' onsubmit="return false;">
+            <button type="button" onclick="call_analyze();">Analyze</button>
+        </form>
+        <br>
+        <form action='#' onsubmit="return false;">
+            <table style="width:100%" id="Matrix">
+            </table>
+        </form>
+
+        <p id="Accuracy"></p>
+    </div>
+
+    <script src="../../js/libs/table_mat.js"></script>
+    <script src="../../js/libs/math.js"></script>
+    <script src="../../js/experiments/multi_dim_confusion_matrix.js"></script>
+
+</body>
+
+</html>
