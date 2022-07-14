@@ -3,6 +3,13 @@
 <head>
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <title>Math Puzzle</title>
+    <script type="text/x-mathjax-config">
+        MathJax.HubConfig({
+          tex2jax: {
+            inlineMath: [['$', '$']]
+          }
+        })
+        </script>
 </head>
 <body>
     <div class="nav_head" >
@@ -19,15 +26,17 @@
         <button type="button" onclick="document.getElementById('solution').style.visibility = 'visible'">Show solution</button>
     </div>
     <div style="visibility: hidden", id="solution">
-        <p>The answer is sqrt(2*r<sub>1</sub><sup>2</sup>).</p>
+
+        The answer is \(\sqrt{2*r_1^2}\).
         <p>First, recognize that the point at which the square touches the inner circle is the middle point of the square line and is r<sub>1</sub> distanced from the middle point.</p>
-        <p>Since it is a square that means that the length of each side can then be described as 2*r<sub>1</sub></p>
+        <p>Since it is a square that means that the length of each side can then be described as \(2*r_1\)</p>
         <p>Since we know the length of the sides of the square we can now use the pythagorean theorem to determine the length of the squares corner points which are on the outer circle to the inner point, which is the radius of the outer circle.</p>
-        <p>The radius of the outer circle is therefore r<sub>1</sub><sup>2</sup> + r<sub>1</sub><sup>2</sup> = r<sub>2</sub><sup>2</sup> &lt;=&gt;  sqrt(2*r<sub>1</sub><sup>2</sup>) = r<sub>2</sub></p>    
+        <p>The radius of the outer circle is therefore \(r_1^2 + r_1^2 = r_2^2 \Rightarrow  sqrt(2*r_1^2) = r_2\)</p>    
     </div>
     
     
-    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../js/libs/matrix.js"></script>
     <script src="../../js/libs/figure.js"></script>
     <script src="../../js/experiments/puzzle.js"></script>
