@@ -50,7 +50,7 @@
                     <input type='text' id='FP' value="0"/>
                 </td>
                 <td>     
-                    <p><span class="tooltip">PPV:<span role="tooltip">TP/(TP+FP)</span></span> <span id="PPV"></span> <span class="tooltip">FDR:<span role="tooltip">FP/(FP+TP)</span></span><span id="FDR"></span></p>
+                    <p><span class="tooltip">PPV:<span role="tooltip">\(\frac{TP}{TP+FP}\)</span></span> <span id="PPV"></span> <span class="tooltip">FDR:<span role="tooltip">\(\frac{FP}{FP+TP}\)</span></span><span id="FDR"></span></p>
                 </td>
             </tr>
             <tr>
@@ -63,7 +63,7 @@
                     <input type='text' id='TN' value="0"/>    
                 </td>
                 <td>     
-                    <p><span class="tooltip">NPV:<span role="tooltip">TN/(TN+FN)</span></span> <span id="PPV"></span> <span id="NPV"></span> <span class="tooltip">FOR:<span role="tooltip">FN/(FN+TN)</span></span> <span id="FOR"></span></p>
+                    <p><span class="tooltip">NPV:<span role="tooltip">\(\frac{TN}{TN+FN}\)</span></span> <span id="PPV"></span> <span id="NPV"></span> <span class="tooltip">FOR:<span role="tooltip">\(\frac{FN}{FN+TN}\)</span></span> <span id="FOR"></span></p>
                 </td>
             </tr>
             <tr>
@@ -76,10 +76,10 @@
             </tr>
             <tr>
                 <td>     
-                    <p><span class="tooltip">TPR:<span role="tooltip">TP/P</span></span> <span id="TPR"></span> <span class="tooltip">FNR:<span role="tooltip">FN/P</span></span> <span id="FNR"></span></p>
+                    <p><span class="tooltip">TPR:<span role="tooltip">\(\frac{TP}{P}\)</span></span> <span id="TPR"></span> <span class="tooltip">FNR:<span role="tooltip">\(\frac{FN}{P}\)</span></span> <span id="FNR"></span></p>
                 </td>
                 <td>
-                    <p><span class="tooltip">TNR:<span role="tooltip">TN/N</span></span> <span id="TNR"></span> <span class="tooltip">FPR:<span role="tooltip">FP/N</span></span> <span id="FPR"></span></p>   
+                    <p><span class="tooltip">TNR:<span role="tooltip">\(\frac{TN}{N}\)</span></span> <span id="TNR"></span> <span class="tooltip">FPR:<span role="tooltip">\(\frac{FP}{N}\)</span></span> <span id="FPR"></span></p>   
                 </td>
             </tr>
         </table>
@@ -87,31 +87,33 @@
     </div>
     <br>
     <div>
-    <p><span class="tooltip">Prevalence<span role="tooltip">P/(P+N)</span></span> <span id="PVL"></span></p>
-    <p><span class="tooltip">Prevalence Threshold:<span role="tooltip">sqrt(FPR) / (sqrt(TPR)+sqrt(FPR))</span></span> <span id="PT"></span></p>
+    <p><span class="tooltip">Prevalence<span role="tooltip">\( \frac{P}{P+N} \)</span></span> <span id="PVL"></span></p>
+    <p><span class="tooltip">Prevalence Threshold:<span role="tooltip">\( \frac{\sqrt{FPR}}{\sqrt{TPR} + \sqrt{FPR}} \)</span></span> <span id="PT"></span></p>
 
     <br>
 
-    <p><span class="tooltip">Informedness:<span role="tooltip">TPR+TNR-1</span></span> <span id="BM"></span></p>
-    <p><span class="tooltip">Markedness:<span role="tooltip">PPV+NPV-1</span></span> <span id="MK"></span></p>
+    <p><span class="tooltip">Informedness:<span role="tooltip">\( TPR+TNR-1 \)</span></span> <span id="BM"></span></p>
+    <p><span class="tooltip">Markedness:<span role="tooltip">\( PPV+NPV-1 \)</span></span> <span id="MK"></span></p>
 
     <br>
 
-    <p><span class="tooltip">Positive Likelihood Ratio:<span role="tooltip">(TPR)/(FPR)</span></span> <span id="LRP"></span></p>
-    <p><span class="tooltip">Negative Likelihood Ratio:<span role="tooltip">(FMR)/(TNR)</span></span> <span id="LRM"></span></p>
-    <p><span class="tooltip">Diagnostic Odds Ratio:<span role="tooltip">LR+/LR-</span></span> <span id="DOR"></span></p>
+    <p><span class="tooltip">Positive Likelihood Ratio:<span role="tooltip">\( \frac{TPR}{FPR} \)</span></span> <span id="LRP"></span></p>
+    <p><span class="tooltip">Negative Likelihood Ratio:<span role="tooltip">\( \frac{FMR}{TNR} \)</span></span> <span id="LRM"></span></p>
+    <p><span class="tooltip">Diagnostic Odds Ratio:<span role="tooltip">\( \frac{LR_+}{LR_-} \)</span></span> <span id="DOR"></span></p>
 
     <br>
 
-    <p><span class="tooltip">Accuracy:<span role="tooltip">(TP+TN)/(P+N)</span></span> <span id="ACC"></span></p>
-    <p><span class="tooltip">Balanced Accuracy:<span role="tooltip">(TPR+TNR)/2</span></span> <span id="BA"></span></p>
-    <p><span class="tooltip">F1 Score:<span role="tooltip">2*(PPV x TPR)/(PPV + TPR)</span></span> <span id="F1"></span></p>
-    <p><span class="tooltip">Fowlkes–Mallows index:<span role="tooltip">sqrt(PPV x TPR)</span></span> <span id="FM"></span></p>
-    <p><span class="tooltip">Threat Score:<span role="tooltip">(TP)/(TP+FP+FN)</span></span> <span id="TS"></span></p>
-    <p><span class="tooltip">Matthews correlation coefficent:<span role="tooltip">(TPR x TN - FP x FN)/sqrt((TP+FP)(TP+FN)(TN+FP)(TN+FN))</span></span> <span id="MCC"></span></p>
+    <p><span class="tooltip">Accuracy:<span role="tooltip">\( \frac{TP+TN}{P+N} \)</span></span> <span id="ACC"></span></p>
+    <p><span class="tooltip">Balanced Accuracy:<span role="tooltip">\( \frac{TPR+TNR}{2} \)</span></span> <span id="BA"></span></p>
+    <p><span class="tooltip">F1 Score:<span role="tooltip">\( \frac{2*PPV * TPR}{PPV + TPR} \)</span></span> <span id="F1"></span></p>
+    <p><span class="tooltip">Fowlkes–Mallows index:<span role="tooltip">\( \sqrt{PPV * TPR} \)</span></span> <span id="FM"></span></p>
+    <p><span class="tooltip">Threat Score:<span role="tooltip">\( \frac{TP}{TP+FP+FN} \)</span></span> <span id="TS"></span></p>
+    <p><span class="tooltip">Matthews correlation coefficent:<span role="tooltip">\( \frac{TPR * TN - FP * FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}} \)</span></span> <span id="MCC"></span></p>
     </div>
 
     <script src="../../js/experiments/confusion_matrix.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </body>
 
 </html>
