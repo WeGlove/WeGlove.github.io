@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="icon" type="image/x-icon" href="../../Resources/favicon.ico">
+    <title>Point Buy</title>
+</head>
+<body>
+    <div class="nav_head">
+        <a href="../experiments.html">Back!</a>
+    </div>
+    <div>
+    <p>Available Points: <span id="points">27</span></p>
+        <table>
+            <th> <td>STR</td> <td>DEX</td> <td>CON</td> <td>INT</td> <td>WIS</td> <td>CHA</td> </th>
+            <tr> 
+                <td><button onclick="inc('STR')">inc</button></td> 
+                <td><button onclick="inc('DEX')">inc</button></td> 
+                <td><button onclick="inc('CON')">inc</button></td> 
+                <td><button onclick="inc('INT')">inc</button></td> 
+                <td><button onclick="inc('WIS')">inc</button></td> 
+                <td><button onclick="inc('CHA')">inc</button></td> </tr>
+            <tr> 
+                <td><span id="STR">8</span></td> 
+                <td><span id="DEX">8</span></td> 
+                <td><span id="CON">8</span></td> 
+                <td><span id="INT">8</span></td> 
+                <td><span id="WIS">8</span></td> 
+                <td><span id="CHA">8</span></td> 
+            </tr>
+            <tr> 
+                <td><button onclick="dec('STR')">dec</button></td> 
+                <td><button onclick="dec('DEX')">dec</button></td> 
+                <td><button onclick="dec('CON')">dec</button></td> 
+                <td><button onclick="dec('INT')">dec</button></td> 
+                <td><button onclick="dec('WIS')">dec</button></td> 
+                <td><button onclick="dec('CHA')">dec</button></td> 
+            </tr>
+        </table>
+    </div>
+
+    <script src="../../js/experiments/point_buy.js"></script>
+
+</body>
+
+</html>
