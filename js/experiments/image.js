@@ -155,7 +155,7 @@ function wobbleLines(){
         if (document.getElementById('linear').checked){
             wobbleLinear(data, buffer, i, width, height, parseFloat(document.getElementById('linear_mag').value), parseFloat(document.getElementById('linear_phase').value), parseFloat(document.getElementById('sine_mag').value));
         } else if((document.getElementById('sine').checked)){
-            wobbleSine(data, buffer, i, width, parseFloat(document.getElementById('sine_freq').value), parseFloat(document.getElementById('sine_mag').value));
+            wobbleSine(data, buffer, i, width, parseFloat(document.getElementById('sine_freq').value), parseFloat(document.getElementById('sine_mag').value), parseFloat(document.getElementById('sine_exp').value));
         }
     }
     ctx.putImageData(buffer,0,0);
@@ -170,9 +170,9 @@ function wobbleLinear(data, buffer, line, width, height, mag, phase){
         set_color(i, line, width, buffer, color);
     }
 }
-function wobbleSine(data, buffer, line, width, freq, mag){
+function wobbleSine(data, buffer, line, width, freq, mag, exp){
     for (let i=0; i <width; i++){
-        let color = get_color(Math.round(i+((Math.sin(line*freq)+1)/2)*mag)%width, line, width, data);
+        let color = get_color(Math.round((i+((Math.sin(line*freq + Math.pow(exp, line))+1)/2)*mag)%width), line, width, data);
         set_color(i, line, width, buffer, color);
     }
 }
